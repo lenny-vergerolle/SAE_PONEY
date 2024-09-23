@@ -5,3 +5,8 @@ En partant d’un besoin exprim´e par un client, l’objectif est de : - mod´e
 ### Lenny : diagramme de cas d'utilisations
 ### Valentin : MCD
 ### Naima : MCD
+
+## 23/09/2024
+### Lenny : finalisation du diagramme de cas d'utilisations et MCD
+### Valentin : finalisation du diagramme de cas d'utilisations et MCD
+### Naima : finalisation du diagramme de cas d'utilisations et MCD
