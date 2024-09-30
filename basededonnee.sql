@@ -62,8 +62,8 @@ CREATE TABLE COURS(
 
 CREATE TABLE RESERVER(
     duree INT,
-    datee INT,
-    heure INT,
+    datee date,
+    heure TIME,
     idCo INT,
     idPo INT,
     idAdh INT,
@@ -87,4 +87,4 @@ CREATE TABLE TRAVAILLER(
     PRIMARY KEY (idMon, idHoraire),
     FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon),
     FOREIGN KEY (idHoraire) REFERENCES HORAIRE(idHoraire)
-)
+);
