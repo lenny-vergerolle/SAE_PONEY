@@ -7,6 +7,6 @@ En partant d’un besoin exprim´e par un client, l’objectif est de : - mod´e
 | 16/09  | diagramme de CU               |  MCD                | MCD               |
 | 23/09  |        finalisation diagramme de CU et du MCD (pour tous le monde)      |       
 | 30/09  | implémentation trigger/check  | création maquettes  | implémentation BD |
- ----------------------------------------------------------------------------------
+
 
 
