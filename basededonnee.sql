@@ -42,7 +42,7 @@ CREATE TABLE ADHERENT(
     nomAdh VARCHAR(45),
     prenomAdh VARCHAR(45),
     ddnAdh DATE,
-    sexeAdh VARCHAR(45),
+    sexeAdh CHAR(1) CHECK (sexeAdh IN ('F','M')),
     telAdh VARCHAR(45),
     mailAdh VARCHAR(45),
     poidsAdh INT,
