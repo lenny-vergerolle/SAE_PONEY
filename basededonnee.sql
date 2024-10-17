@@ -63,7 +63,7 @@ CREATE TABLE COURS(
 CREATE TABLE RESERVER(
     duree INT,
     datee DATE,
-    heure INT,
+    heure TIME,
     idCo INT,
     idPo INT,
     idAdh INT,
