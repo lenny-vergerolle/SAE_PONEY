@@ -28,7 +28,7 @@ CREATE TABLE MONITEUR(
     nomMon VARCHAR(45),
     prenomMon VARCHAR(45),
     ddnMon DATE,
-    sexeMon VARCHAR(45),
+    sexeMon CHAR(1) CHECK (sexeMon IN ('F','M')),
     telMon VARCHAR(45),
     mailMon VARCHAR(45),
     poidsMon INT,
@@ -54,7 +54,7 @@ CREATE TABLE COURS(
     idCo INT,
     nomCo VARCHAR(42),
     colllectif BOOLEAN,
-    nbPersonne INT,
+    nbPersonne INT CHECK (nbPersonne <= 10),
     idMon INT,
     PRIMARY KEY (idCo),
     FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon)
@@ -62,7 +62,7 @@ CREATE TABLE COURS(
 
 CREATE TABLE RESERVER(
     duree INT,
-    datee INT,
+    datee DATE,
     heure INT,
     idCo INT,
     idPo INT,
