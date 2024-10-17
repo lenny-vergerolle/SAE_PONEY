@@ -27,16 +27,17 @@ INSERT INTO PONEY (idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES
 
 
 INSERT INTO MONITEUR (idMon, nomMon, prenomMon, ddnMon, sexeMon, telMon, mailMon, poidsMon, certification, contrat) VALUES
-(1, 'Dupont', 'Jean', '1980-01-15', 'Homme', '0612345678', 'jean.dupont@email.com', 75, 'CCE', 'CDI'),
-(2, 'Martin', 'Sophie', '1990-03-20', 'Femme', '0623456789', 'sophie.martin@email.com', 60, 'CET', 'CDD'),
-(3, 'Bernard', 'Luc', '1985-06-25', 'Homme', '0634567890', 'luc.bernard@email.com', 70, 'CCE', 'CDI'),
-(4, 'Leroy', 'Clara', '1992-08-30', 'Femme', '0645678901', 'clara.leroy@email.com', 55, 'CET', 'CDD'),
-(5, 'Moreau', 'Paul', '1978-10-12', 'Homme', '0656789012', 'paul.moreau@email.com', 80, 'CCE', 'CDI'),
-(6, 'Garnier', 'Alice', '1995-12-01', 'Femme', '0667890123', 'alice.garnier@email.com', 58, 'CET', 'CDD'),
-(7, 'Boucher', 'François', '1988-02-17', 'Homme', '0678901234', 'francois.boucher@email.com', 72, 'CCE', 'CDI'),
-(8, 'Dumas', 'Julie', '1991-05-05', 'Femme', '0689012345', 'julie.dumas@email.com', 65, 'CET', 'CDD'),
-(9, 'Morel', 'Henri', '1982-11-22', 'Homme', '0690123456', 'henri.morel@email.com', 77, 'CCE', 'CDI'),
-(10, 'Michel', 'Laura', '1993-09-09', 'Femme', '0601234567', 'laura.michel@email.com', 62, 'CET', 'CDD');
+(1, 'Dupont', 'Jean', STR_TO_DATE('15/01/1980', '%d/%m/%Y'), 'H', '0612345678', 'jean.dupont@email.com', 75, 'CCE', 'CDI'),
+(2, 'Martin', 'Sophie', STR_TO_DATE('20/03/1990', '%d/%m/%Y'), 'F', '0623456789', 'sophie.martin@email.com', 60, 'CET', 'CDD'),
+(3, 'Bernard', 'Luc', STR_TO_DATE('25/06/1985', '%d/%m/%Y'), 'H', '0634567890', 'luc.bernard@email.com', 70, 'CCE', 'CDI'),
+(4, 'Leroy', 'Clara', STR_TO_DATE('30/08/1992', '%d/%m/%Y'), 'F', '0645678901', 'clara.leroy@email.com', 55, 'CET', 'CDD'),
+(5, 'Moreau', 'Paul', STR_TO_DATE('12/10/1978', '%d/%m/%Y'), 'H', '0656789012', 'paul.moreau@email.com', 80, 'CCE', 'CDI'),
+(6, 'Garnier', 'Alice', STR_TO_DATE('01/12/1995', '%d/%m/%Y'), 'F', '0667890123', 'alice.garnier@email.com', 58, 'CET', 'CDD'),
+(7, 'Boucher', 'François', STR_TO_DATE('17/02/1988', '%d/%m/%Y'), 'H', '0678901234', 'francois.boucher@email.com', 72, 'CCE', 'CDI'),
+(8, 'Dumas', 'Julie', STR_TO_DATE('05/05/1991', '%d/%m/%Y'), 'F', '0689012345', 'julie.dumas@email.com', 65, 'CET', 'CDD'),
+(9, 'Morel', 'Henri', STR_TO_DATE('22/11/1982', '%d/%m/%Y'), 'H', '0690123456', 'henri.morel@email.com', 77, 'CCE', 'CDI'),
+(10, 'Michel', 'Laura', STR_TO_DATE('09/09/1993', '%d/%m/%Y'), 'F', '0601234567', 'laura.michel@email.com', 62, 'CET', 'CDD');
+
 
 INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation) VALUES
 (1, 'Durand', 'Pierre', '2000-01-01', 'Homme', '0701234567', 'pierre.durand@email.com', 70, TRUE),
