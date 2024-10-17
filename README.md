@@ -5,8 +5,11 @@ En partant d’un besoin exprim´e par un client, l’objectif est de : - mod´e
 |  date  | Lennny                        |  Valentin           | Naima             |
 |--------|-------------------------------|---------------------|-------------------|
 | 16/09  | diagramme de CU               |  MCD                | MCD               |
-| 23/09  |finalisation diagramme du CU et du MCD(pour tous le monde)               |       
+| 23/09  |finalisation diagramme du CU et du MCD (pour tout le monde)              |       
 | 30/09  | implémentation trigger/check  | création maquettes  | implémentation BD |
+| 07/09  | travail sur la SAE dev eff + qualité dev (pour tout le monde)           |
+| 14/09  | travail sur la SAE crypto (pour tout le monde)                          |
+
 
 
 
