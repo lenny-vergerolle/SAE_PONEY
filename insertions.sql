@@ -1,24 +1,30 @@
--- Insertions générées grâce à Chatgpt  
+-- Insertions générées principalement grâce à Chatgpt  
 
 INSERT INTO HORAIRE (idHoraire, horaireDebut, horaireFin) VALUES
-(1, '09:00:00', '10:00:00'),
-(2, '10:00:00', '11:00:00'),
-(3, '11:00:00', '12:00:00'),
-(4, '14:00:00', '15:00:00'),
-(5, '15:00:00', '16:00:00'),
-(6, '16:00:00', '17:00:00');
+(1, '08:00:00', '09:00:00'),
+(2, '09:00:00', '10:00:00'),
+(3, '10:00:00', '11:00:00'),
+(4, '11:00:00', '12:00:00'),
+(5, '12:00:00', '13:00:00'),
+(6, '13:00:00', '14:00:00'),
+(7, '14:00:00', '15:00:00'),
+(8, '15:00:00', '16:00:00'),
+(9, '16:00:00', '17:00:00'),
+(10, '17:00:00', '18:00:00');
+
 
 INSERT INTO PONEY (idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES
-(1, 'Tonnerre', 200, 'Noir', '2015-05-01'),
-(2, 'Eclair', 150, 'Blanc', '2016-06-15'),
-(3, 'Lenny', 180, 'Alezan', '2017-03-20'),
-(4, 'Shadow', 220, 'Gris', '2014-08-30'),
-(5, 'Zigzag', 190, 'Bai', '2018-02-14'),
-(6, 'Roudoudou', 170, 'Pie', '2015-12-05'),
-(7, 'Fury', 160, 'Noir et blanc', '2016-11-20'),
-(8, 'Caramel', 210, 'Châtain', '2014-07-19'),
-(9, 'Pégase', 175, 'Noir', '2017-09-01'),
-(10, 'Choco', 185, 'Bai', '2015-04-12');
+(1, 'Tonnerre', 200, 'Noir', STR_TO_DATE('01/05/2015', '%d/%m/%Y')),
+(2, 'Eclair', 150, 'Blanc', STR_TO_DATE('15/06/2016', '%d/%m/%Y')),
+(3, 'Lenny', 180, 'Alezan', STR_TO_DATE('20/03/2017', '%d/%m/%Y')),
+(4, 'Shadow', 220, 'Gris', STR_TO_DATE('30/08/2014', '%d/%m/%Y')),
+(5, 'Zigzag', 190, 'Bai', STR_TO_DATE('14/02/2018', '%d/%m/%Y')),
+(6, 'Roudoudou', 170, 'Pie', STR_TO_DATE('05/12/2015', '%d/%m/%Y')),
+(7, 'Fury', 160, 'Noir et blanc', STR_TO_DATE('20/11/2016', '%d/%m/%Y')),
+(8, 'Caramel', 210, 'Châtain', STR_TO_DATE('19/07/2014', '%d/%m/%Y')),
+(9, 'Pégase', 175, 'Noir', STR_TO_DATE('01/09/2017', '%d/%m/%Y')),
+(10, 'Choco', 185, 'Bai', STR_TO_DATE('12/04/2015', '%d/%m/%Y'));
+
 
 INSERT INTO MONITEUR (idMon, nomMon, prenomMon, ddnMon, sexeMon, telMon, mailMon, poidsMon, certification, contrat) VALUES
 (1, 'Dupont', 'Jean', '1980-01-15', 'Homme', '0612345678', 'jean.dupont@email.com', 75, 'CCE', 'CDI'),
