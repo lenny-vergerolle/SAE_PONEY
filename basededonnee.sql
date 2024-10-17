@@ -87,4 +87,4 @@ CREATE TABLE TRAVAILLER(
     PRIMARY KEY (idMon, idHoraire),
     FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon),
     FOREIGN KEY (idHoraire) REFERENCES HORAIRE(idHoraire)
-)
+);
