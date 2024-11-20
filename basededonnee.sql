@@ -1,90 +1,96 @@
-DROP TABLE ENCADRER;
-DROP TABLE TRAVAILLER;
-DROP TABLE RESERVER;
-DROP TABLE PONEY;
-DROP TABLE COURS;
-DROP TABLE ADHERENT;
-DROP TABLE MONITEUR;
-DROP TABLE HORAIRE; 
+DROP TABLE IF EXISTS ADMINISTRATEUR;
+DROP TABLE IF EXISTS ENCADRER;
+DROP TABLE IF EXISTS TRAVAILLER;
+DROP TABLE IF EXISTS RESERVER;
+DROP TABLE IF EXISTS PONEY;
+DROP TABLE IF EXISTS COURS;
+DROP TABLE IF EXISTS ADHERENT;
+DROP TABLE IF EXISTS MONITEUR;
+DROP TABLE IF EXISTS HORAIRE;
 
 CREATE TABLE HORAIRE(
-    idHoraire INT,
-    horaireDebut TIME,
-    horaireFin TIME,
-    PRIMARY KEY (idHoraire)
+	idHoraire INT,
+	horaireDebut TIME,
+	horaireFin TIME,
+	PRIMARY KEY (idHoraire)
 );
 
 CREATE TABLE PONEY(
-    idPo INT,
-    nomPo VARCHAR(45),
-    poidsMax INT,
-    couleurPo VARCHAR(45),
-    ddnPo DATE,
-    PRIMARY KEY (idPo)
+	idPo INT,
+	nomPo VARCHAR(45),
+	poidsMax FLOAT,
+	couleurPo VARCHAR(45),
+	ddnPo DATE,
+	PRIMARY KEY (idPo)
 );
 
 CREATE TABLE MONITEUR(
-    idMon INT,
-    nomMon VARCHAR(45),
-    prenomMon VARCHAR(45),
-    ddnMon DATE,
-    sexeMon VARCHAR(45),
-    telMon VARCHAR(45),
-    mailMon VARCHAR(45),
-    poidsMon INT,
-    certification VARCHAR(45),
-    contrat VARCHAR(45),
-    PRIMARY KEY (idMon)
+	idMon INT,
+	nomMon VARCHAR(45),
+	prenomMon VARCHAR(45),
+	ddnMon DATE,
+	sexeMon CHAR(1) CHECK (sexeMon IN ('F','M')),
+	telMon VARCHAR(45),
+	mailMon VARCHAR(45),
+	motsDePasseMon VARCHAR(45),
+	poidsMon FLOAT,
+	certification VARCHAR(45),
+	contrat VARCHAR(45),
+	PRIMARY KEY (idMon)
 );
 
 CREATE TABLE ADHERENT(
-    idAdh INT,
-    nomAdh VARCHAR(45),
-    prenomAdh VARCHAR(45),
-    ddnAdh DATE,
-    sexeAdh VARCHAR(45),
-    telAdh VARCHAR(45),
-    mailAdh VARCHAR(45),
-    poidsAdh INT,
-    cotisation BOOLEAN,
-    PRIMARY KEY (idAdh)
+	idAdh INT,
+	nomAdh VARCHAR(45),
+	prenomAdh VARCHAR(45),
+	ddnAdh DATE,
+	sexeAdh CHAR(1) CHECK (sexeAdh IN ('F','M')),
+	telAdh VARCHAR(45),
+	mailAdh VARCHAR(45),
+	motsDePasseAdh VARCHAR(45),
+	poidsAdh FLOAT,
+	cotisation BOOLEAN,
+	PRIMARY KEY (idAdh)
+);
+
+CREATE TABLE ADMINISTRATEUR(
+	idAdm INT,
+	nomAdm VARCHAR(45),
+	prenomAdm VARCHAR(45),
+	ddnAdm VARCHAR(45),
+	sexeAdm CHAR(1) CHECK (sexeAdm IN ('F','M')),
+	telAdm VARCHAR(45),
+	mailAdm VARCHAR(45),
+	motsDePasseAdm VARCHAR(45)
 );
 
 CREATE TABLE COURS(
-    idCo INT,
-    nomCo VARCHAR(42),
-    colllectif BOOLEAN,
-    nbPersonne INT,
-    idMon INT,
-    PRIMARY KEY (idCo),
-    FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon)
+	idCo INT,
+	nomCo VARCHAR(42),
+	colllectif BOOLEAN,
+	nbPersonne INT CHECK (nbPersonne <= 10),
+	idMon INT,
+	PRIMARY KEY (idCo),
+	FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon)
 );
 
 CREATE TABLE RESERVER(
-    duree INT,
-    datee date,
-    heure TIME,
-    idCo INT,
-    idPo INT,
-    idAdh INT,
-    PRIMARY KEY (datee, heure, idCo, idPo, idAdh),
-    FOREIGN KEY (idCo) REFERENCES COURS(idCo),
-    FOREIGN KEY (idPo) REFERENCES PONEY(idPo),
-    FOREIGN KEY (idAdh) REFERENCES ADHERENT(idAdh)
-);
-
-CREATE TABLE ENCADRER(
-    idCo INT,
-    idMon INT,
-    PRIMARY KEY (idCo, idMon),
-    FOREIGN KEY (idCo) REFERENCES COURS(idCo),
-    FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon)
+    duree INT CHECK (duree >= 1 AND duree <= 2),
+	date DATE,
+	heure TIME,
+	idCo INT,
+	idPo INT,
+	idAdh INT,
+	PRIMARY KEY (date, heure, idCo, idPo, idAdh),
+	FOREIGN KEY (idCo) REFERENCES COURS(idCo),
+	FOREIGN KEY (idPo) REFERENCES PONEY(idPo),
+	FOREIGN KEY (idAdh) REFERENCES ADHERENT(idAdh)
 );
 
 CREATE TABLE TRAVAILLER(
-    idMon INT,
-    idHoraire INT,
-    PRIMARY KEY (idMon, idHoraire),
-    FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon),
-    FOREIGN KEY (idHoraire) REFERENCES HORAIRE(idHoraire)
+	idMon INT,
+	idHoraire INT,
+	PRIMARY KEY (idMon, idHoraire),
+	FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon),
+	FOREIGN KEY (idHoraire) REFERENCES HORAIRE(idHoraire)
 );
