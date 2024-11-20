@@ -10,8 +10,9 @@ DROP TABLE IF EXISTS HORAIRE;
 
 CREATE TABLE HORAIRE(
 	idHoraire INT,
-	horaireDebut TIME,
-	horaireFin TIME,
+    jour VARCHAR(45),
+	horaireDebut DATE,
+	horaireFin DATE,
 	PRIMARY KEY (idHoraire)
 );
 
