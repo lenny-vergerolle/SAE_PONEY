@@ -19,26 +19,6 @@ end |
 
 delimiter ;
 
-DELETE FROM RESERVER WHERE idPo = 1;
-DELETE FROM PONEY WHERE idPo = 1;
-DELETE FROM ADHERENT WHERE idAdh = 1;
-
--- Insert into PONEY table
-INSERT INTO PONEY (idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES (1, 'Jeremy', 30, 'noir', STR_TO_DATE('yyyy-mm-dd','2023-10-01'));
-
-INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation) 
-VALUES (1, 'Dupont', 'Jean', STR_TO_DATE('yyyy-mm-dd','1990-05-15'), 'M', '0123456789', 'jean.dupont@example.com', 45, TRUE);
-
--- Assurez-vous que la table MONITEUR contient une instance avec idMon = 1
-INSERT INTO MONITEUR (idMon, nomMon, prenomMon) VALUES (1, 'Doe', 'John');
-
--- Insertion dans la table COURS
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) 
-VALUES (1, 'Cours de dressage', TRUE, 10, 1);
-
--- Insert into RESERVER table
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 1, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'10:00:00', 2);
-
 
 --Les poneys doivent avoir au moins 1 heure de repos après 2 heures de course
 
@@ -50,63 +30,54 @@ begin
     declare heureReservation INT;
     declare mes VARCHAR(1000);
 
-    SELECT heure into heureReservation from RESERVER NATURAL JOIN PONEY WHERE idPoney = new.idPoney;
-    SELECT duree into dureeReservation from RESERVER NATURAL JOIN PONEY WHERE idPoney = new.idPoney;
+    SELECT heure into heureReservation from RESERVER NATURAL JOIN PONEY WHERE idPo = new.idPo;
+    SELECT duree into dureeReservation from RESERVER NATURAL JOIN PONEY WHERE idPo = new.idPo;
 
-    if heure + duree > 2 then
+    if heureReservation + dureeReservation > 2 then
         set mes = concat('Impossible !! Ce poney n est pas assez reposé ! ');
         signal SQLSTATE '45000' set MESSAGE_TEXT = mes;
-    end if ;
+    end if;
 end |
 
-delimiter;
+delimiter ;
 
-DELETE FROM RESERVER WHERE idPo = 1;
-DELETE FROM PONEY WHERE idPo = 1;
-DELETE FROM ADHERENT WHERE idAdh = 1;
-
--- Insert into PONEY table
-INSERT INTO PONEY(idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES (1, 'Jeremy', 30, 'noir', STR_TO_DATE('yyyy-mm-dd','2023-10-01'));
-
-INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation) 
-VALUES (1, 'Dupont', 'Jean', STR_TO_DATE('yyyy-mm-dd','1990-05-15'), 'M', '0123456789', 'jean.dupont@example.com', 45, TRUE);
-
--- Assurez-vous que la table MONITEUR contient une instance avec idMon = 1
-INSERT INTO MONITEUR (idMon, nomMon, prenomMon) VALUES (1, 'Doe', 'John');
-
--- Insertion dans la table COURS
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) 
-VALUES (1, 'Cours de dressage', TRUE, 10, 1);
-
--- Insert into RESERVER table
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 1, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'10:00:00', 2);
-
--- INSERTION qui ne doit pas fonctionner
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 2, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'11:00:00', 2);
-
-----Vérifie que le certificat médicale est à jour pour être adhérent  
+--Les adhérents doivent avoir au moins 15 ans
 
 delimiter |
-create or replace trigger CertificatMedicale before insert on ADHERENT for each row 
+create or replace trigger AgeMinimumAdh before insert on ADHERENT for each row
 begin
-    
-    declare certifMedical BOOL;
-    declare mes VARCHAR(1000);
+    declare age INT;
+    declare msg VARCHAR(1000);
 
-    SELECT certifMed into certifMedical from ADHERENT WHERE idAdh = new.idAdh;
-    
-    if not certifMedical then
-        set mes = concat('Impossible !! La peresonne n est pas apte à la pratique de l equitation ! ');
-        signal SQLSTATE '45000' set MESSAGE_TEXT = mes;
-    end if ;
+    SELECT (YEAR(NOW()) - YEAR(ddnAdh)) INTO age FROM ADHERENT;
+
+    if age < 15 then
+        set msg = concat("Impossible de s'inscrire ! L'age requis est de minimum 15 ans.");
+        signal SQLSTATE '45000' set MESSAGE_TEXT = msg;
+    end if;
 end |
+delimiter ;
+    
+INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, motsDePasseAdh, poidsAdh, cotisation) VALUES 
+(1111, 'Newton', 'Sabrina', STR_TO_DATE('06/12/2022', '%d/%m/%Y'), 'F', '0695249101', 'sabrina.newton@mail.com', '1234', 65.2, TRUE);
 
-delimiter;
 
+--Les poneys doivent être agé de 5 ans minimum pour pouvoir être chevauché
 
---INSERTION qui doit renvoyer une erreur
-INSERT INTO ADHERENT(idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation)VALUES
-(3, 'Gérard', 'Albert', STR_TO_DATE('yyyy-mm-dd','2010-05-15'), 'M', '012346982', 'jean.dupont@example.com', 60, TRUE, FALSE)
+delimiter |
+create or replace trigger AgeMinimumPo before insert on RESERVER for each row
+begin
+    declare age INT;
+    declare msg VARCHAR(1000);
+
+    SELECT (YEAR(NOW()) - YEAR(ddnPo)) INTO age FROM PONEY;
+
+    if age < 5 then
+        set msg = concat("Impossible de réserver ce poney ! L'age requis est de minimum 5 ans pour qu'un poney soit chevauché.");
+        signal SQLSTATE '45000' set MESSAGE_TEXT = msg;
+    end if;
+end |
+delimiter ;
 
 
 ----Un cours peut contenir 10 personnes au maximum
@@ -119,9 +90,4 @@ ALTER TABLE RESERVER ADD CONSTRAINT check_duree_cours CHECK(duree IN (1,2));
 ALTER TABLE ADHERENT ADD CONSTRAINT check_num_tel CHECK(telAdh ~ '^\d{10}$')
 
 --Une adresse email doit avoir un @, un '.' et doit faire au moins 10 caractères
-
 ALTER TABLE ADHERENT ADD CONSTRAINT check_email_format CHECK (mailAdh ~ '^.{10,}$' AND mailAdh LIKE '%@%' AND mailAdh LIKE '%.%');
-
---Le poney doit au moins être agé de 5 ans minimum pour pouvoir être chevauché
-ALTER TABLE PONEY ADD CONSTRAINT check_ddn_poney CHECK (YEAR(NOW()) - YEAR(ddnPo) > 5)
-
