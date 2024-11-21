@@ -110,17 +110,18 @@ INSERT INTO ADMINISTRATEUR (idAdm, nomAdm, prenomAdm, ddnAdm, sexeAdm, telAdm, m
 (5, 'Brown', 'Richard', STR_TO_DATE('28/02/1980', '%d/%m/%Y'), 'M', '0656789012', 'richard.brown@mail.com', '1234');
 
 
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) VALUES 
-(1, 'Cours Débutant', TRUE, 8, 1),
-(2, 'Cours Avancé', TRUE, 5, 2),
-(3, 'Cours Individuel', FALSE, NULL, 3),
-(4, 'Cours Collectif', TRUE, 7, 4),
-(5, 'Cours Enfants', TRUE, 6, 5),
-(6, 'Cours Adultes', TRUE, 10, 6),
-(7, 'Cours Équilibre', FALSE, NULL, 7),
-(8, 'Cours Perfectionnement', TRUE, 4, 8),
-(9, 'Cours Liberté', TRUE, 9, 9),
-(10, 'Cours Sécurité', FALSE, NULL, 10);
+INSERT INTO COURS (idCo, nomCo, collectif, nbPersonne, idMon, heureDebutCo, dureeCo) VALUES 
+(1, 'Cours Débutant', TRUE, 8, 1, '09:00:00', 60),
+(2, 'Cours Avancé', TRUE, 5, 2, '10:30:00', 90),
+(3, 'Cours Individuel', FALSE, NULL, 3, '13:00:00', 45),
+(4, 'Cours Collectif', TRUE, 7, 4, '15:00:00', 75),
+(5, 'Cours Enfants', TRUE, 6, 5, '16:30:00', 60),
+(6, 'Cours Adultes', TRUE, 10, 6, '18:00:00', 90),
+(7, 'Cours Équilibre', FALSE, NULL, 7, '08:00:00', 30),
+(8, 'Cours Perfectionnement', TRUE, 4, 8, '14:00:00', 120),
+(9, 'Cours Liberté', TRUE, 9, 9, '17:00:00', 60),
+(10, 'Cours Sécurité', FALSE, NULL, 10, '19:30:00', 45);
+
 
 
 INSERT INTO RESERVER (duree, date, heure, idCo, idPo, idAdh) VALUES 

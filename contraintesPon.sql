@@ -19,27 +19,6 @@ end |
 
 delimiter ;
 
-DELETE FROM RESERVER WHERE idPo = 1;
-DELETE FROM PONEY WHERE idPo = 1;
-DELETE FROM ADHERENT WHERE idAdh = 1;
-
--- Insert into PONEY table
-INSERT INTO PONEY (idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES (1, 'Jeremy', 30, 'noir', STR_TO_DATE('yyyy-mm-dd','2023-10-01'));
-
-INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation) 
-VALUES (1, 'Dupont', 'Jean', STR_TO_DATE('yyyy-mm-dd','1990-05-15'), 'M', '0123456789', 'jean.dupont@example.com', 45, TRUE);
-
--- Assurez-vous que la table MONITEUR contient une instance avec idMon = 1
-INSERT INTO MONITEUR (idMon, nomMon, prenomMon) VALUES (1, 'Doe', 'John');
-
--- Insertion dans la table COURS
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) 
-VALUES (1, 'Cours de dressage', TRUE, 10, 1);
-
--- Insert into RESERVER table
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 1, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'10:00:00', 2);
-
-
 --Les poneys doivent avoir au moins 1 heure de repos après 2 heures de course
 
 delimiter |
@@ -48,65 +27,110 @@ begin
     
     declare dureeReservation INT;
     declare heureReservation INT;
+    declare heure TIME;
+    declare duree INT;
     declare mes VARCHAR(1000);
 
-    SELECT heure into heureReservation from RESERVER NATURAL JOIN PONEY WHERE idPoney = new.idPoney;
-    SELECT duree into dureeReservation from RESERVER NATURAL JOIN PONEY WHERE idPoney = new.idPoney;
+    SELECT heure into heureReservation 
+    from RESERVER NATURAL JOIN PONEY 
+    WHERE idPo = new.idPo;
 
-    if heure + duree > 2 then
+    SELECT duree into dureeReservation 
+    from RESERVER NATURAL JOIN PONEY 
+    WHERE idPo = new.idPo;
+
+    if HOUR(heure) + duree > 2 then
         set mes = concat('Impossible !! Ce poney n est pas assez reposé ! ');
         signal SQLSTATE '45000' set MESSAGE_TEXT = mes;
     end if ;
 end |
 
-delimiter;
-
-DELETE FROM RESERVER WHERE idPo = 1;
-DELETE FROM PONEY WHERE idPo = 1;
-DELETE FROM ADHERENT WHERE idAdh = 1;
-
--- Insert into PONEY table
-INSERT INTO PONEY(idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES (1, 'Jeremy', 30, 'noir', STR_TO_DATE('yyyy-mm-dd','2023-10-01'));
-
-INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation) 
-VALUES (1, 'Dupont', 'Jean', STR_TO_DATE('yyyy-mm-dd','1990-05-15'), 'M', '0123456789', 'jean.dupont@example.com', 45, TRUE);
-
--- Assurez-vous que la table MONITEUR contient une instance avec idMon = 1
-INSERT INTO MONITEUR (idMon, nomMon, prenomMon) VALUES (1, 'Doe', 'John');
-
--- Insertion dans la table COURS
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) 
-VALUES (1, 'Cours de dressage', TRUE, 10, 1);
-
--- Insert into RESERVER table
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 1, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'10:00:00', 2);
-
--- INSERTION qui ne doit pas fonctionner
-INSERT INTO RESERVER (idAdh, idPo,idCo heure, duree) VALUES (1, 2, 1, STR_TO_DATE('yyyy-mm-dd','2023-10-01'),'11:00:00', 2);
-
-----Vérifie que le certificat médicale est à jour pour être adhérent  
+delimiter ;
 
 delimiter |
-create or replace trigger CertificatMedicale before insert on ADHERENT for each row 
-begin
-    
-    declare certifMedical BOOL;
+create or replace trigger check_email_format_adh BEFORE INSERT ON ADHERENT FOR EACH ROW
+BEGIN
     declare mes VARCHAR(1000);
-
-    SELECT certifMed into certifMedical from ADHERENT WHERE idAdh = new.idAdh;
-    
-    if not certifMedical then
-        set mes = concat('Impossible !! La peresonne n est pas apte à la pratique de l equitation ! ');
+    IF NOT (NEW.mailAdh LIKE '%@%' AND NEW.mailAdh LIKE '%.%' AND CHAR_LENGTH(NEW.mailAdh) >= 10) THEN
+        SET mes = concat('Une adresse email doit avoir un @, un . et doit faire au moins 10 caractères');
         signal SQLSTATE '45000' set MESSAGE_TEXT = mes;
-    end if ;
-end |
+    END IF;
+END |
 
-delimiter;
+delimiter ;
 
+delimiter |
+create or replace trigger check_email_format_Mon BEFORE INSERT ON MONITEUR FOR EACH ROW
+BEGIN
+    declare mes VARCHAR(1000);
+    IF NOT (NEW.mailMon LIKE '%@%' AND NEW.mailMon LIKE '%.%' AND CHAR_LENGTH(NEW.mailMon) >= 10) THEN
+        SET mes = concat('Une adresse email doit avoir un @, un . et doit faire au moins 10 caractères');
+        SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = mes ;
+        
+    END IF;
+END |
 
---INSERTION qui doit renvoyer une erreur
-INSERT INTO ADHERENT(idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, poidsAdh, cotisation)VALUES
-(3, 'Gérard', 'Albert', STR_TO_DATE('yyyy-mm-dd','2010-05-15'), 'M', '012346982', 'jean.dupont@example.com', 60, TRUE, FALSE)
+delimiter ;
+
+delimiter |
+CREATE OR REPLACE TRIGGER check_email_format_Adm BEFORE INSERT ON ADMINISTRATEUR FOR EACH ROW
+BEGIN
+    declare mes VARCHAR(1000);
+    IF NOT (NEW.mailAdm LIKE '%@%' AND NEW.mailAdm LIKE '%.%' AND CHAR_LENGTH(NEW.mailAdm) >= 10) THEN
+        SET mes = concat('Une adresse email doit avoir un @, un . et doit faire au moins 10 caractères');
+        SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = mes ;
+        
+    END IF;
+END |
+
+delimiter ;
+
+DELIMITER |
+
+CREATE OR REPLACE TRIGGER check_num_Adm BEFORE INSERT ON ADMINISTRATEUR
+FOR EACH ROW
+BEGIN
+    IF NOT (CHAR_LENGTH(NEW.telAdm) = 10 AND NEW.telAdm REGEXP '^[0-9]{10}$') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Un numéro de téléphone doit avoir 10 chiffres';
+    END IF;
+END |
+
+DELIMITER ; 
+
+DELIMITER |
+
+CREATE OR REPLACE TRIGGER check_num_Adh BEFORE INSERT ON ADHERENT
+FOR EACH ROW
+BEGIN
+    IF NOT (CHAR_LENGTH(NEW.telAdh) = 10 AND NEW.telAdh REGEXP '^[0-9]{10}$') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Un numéro de téléphone doit avoir 10 chiffres';
+    END IF;
+END |
+DELIMITER ;
+
+DELIMITER |
+CREATE OR REPLACE TRIGGER check_num_Mon BEFORE INSERT ON MONITEUR
+FOR EACH ROW
+BEGIN
+    IF NOT (CHAR_LENGTH(NEW.telMon) = 10 AND NEW.telMon REGEXP '^[0-9]{10}$') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Un numéro de téléphone doit avoir 10 chiffres';
+    END IF;
+END|
+DELIMITER ;
+
+DELIMITER |
+CREATE OR REPLACE TRIGGER pause_midi BEFORE INSERT ON COURS
+FOR EACH ROW
+BEGIN 
+    IF NOT 8 <= HOUR(new.heureDebutCo) < 12 AND 14 <= HOUR(new.heureDebutCo) < 19 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Un cours doit peut être entre 8h à 12h ou de 14h à 19h ';
+    END IF;
+END|
+DELIMITER ;
 
 
 ----Un cours peut contenir 10 personnes au maximum
@@ -115,13 +139,13 @@ ALTER TABLE COURS ADD CONSTRAINT check_nb_personnes CHECK(nbPersonne <= 10);
 --Un cours doit durer 1 ou 2 heures. 
 ALTER TABLE RESERVER ADD CONSTRAINT check_duree_cours CHECK(duree IN (1,2));
 
---Un numéro de téléphone doit avoir 10 chiffres
-ALTER TABLE ADHERENT ADD CONSTRAINT check_num_tel CHECK(telAdh ~ '^\d{10}$')
+--Vérifie que le sexe est bien soit 'F' pour Féminin ou 'M' pour Masculin
+ALTER TABLE ADHERENT ADD CONSTRAINT sexeAdh CHECK (sexeAdh IN ('F','M'));
 
---Une adresse email doit avoir un @, un '.' et doit faire au moins 10 caractères
+--Vérifie que le sexe est bien soit 'F' pour Féminin ou 'M' pour Masculin
+ALTER TABLE MONITEUR ADD CONSTRAINT sexeMon CHECK (sexeMon IN ('F','M'));
 
-ALTER TABLE ADHERENT ADD CONSTRAINT check_email_format CHECK (mailAdh ~ '^.{10,}$' AND mailAdh LIKE '%@%' AND mailAdh LIKE '%.%');
+--Vérifie que le sexe est bien soit 'F' pour Féminin ou 'M' pour Masculin
+ALTER TABLE ADMINISTRATEUR ADD CONSTRAINT sexeAdm CHECK (sexeAdm IN ('F','M'));
 
---Le poney doit au moins être agé de 5 ans minimum pour pouvoir être chevauché
-ALTER TABLE PONEY ADD CONSTRAINT check_ddn_poney CHECK (YEAR(NOW()) - YEAR(ddnPo) > 5)
 

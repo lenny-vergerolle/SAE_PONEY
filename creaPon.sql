@@ -20,9 +20,9 @@ CREATE TABLE MONITEUR(
 	nomMon VARCHAR(45),
 	prenomMon VARCHAR(45),
 	ddnMon DATE,
-	sexeMon CHAR(1) CHECK (sexeMon IN ('F','M')),
+	sexeMon CHAR(1),
 	telMon VARCHAR(45),
-	mailMon VARCHAR(45),
+	mailMon VARCHAR(45) UNIQUE,
 	motsDePasseMon VARCHAR(45),
 	poidsMon FLOAT,
 	certification VARCHAR(45),
@@ -35,9 +35,9 @@ CREATE TABLE ADHERENT(
 	nomAdh VARCHAR(45),
 	prenomAdh VARCHAR(45),
 	ddnAdh DATE,
-	sexeAdh CHAR(1) CHECK (sexeAdh IN ('F','M')),
+	sexeAdh CHAR(1) ,
 	telAdh VARCHAR(45),
-	mailAdh VARCHAR(45),
+	mailAdh VARCHAR(45) UNIQUE,
 	motsDePasseAdh VARCHAR(45),
 	poidsAdh FLOAT,
 	cotisation BOOLEAN,
@@ -49,24 +49,26 @@ CREATE TABLE ADMINISTRATEUR(
 	nomAdm VARCHAR(45),
 	prenomAdm VARCHAR(45),
 	ddnAdm VARCHAR(45),
-	sexeAdm CHAR(1) CHECK (sexeAdm IN ('F','M')),
+	sexeAdm CHAR(1),
 	telAdm VARCHAR(45),
-	mailAdm VARCHAR(45),
+	mailAdm VARCHAR(45) UNIQUE,
 	motsDePasseAdm VARCHAR(45)
 );
 
 CREATE TABLE COURS(
 	idCo INT,
 	nomCo VARCHAR(42),
-	colllectif BOOLEAN,
-	nbPersonne INT CHECK (nbPersonne <= 10),
+	collectif BOOLEAN,
+	nbPersonne INT ,
 	idMon INT,
+	heureDebutCo TIME,
+	dureeCo INT,
 	PRIMARY KEY (idCo),
 	FOREIGN KEY (idMon) REFERENCES MONITEUR(idMon)
 );
 
 CREATE TABLE RESERVER(
-    duree INT CHECK (duree >= 1 AND duree <= 2),
+    duree INT,
 	date DATE,
 	heure TIME,
 	idCo INT,
