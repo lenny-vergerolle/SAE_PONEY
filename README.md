@@ -1,5 +1,12 @@
-# SAE_PONEY
- 
+# SAE 3.02 SAE_PONEY
+
+## Informations du groupe
+- Vergerolle Lenny 23
+- Hun Valentin 23
+- Akhtar Naima 21
+
+## Organisation 
+
 |  date  | Lenny                        |  Valentin           | Naima             |
 |--------|-------------------------------|---------------------|-------------------|
 | 16/09  | diagramme de CU               |  MCD                | MCD               |
