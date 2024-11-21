@@ -49,7 +49,7 @@ begin
     declare age INT;
     declare msg VARCHAR(1000);
 
-    SELECT (YEAR(NOW()) - YEAR(ddnAdh)) INTO age FROM ADHERENT;
+    SET age = YEAR(NOW()) - YEAR(new.ddnAdh);
 
     if age < 15 then
         set msg = concat("Impossible de s'inscrire ! L'age requis est de minimum 15 ans.");
@@ -57,7 +57,8 @@ begin
     end if;
 end |
 delimiter ;
-    
+
+-- insertions qui ne passe pas  
 INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, motsDePasseAdh, poidsAdh, cotisation) VALUES 
 (1111, 'Newton', 'Sabrina', STR_TO_DATE('06/12/2022', '%d/%m/%Y'), 'F', '0695249101', 'sabrina.newton@mail.com', '1234', 65.2, TRUE);
 
@@ -68,9 +69,12 @@ delimiter |
 create or replace trigger AgeMinimumPo before insert on RESERVER for each row
 begin
     declare age INT;
+    declare ddn DATE;
     declare msg VARCHAR(1000);
 
-    SELECT (YEAR(NOW()) - YEAR(ddnPo)) INTO age FROM PONEY;
+    SELECT ddnPo INTO ddn FROM PONEY WHERE PONEY.idPo = NEW.idPo;
+
+    SET age = YEAR(NOW()) - YEAR(ddn);
 
     if age < 5 then
         set msg = concat("Impossible de réserver ce poney ! L'age requis est de minimum 5 ans pour qu'un poney soit chevauché.");
