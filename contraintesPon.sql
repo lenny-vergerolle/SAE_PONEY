@@ -58,10 +58,6 @@ begin
 end |
 delimiter ;
 
--- insertions qui ne passe pas  
-INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, motsDePasseAdh, poidsAdh, cotisation) VALUES 
-(1111, 'Newton', 'Sabrina', STR_TO_DATE('06/12/2022', '%d/%m/%Y'), 'F', '0695249101', 'sabrina.newton@mail.com', '1234', 65.2, TRUE);
-
 
 --Les poneys doivent être agé de 5 ans minimum pour pouvoir être chevauché
 
@@ -74,7 +70,7 @@ begin
 
     SELECT ddnPo INTO ddn FROM PONEY WHERE PONEY.idPo = NEW.idPo;
 
-    SET age = YEAR(NOW()) - YEAR(ddn);
+    SET age = TIMESTAMPDIFF(YEAR, ddn, CURDATE());
 
     if age < 5 then
         set msg = concat("Impossible de réserver ce poney ! L'age requis est de minimum 5 ans pour qu'un poney soit chevauché.");
@@ -82,7 +78,6 @@ begin
     end if;
 end |
 delimiter ;
-
 
 ----Un cours peut contenir 10 personnes au maximum
 ALTER TABLE COURS ADD CONSTRAINT check_nb_personnes CHECK(nbPersonne <= 10);
