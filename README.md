@@ -1,13 +1,19 @@
 # SAE 3.02 SAE_PONEY
 
 ## Informations du groupe
-- Vergerolle Lenny 23
+- Vergerolle Lenny 23 (chef de projet)
 - Hun Valentin 23
 - Akhtar Naima 21
 
+## Commandes pratiques
+Une fois connecté à mysql : 
+- supprimer la base de données : `source delPon.sql;`
+- créer la base de données : `source creaPon.sql;`
+- ajouter les insertions : `source insPon.sql;`
+  
 ## Organisation 
 
-|  date  | Lenny                        |  Valentin           | Naima             |
+|  date  | Lenny (chef de projet)        |  Valentin           | Naima             |
 |--------|-------------------------------|---------------------|-------------------|
 | 16/09  | diagramme de CU               |  MCD                | MCD               |
 | 23/09  |finalisation diagramme du CU et du MCD (pour tout le monde)              |       
