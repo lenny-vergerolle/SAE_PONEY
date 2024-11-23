@@ -31,6 +31,7 @@ begin
     declare duree INT;
     declare mes VARCHAR(1000);
 
+
     SELECT heure into heureReservation 
     from RESERVER NATURAL JOIN PONEY 
     WHERE idPo = new.idPo;
@@ -42,10 +43,11 @@ begin
     if HOUR(heure) + duree > 2 then
         set mes = concat('Impossible !! Ce poney n est pas assez reposé ! ');
         signal SQLSTATE '45000' set MESSAGE_TEXT = mes;
-    end if ;
+    end if;
 end |
 
 delimiter ;
+
 
 delimiter |
 create or replace trigger check_email_format_adh BEFORE INSERT ON ADHERENT FOR EACH ROW
@@ -132,6 +134,46 @@ BEGIN
 END|
 DELIMITER ;
 
+=======
+
+--Les adhérents doivent avoir au moins 15 ans
+
+delimiter |
+create or replace trigger AgeMinimumAdh before insert on ADHERENT for each row
+begin
+    declare age INT;
+    declare msg VARCHAR(1000);
+
+    SET age = YEAR(NOW()) - YEAR(new.ddnAdh);
+
+    if age < 15 then
+        set msg = concat("Impossible de s'inscrire ! L'age requis est de minimum 15 ans.");
+        signal SQLSTATE '45000' set MESSAGE_TEXT = msg;
+    end if;
+end |
+delimiter ;
+
+
+--Les poneys doivent être agé de 5 ans minimum pour pouvoir être chevauché
+
+delimiter |
+create or replace trigger AgeMinimumPo before insert on RESERVER for each row
+begin
+    declare age INT;
+    declare ddn DATE;
+    declare msg VARCHAR(1000);
+
+    SELECT ddnPo INTO ddn FROM PONEY WHERE PONEY.idPo = NEW.idPo;
+
+    SET age = TIMESTAMPDIFF(YEAR, ddn, CURDATE());
+
+    if age < 5 then
+        set msg = concat("Impossible de réserver ce poney ! L'age requis est de minimum 5 ans pour qu'un poney soit chevauché.");
+        signal SQLSTATE '45000' set MESSAGE_TEXT = msg;
+    end if;
+end |
+delimiter ;
+
 
 ----Un cours peut contenir 10 personnes au maximum
 ALTER TABLE COURS ADD CONSTRAINT check_nb_personnes CHECK(nbPersonne <= 10);
@@ -147,5 +189,3 @@ ALTER TABLE MONITEUR ADD CONSTRAINT sexeMon CHECK (sexeMon IN ('F','M'));
 
 --Vérifie que le sexe est bien soit 'F' pour Féminin ou 'M' pour Masculin
 ALTER TABLE ADMINISTRATEUR ADD CONSTRAINT sexeAdm CHECK (sexeAdm IN ('F','M'));
-
-
