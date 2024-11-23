@@ -16,6 +16,7 @@
 | 14/10  | travail sur la SAE crypto (pour tout le monde)                          |
 | 21/10  | SAE FI                                                                  |
 | 04/11  | SAE FI                                                                  |
+| 12/11  |                               |                     | insertions BD     |
 | 18/11  | maquettes + triggers          | maquettes           | rapport           |
 | 21/11  |                               |                     | triggers          |
 
