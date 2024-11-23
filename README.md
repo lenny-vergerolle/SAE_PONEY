@@ -19,12 +19,12 @@ Une fois connecté à mysql :
 | 23/09  |finalisation diagramme du CU et du MCD (pour tout le monde)              |       
 | 30/09  | implémentation trigger/check  | création maquettes  | implémentation BD |
 | 07/10  | travail sur la SAE dev eff + qualité dev (pour tout le monde)           |
-| 14/10  | travail sur la SAE crypto (pour tout le monde)                          |
-| 21/10  | SAE FI                                                                  |
-| 04/11  | SAE FI                                                                  |
-| 12/11  |                               |                     | insertions BD     |
+| 14/10  | travail sur la SAE crypto     |SAE crypto           | SAE crypto        |
+| 21/10  | SAE FI                        |                     |                   |
+| 04/11  | SAE FI                        |                     |                   |
+| 12/11  | maquette                      | maquette            | insertions BD     |
 | 18/11  | maquettes + triggers          | maquettes           | rapport           |
-| 21/11  |                               |                     | triggers          |
+| 21/11  | triggers                      |                     | triggers          |
 
 
 
