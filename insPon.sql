@@ -53,17 +53,17 @@ INSERT INTO PONEY (idPo, nomPo, poidsMax, couleurPo, ddnPo) VALUES
 (2, 'Brandon', 104.34, 'Marron', STR_TO_DATE('31/01/2017', '%d/%m/%Y')),
 (3, 'Jimmy', 51.36, 'Tacheté', STR_TO_DATE('08/04/2017', '%d/%m/%Y')),
 (4, 'Brad', 175.17, 'Marron', STR_TO_DATE('09/07/2021', '%d/%m/%Y')),
-(5, 'Valerie', 76.36, 'Noir', STR_TO_DATE('19/07/2022', '%d/%m/%Y')),
+(5, 'Valerie', 76.36, 'Noir', STR_TO_DATE('19/07/2020', '%d/%m/%Y')),
 (6, 'Matthew', 62.13, 'Gris', STR_TO_DATE('26/08/2021', '%d/%m/%Y')),
 (7, 'Megan', 189.15, 'Marron', STR_TO_DATE('29/06/2017', '%d/%m/%Y')),
-(8, 'Eddie', 100.48, 'Marron', STR_TO_DATE('12/09/2022', '%d/%m/%Y')),
+(8, 'Eddie', 100.48, 'Marron', STR_TO_DATE('12/09/2020', '%d/%m/%Y')),
 (9, 'Gilbert', 106.27, 'Noir', STR_TO_DATE('07/12/2021', '%d/%m/%Y')),
 (10, 'Michael', 129.53, 'Marron', STR_TO_DATE('27/09/2020', '%d/%m/%Y')),
-(11, 'Cheryl', 110.68, 'Blanc', STR_TO_DATE('23/01/2022', '%d/%m/%Y')),
+(11, 'Cheryl', 110.68, 'Blanc', STR_TO_DATE('23/01/2018', '%d/%m/%Y')),
 (12, 'Barbara', 143.51, 'Tacheté', STR_TO_DATE('08/06/2017', '%d/%m/%Y')),
 (13, 'Taylor', 159.54, 'Tacheté', STR_TO_DATE('28/01/2018', '%d/%m/%Y')),
 (14, 'John', 165.2, 'Tacheté', STR_TO_DATE('08/04/2020', '%d/%m/%Y')),
-(15, 'Emma', 132.77, 'Marron', STR_TO_DATE('03/05/2020', '%d/%m/%Y'));
+(15, 'Emma', 132.77, 'Marron', STR_TO_DATE('03/05/2023', '%d/%m/%Y'));
 
 
 INSERT INTO MONITEUR (idMon, nomMon, prenomMon, ddnMon, sexeMon, telMon, mailMon, motsDePasseMon, poidsMon, certification, contrat) VALUES 
@@ -98,8 +98,7 @@ INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh
 (16, 'James', 'Anthony', STR_TO_DATE('04/11/1992', '%d/%m/%Y'), 'M', '0651643708', 'anthony.james@mail.com', '1234', 84.3, TRUE),
 (17, 'Jimenez', 'Sara', STR_TO_DATE('28/11/2006', '%d/%m/%Y'), 'F', '0648178093', 'sara.jimenez@mail.com', '1234', 57.6, FALSE),
 (18, 'Keller', 'David', STR_TO_DATE('04/12/1990', '%d/%m/%Y'), 'M', '0632068920', 'david.keller@mail.com', '1234', 89.7, TRUE),
-(19, 'Hayes', 'Ana', STR_TO_DATE('15/08/1999', '%d/%m/%Y'), 'F', '0648568412', 'ana.hayes@mail.com', '1234', 60.9, FALSE),
-(20, 'Moore', 'Jamie', STR_TO_DATE('26/04/2003', '%d/%m/%Y'), 'F', '0632047668', 'jamie.moore@mail.com', '1234', 62.7, TRUE);
+(19, 'Hayes', 'Ana', STR_TO_DATE('15/08/1999', '%d/%m/%Y'), 'F', '0648568412', 'ana.hayes@mail.com', '1234', 60.9, FALSE);
 
 
 INSERT INTO ADMINISTRATEUR (idAdm, nomAdm, prenomAdm, ddnAdm, sexeAdm, telAdm, mailAdm, motsDePasseAdm) VALUES 
@@ -110,17 +109,18 @@ INSERT INTO ADMINISTRATEUR (idAdm, nomAdm, prenomAdm, ddnAdm, sexeAdm, telAdm, m
 (5, 'Brown', 'Richard', STR_TO_DATE('28/02/1980', '%d/%m/%Y'), 'M', '0656789012', 'richard.brown@mail.com', '1234');
 
 
-INSERT INTO COURS (idCo, nomCo, colllectif, nbPersonne, idMon) VALUES 
-(1, 'Cours Débutant', TRUE, 8, 1),
-(2, 'Cours Avancé', TRUE, 5, 2),
-(3, 'Cours Individuel', FALSE, NULL, 3),
-(4, 'Cours Collectif', TRUE, 7, 4),
-(5, 'Cours Enfants', TRUE, 6, 5),
-(6, 'Cours Adultes', TRUE, 10, 6),
-(7, 'Cours Équilibre', FALSE, NULL, 7),
-(8, 'Cours Perfectionnement', TRUE, 4, 8),
-(9, 'Cours Liberté', TRUE, 9, 9),
-(10, 'Cours Sécurité', FALSE, NULL, 10);
+INSERT INTO COURS (idCo, nomCo, collectif, nbPersonne, idMon, heureDebutCo, dureeCo) VALUES 
+(1, 'Cours Débutant', TRUE, 8, 1, '09:00:00', 60),
+(2, 'Cours Avancé', TRUE, 5, 2, '10:30:00', 90),
+(3, 'Cours Individuel', FALSE, NULL, 3, '13:00:00', 45),
+(4, 'Cours Collectif', TRUE, 7, 4, '15:00:00', 75),
+(5, 'Cours Enfants', TRUE, 6, 5, '16:30:00', 60),
+(6, 'Cours Adultes', TRUE, 10, 6, '18:00:00', 90),
+(7, 'Cours Équilibre', FALSE, NULL, 7, '08:00:00', 30),
+(8, 'Cours Perfectionnement', TRUE, 4, 8, '14:00:00', 120),
+(9, 'Cours Liberté', TRUE, 9, 9, '17:00:00', 60),
+(10, 'Cours Sécurité', FALSE, NULL, 10, '19:30:00', 45);
+
 
 
 INSERT INTO RESERVER (duree, date, heure, idCo, idPo, idAdh) VALUES 
@@ -160,3 +160,10 @@ INSERT INTO TRAVAILLER (idMon, idHoraire) VALUES
 
 
 
+-- insertions qui ne passent pas  
+INSERT INTO ADHERENT (idAdh, nomAdh, prenomAdh, ddnAdh, sexeAdh, telAdh, mailAdh, motsDePasseAdh, poidsAdh, cotisation) VALUES 
+(20, 'Moore', 'Jamie', STR_TO_DATE('26/04/2023', '%d/%m/%Y'), 'F', '0632047668', 'jamie.moore@mail.com', '1234', 62.7, TRUE);
+
+
+INSERT INTO RESERVER (duree, date, heure, idCo, idPo, idAdh) VALUES 
+(1, STR_TO_DATE('21/11/2024', '%d/%m/%Y'), '08:00', 1, 15, 1);
