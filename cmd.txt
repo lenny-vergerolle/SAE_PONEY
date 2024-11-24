@@ -1,6 +1,0 @@
-
---------------------Voir les triggers actives-----------
-
-SELECT TRIGGER_NAME, EVENT_MANIPULATION, EVENT_OBJECT_TABLE, ACTION_TIMING
-FROM information_schema.TRIGGERS
-WHERE TRIGGER_SCHEMA = 'votre_nom_de_base_de_données';
