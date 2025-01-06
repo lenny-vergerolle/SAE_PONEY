@@ -1,12 +1,30 @@
-# SAE_PONEY
-En partant d’un besoin exprim´e par un client, l’objectif est de : - mod´eliser et impl´ementer une base de donn´ees - impl´ementer directement dans votre base de donn´ees le maximum de contraintes - proposer un maquettage pour une application graphique, - d´evelopper une application Web sur une partie du syst`eme d’informations
+# SAE 3.02 SAE_PONEY
 
-## 16/09/2024
-### Lenny : diagramme de cas d'utilisations
-### Valentin : MCD
-### Naima : MCD
+## Informations du groupe
+- Vergerolle Lenny 23 (chef de projet)
+- Hun Valentin 23
+- Akhtar Naima 21
 
-## 23/09/2024
-### Lenny : finalisation du diagramme de cas d'utilisations et MCD
-### Valentin : finalisation du diagramme de cas d'utilisations et MCD
-### Naima : finalisation du diagramme de cas d'utilisations et MCD
+## Commandes pratiques
+Une fois connecté à mysql : 
+- supprimer la base de données : `source delPon.sql;`
+- créer la base de données : `source creaPon.sql;`
+- ajouter les insertions : `source insPon.sql;`
+  
+## Organisation 
+
+|  date  | Lenny (chef de projet)        |  Valentin           | Naima             |
+|--------|-------------------------------|---------------------|-------------------|
+| 16/09  | diagramme de CU               |  MCD                | MCD               |
+| 23/09  |finalisation diagramme du CU et du MCD (pour tout le monde)              |       
+| 30/09  | implémentation trigger/check  | création maquettes  | implémentation BD |
+| 07/10  | travail sur la SAE dev eff + qualité dev (pour tout le monde)           |
+| 14/10  | travail sur la SAE crypto     |SAE crypto           | SAE crypto        |
+| 21/10  | SAE FI                        |                     |                   |
+| 04/11  | SAE FI                        |                     |                   |
+| 12/11  | maquette                      | maquette            | insertions BD     |
+| 18/11  | maquettes + triggers          | maquettes           | rapport           |
+| 21/11  | triggers                      |                     | triggers          |
+
+
+
