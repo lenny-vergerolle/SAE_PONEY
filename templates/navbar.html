@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="fr">
     <head>
-    <!-- {% block head %} -->
+    {% block head %}
         <title>Grand Galop</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- {% block styles %} -->
-            <link href='../static/navbar.css' rel="stylesheet">
-        <!-- {% endblock %} -->
-    <!-- {% endblock %} -->
+        {% block styles %}
+        <link rel="stylesheet", href="{{ url_for('static',filename='navbar.css') }}">
+        {% endblock %}
+    {% endblock %}
     </head>
     <header>
         <ul>
@@ -28,8 +28,8 @@
     </header>
     <body>
         <div class="content">
-        <!-- {% block content %} -->    
-        <!-- {% endblock %} -->
+        {% block content %}   
+        {% endblock %}
         </div>
     </body>
 </html>
