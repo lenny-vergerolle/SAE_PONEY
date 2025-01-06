@@ -1,0 +1,33 @@
+header {
+    height: 5em;
+    border-color: #000000;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+header ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+header li {
+    display: inline;
+}
+
+header .image_titre {
+    width: 14.5em;
+    height: 4em;
+    display: flex;
+    margin-top: 4%;
+    justify-content: space-between;
+}
+
+header .image_titre img {
+    height: 4em;
+}
+
+header .boutons {
+    margin-top : 14%;
+    width: 13em;
+}
+
+
