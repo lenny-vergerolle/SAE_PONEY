@@ -15,3 +15,9 @@ class Moniteur(db.Model):
     certification = db.Column(db.String(45), nullable=False)
     contrat = db.Column(db.String(45), nullable=False)
 
+
+    # Relation vers les cours
+    cours = db.relationship('Cours', back_populates='moniteur')
+
+    # Relation avec Travailler
+    travailler = db.relationship('Travailler', back_populates='moniteur')

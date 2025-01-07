@@ -9,5 +9,5 @@ class Cours(db.Model):
     nbPersonne = db.Column(db.Integer)
     idMon = db.Column(db.Integer, db.ForeignKey('MONITEUR.idMon'))
 
-    moniteur = db.relationship('Moniteur', back_populates='cours',lazy='True')
-
+    moniteur = db.relationship('Moniteur', back_populates='cours')
+    reserver = db.relationship('Reserver', back_populates='cours')

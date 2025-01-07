@@ -14,3 +14,4 @@ class Adherent(db.Model):
     poidsAdh = db.Column(db.Float, nullable=False)
     cotisation = db.Column(db.Boolean, nullable=False)
 
+    reserver = db.relationship('Reserver', back_populates='adherent')

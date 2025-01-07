@@ -8,3 +8,5 @@ class Poney(db.Model):
     poidsMax = db.Column(db.Float)
     couleurPo = db.Column(db.String(45))
     ddnPo = db.Column(db.Date)
+
+    reserver = db.relationship('Reserver', back_populates='poney')
