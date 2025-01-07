@@ -76,106 +76,106 @@
   couleurPo: Marron
   ddnPo: 2021-07-09
 
-#Moniteur
-- type: "Moniteur"
-  idMon: 1
-  nomMon: Miller
-  prenomMon: David
-  ddnMon: 1997-08-03
-  sexeMon: M
-  telMon: '0609017071'
-  mailMon: david.miller@mail.com
-  motsDePasseMon: '1234'
-  poidsMon: 79.2
+#Utilisateur
+- type: "Utilisateur"
+  idUser: 1
+  nom: Miller
+  prenomUser: David
+  ddnUser: 1997-08-03
+  sexeUser: M
+  telUser: '0609017071'
+  mailUser: david.miller@mail.com
+  motsDePasseUser: '1234'
+  poidsUser: 79.2
   certification: médical
   contrat: Stage
-- type: "Moniteur"
-  idMon: 2
-  nomMon: Robertson
-  prenomMon: Bethany
-  ddnMon: 1986-02-02
-  sexeMon: F
-  telMon: '0608850585'
-  mailMon: bethany.robertson@mail.com
-  motsDePasseMon: '1234'
-  poidsMon: 60.08
+- type: "Utilisateur"
+  idUser: 2
+  nomUser: Robertson
+  prenomUser: Bethany
+  ddnUser: 1986-02-02
+  sexeUser: F
+  telUser: '0608850585'
+  mailUser: bethany.robertson@mail.com
+  motsDePasseUser: '1234'
+  poidsUser: 60.08
   certification: santé
   contrat: Stage
-#Adherent
-- type: "Adherent"
-  idAdh: 1
-  nomAdh: Newton
-  prenomAdh: Sabrina
-  ddnAdh: 1998-12-06
-  sexeAdh: F
-  telAdh: '0695249101'
-  mailAdh: sabrina.newton@mail.com
-  motsDePasseAdh: '1234'
-  poidsAdh: 65.2
+#Utilisateur
+- type: "Utilisateur"
+  idUser: 1
+  nomUser: Newton
+  prenomUser: Sabrina
+  ddnUser: 1998-12-06
+  sexeUser: F
+  telUser: '0695249101'
+  mailUser: sabrina.newton@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 65.2
   cotisation: true
-- type: "Adherent"
-  idAdh: 2
-  nomAdh: Snyder
-  prenomAdh: Sarah
-  ddnAdh: 1994-09-28
-  sexeAdh: F
-  telAdh: '0616275479'
-  mailAdh: sarah.snyder@mail.com
-  motsDePasseAdh: '1234'
-  poidsAdh: 58.5
+- type: "Utilisateur"
+  idUser: 2
+  nomUser: Snyder
+  prenomUser: Sarah
+  ddnUser: 1994-09-28
+  sexeUser: F
+  telUser: '0616275479'
+  mailUser: sarah.snyder@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 58.5
   cotisation: false
-- type: "Adherent"
-  idAdh: 3
-  nomAdh: Johnson
-  prenomAdh: Michael
-  ddnAdh: 1990-03-15
-  sexeAdh: M
-  telAdh: '0612345678'
-  mailAdh: michael.johnson@mail.com
-  motsDePasseAdh: '1234'
-  poidsAdh: 75.3
+- type: "Utilisateur"
+  idUser: 3
+  nomUser: Johnson
+  prenomUser: Michael
+  ddnUser: 1990-03-15
+  sexeUser: M
+  telUser: '0612345678'
+  mailUser: michael.johnson@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 75.3
   cotisation: true
-- type: "Adherent"
-  idAdh: 4
-  nomAdh: Williams
-  prenomAdh: Emma
-  ddnAdh: 2000-07-22
-  sexeAdh: F
-  telAdh: '0623456789'
-  mailAdh: emma.williams@mail.com
-  motsDePasseAdh: '1234'
-  poidsAdh: 62.4
+- type: "Utilisateur"
+  idUser: 4
+  nomUser: Williams
+  prenomUser: Emma
+  ddnUser: 2000-07-22
+  sexeUser: F
+  telUser: '0623456789'
+  mailUser: emma.williams@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 62.4
   cotisation: false
-- type: "Adherent"
-  idAdh: 5
-  nomAdh: Brown
-  prenomAdh: Olivia
-  ddnAdh: 1995-11-30
-  sexeAdh: F
-  telAdh: '0634567890'
-  mailAdh: olivia.brown@mail.com
-  motsDePasseAdh: '1234'
-  poidsAdh: 68.7
+- type: "Utilisateur"
+  idUser: 5
+  nomUser: Brown
+  prenomUser: Olivia
+  ddnUser: 1995-11-30
+  sexeUser: F
+  telUser: '0634567890'
+  mailUser: olivia.brown@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 68.7
   cotisation: true
-#Administrateur
-- type: "Administrateur"
-  idAdm: 1
-  nomAdm: Sandoval
-  prenomAdm: Benjamin
-  ddnAdm: 1985-05-15
-  sexeAdm: M
-  telAdm: '0612345678'
-  mailAdm: benjamin.sandoval@mail.com
-  motsDePasseAdm: '1234'
-- type: "Administrateur"
-  idAdm: 2
-  nomAdm: Schroeder
-  prenomAdm: Nicole
-  ddnAdm: 1987-08-22
-  sexeAdm: F
-  telAdm: '0623456789'
-  mailAdm: nicole.schroeder@mail.com
-  motsDePasseAdm: '1234'
+#Utilisateur
+- type: "Utilisateur"
+  idUser: 1
+  nomUser: Sandoval
+  prenomUser: Benjamin
+  ddnUser: 1985-05-15
+  sexeUser: M
+  telUser: '0612345678'
+  mailUser: benjamin.sandoval@mail.com
+  motsDePasseUser: '1234'
+- type: "Utilisateur"
+  idUser: 2
+  nomUser: Schroeder
+  prenomUser: Nicole
+  ddnUser: 1987-08-22
+  sexeUser: F
+  telUser: '0623456789'
+  mailUser: nicole.schroeder@mail.com
+  motsDePasseUser: '1234'
 #Cours
 - type: "Cours"
   idCo: 1
@@ -198,14 +198,14 @@
   heure: '08:00'
   idCo: 1
   idPo: 1
-  idAdh: 1
+  idUser: 1
 - type: "Reserver"
   duree: 2
   date: 2024-11-21
   heure: '09:00'
   idCo: 2
   idPo: 2
-  idAdh: 2
+  idUser: 2
 #Travailler 
 - type: "Travailler"
   idMon: 1

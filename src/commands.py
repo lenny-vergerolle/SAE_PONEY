@@ -36,12 +36,12 @@ def loaddb(filename):
     }
 
     for elem in data:
-        print(elem['type'])
-        if elem["type"] == "Adherent":
-            adherent = Adherent(
-            idAdh = elem["idAdh"],
-            nomAdh = elem["nomAdh"],
-            prenomAdh = elem["prenomAdh"],
+        if elem["type"] == "Utilisateur":
+            utilisateur = Utilisateur(
+            id_utilisateur = elem["idUser"],
+            nomUser = elem["nomUser"],
+            prenom_utilisateur = elem["prenomUser"]
+    ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ddnAdh = elem["ddnAdh"],
             sexeAdh = elem["sexeAdh"],
             telAdh = elem["telAdh"],
@@ -54,20 +54,20 @@ def loaddb(filename):
             db.session.add(adherent)
             
             
-        elif elem["type"] == "Administrateur":
-            administrateur = Administrateur(
-            idAdm = elem["idAdm"],
-            nomAdm = elem["nomAdm"],
-            prenomAdm = elem["prenomAdm"],
-            ddnAdm = elem["ddnAdm"],
-            sexeAdm = elem["sexeAdm"],
-            telAdm = elem["telAdm"],
-            mailAdm = elem["mailAdm"],
-            motsDePasseAdm = elem["motsDePasseAdm"],
-            )
-            elements["administrateur"][elem["idAdm"]] = administrateur
-            db.session.add(administrateur)
-        elif elem["type"] == "Cours":
+        #elif elem["type"] == "Administrateur":
+        #    administrateur = Administrateur(
+        #    idAdm = elem["idAdm"],
+        #    nomAdm = elem["nomAdm"],
+        #    prenomAdm = elem["prenomAdm"],
+        #    ddnAdm = elem["ddnAdm"],
+        #    sexeAdm = elem["sexeAdm"],
+        #    telAdm = elem["telAdm"],
+        #    mailAdm = elem["mailAdm"],
+        #    motsDePasseAdm = elem["motsDePasseAdm"],
+        #    )
+        #    elements["administrateur"][elem["idAdm"]] = administrateur
+        #    db.session.add(administrateur)
+        if elem["type"] == "Cours":
             cours = Cours(
             idCo = elem["idCo"],
             nomCo = elem["nomCo"],
@@ -86,22 +86,22 @@ def loaddb(filename):
             )
             elements["horaire"][elem["idHoraire"]] = horaire
             db.session.add(horaire)
-        elif elem["type"] == "Moniteur":
-            moniteur = Moniteur(
-            idMon = elem["idMon"],
-            nomMon = elem["nomMon"],
-            prenomMon = elem["prenomMon"],
-            ddnMon = elem["ddnMon"],
-            sexeMon = elem["sexeMon"],
-            telMon = elem["telMon"],
-            mailMon = elem["mailMon"],
-            motsDePasseMon = elem["motsDePasseMon"],
-            poidsMon = elem["poidsMon"],
-            certification = elem["certification"],
-            contrat = elem["contrat"],
-            )
-            elements["moniteur"][elem["idMon"]] = moniteur
-            db.session.add(moniteur)
+        #elif elem["type"] == "Moniteur":
+        #    moniteur = Moniteur(
+        #    idMon = elem["idMon"],
+        #    nomMon = elem["nomMon"],
+        #    prenomMon = elem["prenomMon"],
+        #    ddnMon = elem["ddnMon"],
+        #    sexeMon = elem["sexeMon"],
+        #    telMon = elem["telMon"],
+        #    mailMon = elem["mailMon"],
+        #    motsDePasseMon = elem["motsDePasseMon"],
+        #    poidsMon = elem["poidsMon"],
+        #    certification = elem["certification"],
+        #    contrat = elem["contrat"],
+        #    )
+        #    elements["moniteur"][elem["idMon"]] = moniteur
+        #    db.session.add(moniteur)
 
         elif elem["type"] == "Poney":
             poney = Poney(
