@@ -24,7 +24,7 @@ def signin():
     f = InscriptionForm()
     roles = Role.query.all()
     if not roles:
-        raise ValueError("Aucun roles trouvé.") 
+        raise ValueError("Aucun roles trouvé.")
 
     f.role.choices = [(role.id_role, role.name) for role in roles]
     if f.validate_on_submit():
@@ -32,14 +32,16 @@ def signin():
             u = Utilisateur()
             u.nom_utilisateur = f.nom_user.data
             u.prenom_utilisateur = f.prenom_user.data
-            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
+            u.mdp_utilisateur = sha256(
+            f.mot_de_passe.data.encode()).hexdigest()
             u.email_utilisateur = f.email.data
-            u.img_utilisateur = str(Utilisateur.get_last_id()+1)
-            u.id_role = f.role.data
-            #u.ddn_user = f.ddn_user.data
-            #u.sexeUser = f.sexeUser.data
-            #u.poidsUser = f.poidsUser.data
-            #u.tel_utilisateur = f.telUser.data
+            u.img_utilisateur = str(Utilisateur.get_last_id() + 1)
+            u.id_role = 1
+            u.ddn_utilisateur = f.ddn_user.data
+            u.sexeUser = f.sexeUser.data
+            u.poidsUser = float(f.poidsUser.data)
+            u.tel_utilisateur = f.telUser.data
+
             #u.file = f.img.data
             #if file:
             #    file.save(os.path.join("src/static/img/profil", str(Utilisateur.get_last_id()+1)))
@@ -48,7 +50,15 @@ def signin():
             return redirect(url_for('login'))
     return render_template('signin.html', form=f)
 
-@app.route('/')
+@app.route('/home')
+@login_required
+def home():
+    """Renvoie la page d'accueil
+
+    Returns:
+        home.html : Une page d'accueil
+    """
+    return render_template('home.html')
 @app.route('/login', methods=['GET','POST'])
 def login():
     """Renvoie la page de connexion
@@ -65,3 +75,19 @@ def login():
             login_user(u)
             return redirect(url_for('home'))
     return render_template('connexion.html', form=f)
+
+@app.route('/logout')
+@login_required
+def logout():
+    """Déconnecte l'utilisateur
+
+    Returns:
+        login : Redirige vers la page de connexion
+    """
+    logout_user()
+    return redirect(url_for('login'))
+
+
+# A charger après la définition de la route login
+user_datastore = SQLAlchemySessionUserDatastore(db.session, Utilisateur, Role)
+security = Security(app, user_datastore)

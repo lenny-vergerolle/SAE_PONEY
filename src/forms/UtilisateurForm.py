@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_security import current_user
-from wtforms import StringField, HiddenField, FileField, PasswordField, RadioField
+from wtforms import DateField, StringField, HiddenField, FileField, PasswordField, RadioField, FloatField
 from wtforms.validators import DataRequired
 from hashlib import sha256
 from src.models.Role import Role
@@ -17,10 +17,10 @@ class InscriptionForm(FlaskForm):
     email = StringField('Adresse mail', validators=[DataRequired()])
     img = FileField('Photo de profil', validators=[DataRequired()])
     role = RadioField('Role', validators=[DataRequired()])
-    #ddn_user = StringField('Date de naissance', validators=[DataRequired()])
-    #sexeUser = RadioField('Sexe', validators=[DataRequired()])
-    #poidsUser = StringField('Poids', validators=[DataRequired()])
-    #telUser = StringField('Telephone', validators=[DataRequired()])
+    ddn_user = DateField('Date de naissance', validators=[DataRequired()])
+    sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')], validators=[DataRequired()])
+    poidsUser = FloatField('Poids', validators=[DataRequired()])
+    telUser = StringField('Telephone', validators=[DataRequired()])
     def validate(self, extra_validators=None):
         if not FlaskForm.validate(self, extra_validators=extra_validators):
             return False

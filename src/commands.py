@@ -141,7 +141,7 @@ def loaddb(filename):
             
         
     db.session.commit()
-    print("Database loaded")
+    print("Base de données chargée avec succès")
 
 
 @app.cli.command()
