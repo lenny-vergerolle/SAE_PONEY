@@ -116,3 +116,14 @@ def modifier_profil():
     f.prenom_user.data = current_user.prenom_utilisateur
     f.email.data = current_user.email_utilisateur 
     return render_template('profil.html', form=f)
+
+#@app.route('/profil/<int:id>', methods=['GET','POST'])
+@app.route('/planning', methods=['GET','POST'])
+def planning():
+    """Renvoie la page de planning
+
+    Returns:
+        planning.html: Une page de planning
+    """
+    #user = Utilisateur.query.get(id)
+    return render_template('planning.html')
