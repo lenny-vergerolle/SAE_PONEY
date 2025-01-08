@@ -1,8 +1,5 @@
 import click
 from .app import app, db
-#from .models.Adherent import Adherent
-#from .models.Administrateur import Administrateur
-#from .models.Moniteur import Moniteur
 from . models.Utilisateur import Utilisateur
 from .models.Cours import Cours
 from .models.Horaire import Horaire
@@ -39,7 +36,6 @@ def loaddb(filename):
     for elem in data:
         if elem["type"] == "Utilisateur":
             if elem["role_id"] == 1: # Adherent
-                print("adherent")
                 utilisateur = Utilisateur(
                 id_utilisateur = elem["idUser"],
                 nom_utilisateur = elem["nomUser"],
@@ -55,7 +51,6 @@ def loaddb(filename):
                 cotisation = elem["cotisation"],
                 )
             elif elem["role_id"] == 2: # Administrateur
-                print("administrateur") 
                 utilisateur = Utilisateur(
                 id_utilisateur = elem["idUser"],
                 nom_utilisateur = elem["nomUser"],
@@ -70,7 +65,6 @@ def loaddb(filename):
                 sexe_utilisateur = elem["sexeUser"],
                 )
             elif elem["role_id"] == 3: # Moniteur
-                print("moniteur")
                 utilisateur = Utilisateur(
                 id_utilisateur = elem["idUser"],
                 nom_utilisateur = elem["nomUser"],
@@ -148,3 +142,10 @@ def loaddb(filename):
         
     db.session.commit()
     print("Database loaded")
+
+
+@app.cli.command()
+def delete_db():
+    '''Synchronizes the database.'''
+    db.drop_all()
+    

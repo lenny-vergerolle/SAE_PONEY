@@ -42,12 +42,12 @@ class Utilisateur(db.Model, UserMixin):
 
     def is_moniteur(self):
         return self.role_id == 3
-
-    def get_last_id(self):
-        last_id = 0
+    
+    def get_last_id():
+        id = 0
         users = Utilisateur.query.all()
         for user in users:
-            if user.id_utilisateur > last_id:
-               last_id = user.id_utilisateur
-        return last_id
+            if user.id_utilisateur > id:
+                id = user.id_utilisateur
+        return id
 
