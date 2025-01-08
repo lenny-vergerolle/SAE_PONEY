@@ -1,0 +1,63 @@
+{% block content %}
+    <head>
+        {% block head %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Grand Galop</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="../static/img/logo.png" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/home.css')}}" />
+        {% endblock %} {% block styles %}
+        <!-- Bootstrap CSS -->
+        {{ bootstrap.load_css() }} {% endblock %}
+    </head>
+
+    <div class="d-flex flex-wrap justify-content-evenly" style="margin: 75px;">
+        <div class="d-flex flex-column justify-content-evenly">
+            <div>
+                <h1>Bienvenue au Poney <br>
+                    Club Grand Galop
+                </h1>
+                <p>
+                    Découvrez notre passion pour l'équitation au cœur de la Sologne. <br>
+                    Grand Galop, pour les passionnés de galop.
+                </p>
+            </div>
+
+            <div>
+                <h1>Grand club</h1>
+                <p>
+                    Le club compte déjà xxx xxx adhérents et xxx xxx moniteurs certifiés.
+                </p>    
+            </div>
+        </div>
+        <div>
+            <img src="{{url_for('static', filename='img/poney_neige.png')}}" alt="poney_neige" style="width: 500px; height: auto;">
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center" style="background-color: #ECF8F6;">
+        <div style="margin: 75px;">
+            <img src="{{url_for('static', filename='img/poney_groupe.png')}}" alt="poney_groupe" style="width: 550px; height: auto;">
+        </div>
+        <div class="d-flex flex-column justify-content-evenly" style="margin: 75px;">
+            <h1>Pour qui ?</h1>
+            <p>
+                Vous pouvez prendre des cours individuels pour vous améliorer en équitation <br>
+                ou à plusieurs pour passer un bon moment famille ou entre amis.
+            </p>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center" style="background-color: #18534F;">
+        <div class="d-flex flex-column justify-content-evenly" style="margin: 75px;">
+            <h1 class="text-white">Qui sommes nous ?</h1>
+            <p class="text-white">Un couple passionné d’équitation</p>
+        </div>
+        <div style="margin: 75px;">
+            <img src="{{url_for('static', filename='img/couple.png')}}" alt="couple">
+        </div>
+    </div>
+
+{% endblock %}
