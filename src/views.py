@@ -91,3 +91,4 @@ def logout():
 # A charger après la définition de la route login
 user_datastore = SQLAlchemySessionUserDatastore(db.session, Utilisateur, Role)
 security = Security(app, user_datastore)
+
