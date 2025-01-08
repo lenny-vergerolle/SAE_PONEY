@@ -32,6 +32,19 @@
                         Se connecter
                     </a>
                 </div>
+                <div>
+
+                    <a class="btn" href="{{url_for('modifier_profil')}}">
+                        <img
+                            src="{{ url_for('static', filename='img/profil/' ~ current_user.img_utilisateur)
+                        }}"
+                            alt="profil"
+                            class="img-fluid rounded-circle"
+                            style="width: 50px; height: 50px"
+                        />
+                        {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
+                    </a>
+                </div>
             </nav>
         </header>
 

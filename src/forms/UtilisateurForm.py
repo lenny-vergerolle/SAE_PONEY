@@ -43,3 +43,18 @@ class ConnexionForm(FlaskForm):
             return u
         return None
     
+ 
+class UpdateUser(FlaskForm):
+    id =HiddenField('id')
+    nom_user = StringField("Nom", validators=[DataRequired()])
+    prenom_user = StringField('Prenom', validators=[DataRequired()])
+    email = StringField('Adresse mail', validators=[DataRequired()])
+    img = FileField('Modifier la photo')
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators=extra_validators):
+            return False
+        user = current_user
+        if user.email_utilisateur != self.email.data and Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
+            self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
+            return False
+        return True
