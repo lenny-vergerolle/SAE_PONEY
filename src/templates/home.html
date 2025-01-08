@@ -1,18 +1,5 @@
+{% extends 'base.html' %}
 {% block content %}
-    <head>
-        {% block head %}
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Grand Galop</title>
-        <link rel="icon" type="image/png" sizes="16x16" href="../static/img/logo.png" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="stylesheet" href="{{ url_for('static',filename='css/home.css')}}" />
-        {% endblock %} {% block styles %}
-        <!-- Bootstrap CSS -->
-        {{ bootstrap.load_css() }} {% endblock %}
-    </head>
-
     <div class="d-flex flex-wrap justify-content-evenly" style="margin: 75px;">
         <div class="d-flex flex-column justify-content-evenly">
             <div>
