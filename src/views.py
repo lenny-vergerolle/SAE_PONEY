@@ -12,3 +12,12 @@ def home():
         home.html : Une page d'accueil
     """
     return render_template('home.html')
+
+@app.route("/accueil-visiteur")
+def accueil_visiteur():
+    """Renvoie la page d'accueil des visiteurs
+
+    Returns:
+        accueil_visiteur.html : Une page d'accueil pour les visiteurs
+    """
+    return render_template('accueil_visiteur.html')
