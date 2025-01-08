@@ -93,7 +93,7 @@ user_datastore = SQLAlchemySessionUserDatastore(db.session, Utilisateur, Role)
 security = Security(app, user_datastore)
 
 @app.route('/accueil-adherent')
-@login_required
+#@login_required
 def accueil_adherent():
     """Renvoie la page d'accueil des adherents
 
