@@ -1,0 +1,13 @@
+nav{
+    border-bottom-width: 1cm  !important;
+    border-bottom-color: #050B25;
+    justify-content: space-between !important;
+}
+
+.btn-vert{
+    background-color: #18534F;
+    padding: 11px;
+    text-decoration: none;
+    font-size: 1.3em;
+    color: white;
+}
