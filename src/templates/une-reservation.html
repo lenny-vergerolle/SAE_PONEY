@@ -1,0 +1,26 @@
+<div class="d-flex" style="width: 100%;">
+    <a href="" class="d-flex text-decoration-none">
+        <div class="d-flex flex-column">
+            <h3>Nom de l'offre</h3>
+            <div class="d-flex flex-nowrap justify-content-between">
+                <div class="d-flex">
+                    <h3>Date du cours</h3>
+                    <p>Heure du cours</p>
+                    <img src="{{url_for('static', filename='img/horloge.png')}}" alt="horloge" style="width: 50px; height: auto;">
+                </div>
+                <div>
+                    <img src="{{url_for('static', filename='img/utilisateur.png')}}" alt="utilisateur" style="width: 70px; height: auto;">
+                </div>
+            </div>
+            <div class="d-flex flex-nowrap">
+                <h3>Moniteur: M. xxx</h3>
+                <h3>Poney: xxx</h3>
+                <h3>Type de cours: individuel</h3>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="button" class="btn-modifier" value="Modifier le cours">
+                <input type="button" class="btn-supprimer" value="Supprimer le cours">
+            </div>
+        </div>
+    </a>
+</div>

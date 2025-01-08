@@ -12,3 +12,12 @@ def home():
         home.html : Une page d'accueil
     """
     return render_template('home.html')
+
+@app.route("/mes-reservations")
+def mes_reservations():
+    """Renvoie la page d'accueil
+
+    Returns:
+        home.html : Une page d'accueil
+    """
+    return render_template('mes-reservations.html')
