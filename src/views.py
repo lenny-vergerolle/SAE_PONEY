@@ -22,11 +22,11 @@ from flask import abort
 @app.route('/', methods=['GET','POST'])
 def signin():
     f = InscriptionForm()
-    roles = Role.query.all()
-    if not roles:
-        raise ValueError("Aucun roles trouvé.")
+    #roles = Role.query.all()
+    #if not roles:
+    #    raise ValueError("Aucun roles trouvé.")
 
-    f.role.choices = [(role.id_role, role.name) for role in roles]
+    #f.role.choices = [(role.id_role, role.name) for role in roles]
     if f.validate_on_submit():
         if f.validate():
             u = Utilisateur()

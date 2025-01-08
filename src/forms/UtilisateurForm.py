@@ -16,7 +16,7 @@ class InscriptionForm(FlaskForm):
     confirmation_mot_de_passe = PasswordField('Confirmation mot de passe', validators=[DataRequired()])
     email = StringField('Adresse mail', validators=[DataRequired()])
     img = FileField('Photo de profil', validators=[DataRequired()])
-    role = RadioField('Role', validators=[DataRequired()])
+    #role = RadioField('Role', validators=[DataRequired()])
     ddn_user = DateField('Date de naissance', validators=[DataRequired()])
     sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')], validators=[DataRequired()])
     poidsUser = FloatField('Poids', validators=[DataRequired()])

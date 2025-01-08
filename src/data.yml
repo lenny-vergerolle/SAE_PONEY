@@ -145,18 +145,6 @@
   poidsUser: 75.0
   role_id: 2
   imgUser: 'path/to/benjamin_sandoval.jpg'
-- type: "Utilisateur"
-  idUser: 6
-  nomUser: Schroeder
-  prenomUser: Nicole
-  ddnUser: 1987-08-22
-  sexeUser: F
-  telUser: '0623456789'
-  mailUser: nicole.schroeder@mail.com
-  motDePasseUser: '1234'
-  poidsUser: 62.5
-  role_id: 2
-  imgUser: 'path/to/nicole_schroeder.jpg'
   #Cours
 - type: "Cours"
   idCo: 1
