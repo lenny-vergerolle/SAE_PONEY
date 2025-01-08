@@ -7,7 +7,7 @@ class Cours(db.Model):
     nomCo = db.Column(db.String(42))
     collectif = db.Column(db.Boolean)
     nbPersonne = db.Column(db.Integer)
-    idMon = db.Column(db.Integer, db.ForeignKey('MONITEUR.idMon'))
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'))
 
-    moniteur = db.relationship('Moniteur', back_populates='cours')
+    utilisateur = db.relationship('Utilisateur', back_populates='cours')
     reserver = db.relationship('Reserver', back_populates='cours')
