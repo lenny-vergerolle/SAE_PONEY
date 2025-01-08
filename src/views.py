@@ -92,3 +92,12 @@ def logout():
 user_datastore = SQLAlchemySessionUserDatastore(db.session, Utilisateur, Role)
 security = Security(app, user_datastore)
 
+@app.route('/accueil-adherent')
+@login_required
+def accueil_adherent():
+    """Renvoie la page d'accueil des adherents
+
+    Returns:
+        accueil_adherent.html : Une page d'accueil pour les adherents
+    """
+    return render_template('accueil_adherent.html')
