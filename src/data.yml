@@ -76,34 +76,9 @@
   couleurPo: Marron
   ddnPo: 2021-07-09
 
-#Utilisateur
+#Utilisateur Adherent
 - type: "Utilisateur"
-  idUser: 1
-  nom: Miller
-  prenomUser: David
-  ddnUser: 1997-08-03
-  sexeUser: M
-  telUser: '0609017071'
-  mailUser: david.miller@mail.com
-  motsDePasseUser: '1234'
-  poidsUser: 79.2
-  certification: médical
-  contrat: Stage
-- type: "Utilisateur"
-  idUser: 2
-  nomUser: Robertson
-  prenomUser: Bethany
-  ddnUser: 1986-02-02
-  sexeUser: F
-  telUser: '0608850585'
-  mailUser: bethany.robertson@mail.com
-  motsDePasseUser: '1234'
-  poidsUser: 60.08
-  certification: santé
-  contrat: Stage
-#Utilisateur
-- type: "Utilisateur"
-  idUser: 1
+  idUser: 3
   nomUser: Newton
   prenomUser: Sabrina
   ddnUser: 1998-12-06
@@ -113,8 +88,10 @@
   motDePasseUser: '1234'
   poidsUser: 65.2
   cotisation: true
+  role_id: 1
+  imgUser: 'path/to/sabrina_newton.jpg'
 - type: "Utilisateur"
-  idUser: 2
+  idUser: 4
   nomUser: Snyder
   prenomUser: Sarah
   ddnUser: 1994-09-28
@@ -124,72 +101,76 @@
   motDePasseUser: '1234'
   poidsUser: 58.5
   cotisation: false
-- type: "Utilisateur"
-  idUser: 3
-  nomUser: Johnson
-  prenomUser: Michael
-  ddnUser: 1990-03-15
-  sexeUser: M
-  telUser: '0612345678'
-  mailUser: michael.johnson@mail.com
-  motDePasseUser: '1234'
-  poidsUser: 75.3
-  cotisation: true
-- type: "Utilisateur"
-  idUser: 4
-  nomUser: Williams
-  prenomUser: Emma
-  ddnUser: 2000-07-22
-  sexeUser: F
-  telUser: '0623456789'
-  mailUser: emma.williams@mail.com
-  motDePasseUser: '1234'
-  poidsUser: 62.4
-  cotisation: false
-- type: "Utilisateur"
-  idUser: 5
-  nomUser: Brown
-  prenomUser: Olivia
-  ddnUser: 1995-11-30
-  sexeUser: F
-  telUser: '0634567890'
-  mailUser: olivia.brown@mail.com
-  motDePasseUser: '1234'
-  poidsUser: 68.7
-  cotisation: true
-#Utilisateur
+  role_id: 1
+  imgUser: 'path/to/sarah_snyder.jpg'
+#Utilisateur Moniteur
 - type: "Utilisateur"
   idUser: 1
+  nomUser: Miller
+  prenomUser: David
+  ddnUser: 1997-08-03
+  sexeUser: M
+  telUser: '0609017071'
+  mailUser: david.miller@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 79.2
+  certification: médical
+  contrat: Stage
+  role_id: 3
+  imgUser: 'path/to/david_miller.jpg'
+- type: "Utilisateur"
+  idUser: 2
+  nomUser: Robertson
+  prenomUser: Bethany
+  ddnUser: 1986-02-02
+  sexeUser: F
+  telUser: '0608850585'
+  mailUser: bethany.robertson@mail.com
+  motDePasseUser: '1234'
+  poidsUser: 60.08
+  certification: santé
+  contrat: Stage
+  role_id: 3
+  imgUser: 'path/to/bethany_robertson.jpg'
+#Utilisateur administrateur
+- type: "Utilisateur"
+  idUser: 5
   nomUser: Sandoval
   prenomUser: Benjamin
   ddnUser: 1985-05-15
   sexeUser: M
   telUser: '0612345678'
   mailUser: benjamin.sandoval@mail.com
-  motsDePasseUser: '1234'
+  motDePasseUser: '1234'
+  poidsUser: 75.0
+  role_id: 2
+  imgUser: 'path/to/benjamin_sandoval.jpg'
 - type: "Utilisateur"
-  idUser: 2
+  idUser: 6
   nomUser: Schroeder
   prenomUser: Nicole
   ddnUser: 1987-08-22
   sexeUser: F
   telUser: '0623456789'
   mailUser: nicole.schroeder@mail.com
-  motsDePasseUser: '1234'
-#Cours
+  motDePasseUser: '1234'
+  poidsUser: 62.5
+  role_id: 2
+  imgUser: 'path/to/nicole_schroeder.jpg'
+  #Cours
 - type: "Cours"
   idCo: 1
   nomCo: Cours Débutant
   collectif: true
   nbPersonne: 8
-  idMon: 1
+  idUser: 1
 
 - type: "Cours"
   idCo: 2
   nomCo: Cours Avancé
   collectif: true
   nbPersonne: 5
-  idMon: 2
+  idUser: 2
 
 #Reserver
 - type: "Reserver"
@@ -208,11 +189,22 @@
   idUser: 2
 #Travailler 
 - type: "Travailler"
-  idMon: 1
+  idUser: 1
   idHoraire: 1
 - type: "Travailler"
-  idMon: 2
+  idUser: 2
   idHoraire: 2
 - type: "Travailler"
-  idMon: 3
+  idUser: 3
   idHoraire: 3
+
+#Role
+- type: "Role"
+  id_role: 1
+  name: "Adherent"
+- type: "Role"
+  id_role: 2
+  name: "Administrateur"
+- type: "Role"
+  id_role: 3
+  name: "Moniteur"
