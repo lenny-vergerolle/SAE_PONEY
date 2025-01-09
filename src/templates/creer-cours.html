@@ -19,10 +19,23 @@
             <label class="my-3 color_white fs-5" for="name">{{ form.nbPersonne.label }} </label>
             {{ form.nbPersonne(size=50, class_="form-control rounded-5 ") }}
         </div>
+        <div class ="mx-auto d-flex flex-column m-4 w-50">
+            <label class="my-3 color_white fs-5" for="name">{{ form.heureDebut.label }} </label>
+            {{ form.heureDebut(size=50, class_="form-control rounded-5 ") }}
+        </div>
+        <div class ="mx-auto d-flex flex-column m-4 w-50">
+            <label class="my-3 color_white fs-5" for="name">{{ form.duree.label }} </label>
+            {{ form.duree(size=50, class_="form-control rounded-5 ") }}
+        </div>
+        <div class ="mx-auto d-flex flex-column m-4 w-50">
+            <label class="my-3 color_white fs-5" for="name">{{ form.date.label }} </label>
+            {{ form.date(size=50, class_="form-control rounded-5 ") }}
 
         <div class="d-flex justify-content-center mt-3">
             <input class="btn btn-base fw-bolder" type="submit" name="enregistrer" id="enregister" value="Enregistrer">
         </div>
+
+        
     </form>
 
 </div>

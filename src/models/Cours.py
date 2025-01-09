@@ -1,4 +1,5 @@
 from src.app import db
+from sqlalchemy.types import Time
 
 class Cours(db.Model):
     __tablename__ = 'COURS'
@@ -7,8 +8,10 @@ class Cours(db.Model):
     nomCo = db.Column(db.String(42))
     collectif = db.Column(db.Boolean)
     nbPersonne = db.Column(db.Integer)
+    duree = db.Column(db.Integer)
+    heureDebut =  db.Column(Time, nullable=False) 
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'))
-
+    date = db.Column(db.Date)
     utilisateur = db.relationship('Utilisateur', back_populates='cours')
     reserver = db.relationship('Reserver', back_populates='cours')
 

@@ -6,6 +6,7 @@ from hashlib import sha256
 from src.models.Role import Role
 from src.models.Utilisateur import Utilisateur
 from flask import current_app
+from wtforms.validators import Email
 
 
 class InscriptionForm(FlaskForm):
@@ -30,7 +31,11 @@ class InscriptionForm(FlaskForm):
         if Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
             self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
             return False
+        if '@' not in self.email.data or '.' not in self.email.data or len(self.email.data) < 8:
+            self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
+            return False
         return True
+    
 
 
 class ConnexionForm(FlaskForm):
