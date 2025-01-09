@@ -1,26 +1,33 @@
-<div class="d-flex" style="width: 100%;">
-    <a href="" class="d-flex text-decoration-none">
-        <div class="d-flex flex-column">
-            <h3>Nom de l'offre</h3>
+<div class="pb-5 my-5" style="background-color: white; border-radius: 50px;">
+    <a href="" class="d-flex text-decoration-none text-black">
+        <div class="d-flex flex-column w-100 m-5">
+            <div class="d-flex justify-content-center">
+                <h3>Nom du cours</h3>
+            </div>
             <div class="d-flex flex-nowrap justify-content-between">
-                <div class="d-flex">
-                    <h3>Date du cours</h3>
-                    <p>Heure du cours</p>
-                    <img src="{{url_for('static', filename='img/horloge.png')}}" alt="horloge" style="width: 50px; height: auto;">
+                <div class="d-flex flex-column">
+                    <h3 class="my-2">Date du cours</h3>
+                    <p class="my-2">Heure du cours</p>
+                    <div class="d-flex flex-nowrap align-items-center my-2">
+                        <img src="{{url_for('static', filename='img/horloge.png')}}" alt="horloge" style="width: 25px; height: auto;">
+                        <p class="m-0">xx h</p>
+                    </div>
                 </div>
-                <div>
+                <div class="d-flex flex-nowrap align-items-center">
                     <img src="{{url_for('static', filename='img/utilisateur.png')}}" alt="utilisateur" style="width: 70px; height: auto;">
+                    <p class="m-0">x1</p>
                 </div>
             </div>
-            <div class="d-flex flex-nowrap">
+            <div class="d-flex flex-nowrap justify-content-between mt-2">
                 <h3>Moniteur: M. xxx</h3>
                 <h3>Poney: xxx</h3>
                 <h3>Type de cours: individuel</h3>
             </div>
-            <div class="d-flex justify-content-center">
-                <input type="button" class="btn-modifier" value="Modifier le cours">
-                <input type="button" class="btn-supprimer" value="Supprimer le cours">
-            </div>
+
         </div>
     </a>
+    <div class="d-flex justify-content-center">
+        <input type="button" class="btn-modifier mx-5" value="Modifier le cours">
+        <input type="button" class="btn-supprimer mx-5" value="Supprimer le cours">
+    </div>
 </div>
