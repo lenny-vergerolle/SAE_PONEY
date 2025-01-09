@@ -11,6 +11,27 @@ nav{
     font-size: 1.3em;
     color: white;
 }
+
+.btn-modifier{
+    border: 3px solid #18534F;
+    border-radius: 100px;
+    background-color: white;
+    color: #18534F;
+    padding: 13px;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.btn-supprimer{
+    border: 3px solid #531819;
+    border-radius: 100px;
+    background-color: white;
+    color: #531819;
+    padding: 13px;
+    font-size: larger;
+    font-weight: bolder;
+}
+
 body {
     font-size: small;
     font-family: Arial, sans-serif;
@@ -43,4 +64,3 @@ table tr th {
 table tr td {
     border: thin solid gray;
 }
-

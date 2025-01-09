@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex flex-column align-items-center" style="width: 100%; min-height: 100vh; background-color: #ECF8F6;">
+
+    <h1>Les réservations</h1>
+
+    <div style="width: 60%;">
+        {%include 'une-reservation.html'%}
+        {%include 'une-reservation.html'%}
+        {%include 'une-reservation.html'%}
+    </div>
+    
+</div>
+
+{% endblock %}

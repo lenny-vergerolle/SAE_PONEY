@@ -58,6 +58,14 @@ def home():
     """
     return render_template('home.html')
 
+@app.route("/mes-reservations")
+def mes_reservations():
+    """Renvoie la page d'accueil
+
+    Returns:
+        home.html : Une page d'accueil
+    """
+    return render_template('mes-reservations.html')
 
 @app.route("/accueil-visiteur")
 def accueil_visiteur():
@@ -148,4 +156,3 @@ def planning():
     """
     #user = Utilisateur.query.get(id)
     return render_template('planning.html')
-
