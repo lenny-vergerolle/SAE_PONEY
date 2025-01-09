@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-
-    <head>
-        {% block head %}
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Gran Galop</title>
-        <link rel="icon" type="image/png" sizes="16x16" href="../static/img/logo.svg" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}" />
-        {% endblock %} {% block styles %}
-        <!-- Bootstrap CSS -->
-        {{ bootstrap.load_css() }} {% endblock %}
-    </head>
-
-    <body class="mx-auto w-25 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4">
+{%extends 'base.html'%}
+{%block content%}
+    <div class="mx-auto w-25 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4">
         <div>
             <h1 class="fw-bolder display-4 m-4 color_white">Formulaire d'inscription</h1>
         </div>
@@ -89,6 +69,6 @@
             </div>
             
         </form>
-        
-    </body>
-</html>
+    </div>
+
+{%endblock%}

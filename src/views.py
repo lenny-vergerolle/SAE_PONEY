@@ -113,7 +113,7 @@ def logout():
         login : Redirige vers la page de connexion
     """
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 # A charger après la définition de la route login
