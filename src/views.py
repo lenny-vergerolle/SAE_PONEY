@@ -49,8 +49,7 @@ def signin():
             return redirect(url_for('login'))
     return render_template('signin.html', form=f)
 
-@app.route('/home')
-@login_required
+@app.route('/')
 def home():
     """Renvoie la page d'accueil
 
@@ -58,7 +57,8 @@ def home():
         home.html : Une page d'accueil
     """
     return render_template('home.html')
-@app.route('/', methods=['GET','POST'])
+
+@app.route('/login', methods=['GET','POST'])
 def login():
     """Renvoie la page de connexion
 
@@ -116,3 +116,15 @@ def modifier_profil():
     f.prenom_user.data = current_user.prenom_utilisateur
     f.email.data = current_user.email_utilisateur 
     return render_template('profil.html', form=f)
+
+#@app.route('/profil/<int:id>', methods=['GET','POST'])
+@app.route('/planning', methods=['GET','POST'])
+def planning():
+    """Renvoie la page de planning
+
+    Returns:
+        planning.html: Une page de planning
+    """
+    #user = Utilisateur.query.get(id)
+    return render_template('planning.html')
+
