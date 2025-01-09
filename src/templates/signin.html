@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <head>
+        {% block head %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Gran Galop</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="../static/img/logo.svg" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}" />
+        {% endblock %} {% block styles %}
+        <!-- Bootstrap CSS -->
+        {{ bootstrap.load_css() }} {% endblock %}
+    </head>
+
+    <body class="mx-auto w-25 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4">
+        <div>
+            <h1 class="fw-bolder display-4 m-4 color_white">Formulaire d'inscription</h1>
+        </div>
+
+        <form method="post" action="{{ url_for('signin') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.nom_user.label(class="mb-3") }}
+                {{ form.nom_user(size=50, placeholder="Nom", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.prenom_user.label(class="mb-3") }}
+                {{ form.prenom_user(size=50, placeholder="Prénom", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.mot_de_passe.label(class="mb-3") }}
+                {{ form.mot_de_passe(size=50, placeholder="Mot de passe", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.confirmation_mot_de_passe.label(class="mb-3") }}
+                {{ form.confirmation_mot_de_passe(size=50, placeholder="Confirmation du mot de passe", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.email.label(class="mb-3") }}
+                {{ form.email(size=50, placeholder="Adresse mail", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.ddn_user.label(class="mb-3") }}
+                {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.telUser.label(class="mb-3") }}
+                {{ form.telUser(size=50, placeholder="Téléphone", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.sexeUser.label(class="mb-3") }}
+                {% for subfield in form.sexeUser %}
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="{{ subfield.id }}" name="{{ subfield.name }}" value="{{ subfield.data }}" {% if subfield.checked %}checked{% endif %}>
+                    <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.poidsUser.label(class="mb-3") }}
+                {{ form.poidsUser(size=50, placeholder="Poids", class="rounded-3") }}
+            </div>
+        
+        
+            <div class="color_white mb-3 form-group mt-2 fw-bold">
+                {{ form.img.label(class="mb-3") }}
+                {{ form.img(class="form-control-file") }}
+            </div>
+            <div class="color_white mb-3 form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+
+            </div>
+            
+        </form>
+        
+    </body>
+</html>
