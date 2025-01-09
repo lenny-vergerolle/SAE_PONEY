@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% block content %}
-<body>
+<form method="post" action="{{ url_for('planning') }}" >
     <table>
       <thead>
         <tr>
@@ -15,9 +15,14 @@
         </tr>
       </thead>
       <tbody>
+        {% for cour in cours %}
         <tr>
           <td>08:00 - 09:00</td>
-          <td>Activité A</td>
+          
+          {{ cour.nomCo }}
+          {% endfor %}
+
+          
           <td>Activité B</td>
           <td>Activité C</td>
           <td>Activité D</td>
@@ -116,4 +121,8 @@
           <td>Activité AY</td>
           <td>Activité AZ</td>
         </tr>
+      </tbody>
+    </table>
+</form>
+
 {% endblock%}

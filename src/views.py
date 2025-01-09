@@ -2,7 +2,7 @@ from .app import app, db
 from flask import render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
 from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser#, UpdatePassword
-
+from src.forms.CoursForm import CreationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
 from src.models.Horaire import Horaire
@@ -32,8 +32,7 @@ def signin():
             u = Utilisateur()
             u.nom_utilisateur = f.nom_user.data
             u.prenom_utilisateur = f.prenom_user.data
-            u.mdp_utilisateur = sha256(
-            f.mot_de_passe.data.encode()).hexdigest()
+            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
             u.email_utilisateur = f.email.data
             u.img_utilisateur = str(Utilisateur.get_last_id() + 1)
             u.id_role = 1
@@ -127,7 +126,7 @@ def modifier_profil():
     f.email.data = current_user.email_utilisateur 
     return render_template('profil.html', form=f)
 
-#@app.route('/profil/<int:id>', methods=['GET','POST'])
+
 @app.route('/planning', methods=['GET','POST'])
 def planning():
     """Renvoie la page de planning
@@ -135,7 +134,33 @@ def planning():
     Returns:
         planning.html: Une page de planning
     """
-    #user = Utilisateur.query.get(id)
-    return render_template('planning.html')
+    mes_cours = Cours.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+    return render_template('planning.html', cours=mes_cours)
 
+@app.route('/creer-cours', methods=['GET','POST'])    
+def creer_cours():
+    """Renvoie la page de création de cours
 
+    Returns:
+        creer_cours.html: Une page de création de cours
+    """
+    f = CreationCoursForm()
+    if f.validate_on_submit():
+        if f.validate():
+            c = Cours()
+            c.nomCo = f.nomCo.data
+            c.collectif = bool(f.collectif.data)
+            c.nbPersonne = f.nbPersonne.data
+            if current_user.id_utilisateur:
+                c.id_utilisateur = current_user.id_utilisateur
+            c.idCo = Cours.get_last_id() + 1
+            try:
+                db.session.add(c)
+                db.session.commit()
+                print("Cours créée")
+            except Exception as e:
+                print(f"Une erreur s'est produit {e}")
+                db.session.rollback()
+    
+            return redirect(url_for('planning'))
+    return render_template('creer-cours.html', form=f)

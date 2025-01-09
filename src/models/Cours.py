@@ -11,3 +11,11 @@ class Cours(db.Model):
 
     utilisateur = db.relationship('Utilisateur', back_populates='cours')
     reserver = db.relationship('Reserver', back_populates='cours')
+
+    def get_last_id():
+        id = 0
+        cours = Cours.query.all()
+        for cour in cours:
+            if cour.idCo > id:
+                id = cour.idCo
+        return id

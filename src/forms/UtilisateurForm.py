@@ -18,7 +18,7 @@ class InscriptionForm(FlaskForm):
     img = FileField('Photo de profil', validators=[DataRequired()])
     #role = RadioField('Role', validators=[DataRequired()])
     ddn_user = DateField('Date de naissance', validators=[DataRequired()])
-    sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')], validators=[DataRequired()])
+    sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')])
     poidsUser = FloatField('Poids', validators=[DataRequired()])
     telUser = StringField('Telephone', validators=[DataRequired()])
     def validate(self, extra_validators=None):
