@@ -9,8 +9,8 @@ class Reserver(db.Model):
 
     idCo = db.Column(db.Integer, db.ForeignKey('COURS.idCo'), nullable=False, primary_key=True)
     idPo = db.Column(db.Integer, db.ForeignKey('PONEY.idPo'), nullable=False, primary_key=True)
-    idAdh = db.Column(db.Integer, db.ForeignKey('ADHERENT.idAdh'), nullable=False, primary_key=True)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'), nullable=False, primary_key=True)
     
-    adherent = db.relationship('Adherent', back_populates='reserver')
+    utilisateur = db.relationship('Utilisateur', back_populates='reserver')
     cours = db.relationship('Cours', back_populates='reserver')
     poney = db.relationship('Poney', back_populates='reserver')

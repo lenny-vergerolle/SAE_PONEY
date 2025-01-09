@@ -11,3 +11,36 @@ nav{
     font-size: 1.3em;
     color: white;
 }
+body {
+    font-size: small;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+table {
+    border: medium solid black;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    background-color: white;
+}
+
+table tr th, table tr td {
+    text-align: center;
+    padding: 10px;
+}
+
+table tr th {
+    border: medium solid black;
+    background-color: #18534F;
+    font-weight: bold;
+    color: white;
+}
+
+table tr td {
+    border: thin solid gray;
+}
+

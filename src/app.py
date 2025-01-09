@@ -35,4 +35,5 @@ bootstrap = Bootstrap5(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    pass
+    return Utilisateur.query.get(int(user_id))
+
