@@ -35,7 +35,14 @@
             <label class="color_white mb-3" for="firstname">{{ form.email.label }}</label>
             {{ form.email(class_ ="form-control") }}
         </div>
-        
+        <div class="mb-3 form-group">
+            <label class="color_white mb-3" for="numero">{{ form.telUser.label }}</label>
+            {{ form.telUser(class_ ="form-control") }}
+        </div>
+        <div class="mb-3 form-group">
+            <label class="color_white mb-3" for="poids">{{ form.poidsUser.label }}</label>
+            {{ form.poidsUser(class_ ="form-control") }}
+        </div>
         <div class="d-flex justify-content-center mt-4">
             <button class="btn btn-base fw-bolder" type="submit">Enregistrer</button>
         </div>
