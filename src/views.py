@@ -1,7 +1,7 @@
 from .app import app, db
 from flask import render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
-from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm#, UpdateUser, UpdatePassword
+from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser#, UpdatePassword
 
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
@@ -19,7 +19,7 @@ from functools import wraps
 from flask import abort
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/signin', methods=['GET','POST'])
 def signin():
     f = InscriptionForm()
     #roles = Role.query.all()
@@ -41,17 +41,15 @@ def signin():
             u.sexeUser = f.sexeUser.data
             u.poidsUser = float(f.poidsUser.data)
             u.tel_utilisateur = f.telUser.data
-
-            #u.file = f.img.data
-            #if file:
-            #    file.save(os.path.join("src/static/img/profil", str(Utilisateur.get_last_id()+1)))
+            file = f.img.data
+            if file:
+                file.save(os.path.join("src/static/img/profil", str(Utilisateur.get_last_id()+1)))
             db.session.add(u)
             db.session.commit()
             return redirect(url_for('login'))
     return render_template('signin.html', form=f)
 
-@app.route('/home')
-@login_required
+@app.route('/')
 def home():
     """Renvoie la page d'accueil
 
@@ -59,6 +57,28 @@ def home():
         home.html : Une page d'accueil
     """
     return render_template('home.html')
+
+
+@app.route("/accueil-visiteur")
+def accueil_visiteur():
+    """Renvoie la page d'accueil des visiteurs
+
+    Returns:
+        accueil_visiteur.html : Une page d'accueil pour les visiteurs
+    """
+    return render_template('accueil_visiteur.html')
+  
+  
+@app.route('/accueil-adherent')
+@login_required
+def accueil_adherent():
+    """Renvoie la page d'accueil des adherents
+
+    Returns:
+        accueil_adherent.html : Une page d'accueil pour les adherents
+    """
+    return render_template('accueil_adherent.html')
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     """Renvoie la page de connexion
@@ -92,12 +112,40 @@ def logout():
 user_datastore = SQLAlchemySessionUserDatastore(db.session, Utilisateur, Role)
 security = Security(app, user_datastore)
 
-@app.route('/accueil-adherent')
-#@login_required
-def accueil_adherent():
-    """Renvoie la page d'accueil des adherents
+
+@app.route('/profil', methods=['GET','POST'])
+def modifier_profil():
+    """Renvoie la page de modification du profil
 
     Returns:
-        accueil_adherent.html : Une page d'accueil pour les adherents
+        profil.html: Une page de modification du profil
     """
-    return render_template('accueil_adherent.html')
+    f = UpdateUser()
+    if f.validate_on_submit():
+        if f.validate():
+            user = current_user  # Récupérer l'utilisateur actuel via Flask-Login
+            user.prenom_utilisateur = f.prenom_user.data
+            user.nom_utilisateur = f.nom_user.data
+            user.email_utilisateur = f.email.data
+            file = f.img.data
+            if file:
+                file_path = os.path.join("src/static/img/profil", str(current_user.id_utilisateur))
+                file.save(file_path)
+            db.session.commit()
+            return redirect(url_for('home'))
+    f.nom_user.data = current_user.nom_utilisateur
+    f.prenom_user.data = current_user.prenom_utilisateur
+    f.email.data = current_user.email_utilisateur 
+    return render_template('profil.html', form=f)
+
+#@app.route('/profil/<int:id>', methods=['GET','POST'])
+@app.route('/planning', methods=['GET','POST'])
+def planning():
+    """Renvoie la page de planning
+
+    Returns:
+        planning.html: Une page de planning
+    """
+    #user = Utilisateur.query.get(id)
+    return render_template('planning.html')
+
