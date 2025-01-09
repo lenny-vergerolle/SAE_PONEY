@@ -67,6 +67,17 @@ def accueil_visiteur():
         accueil_visiteur.html : Une page d'accueil pour les visiteurs
     """
     return render_template('accueil_visiteur.html')
+  
+  
+@app.route('/accueil-adherent')
+@login_required
+def accueil_adherent():
+    """Renvoie la page d'accueil des adherents
+
+    Returns:
+        accueil_adherent.html : Une page d'accueil pour les adherents
+    """
+    return render_template('accueil_adherent.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -137,5 +148,4 @@ def planning():
     """
     #user = Utilisateur.query.get(id)
     return render_template('planning.html')
-
 
