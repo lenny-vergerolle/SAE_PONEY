@@ -1,3 +1,4 @@
+from hashlib import sha256
 import click
 from .app import app, db
 from . models.Utilisateur import Utilisateur
@@ -55,7 +56,7 @@ def loaddb(filename):
                 id_utilisateur = elem["idUser"],
                 nom_utilisateur = elem["nomUser"],
                 prenom_utilisateur = elem["prenomUser"],
-                mdp_utilisateur = elem["motDePasseUser"],
+                mdp_utilisateur = sha256(elem["motDePasseUser"].encode()).hexdigest(),
                 email_utilisateur = elem["mailUser"],
                 img_utilisateur =  elem["imgUser"],
                 id_role = elem["role_id"],

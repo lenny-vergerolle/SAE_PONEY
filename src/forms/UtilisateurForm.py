@@ -44,7 +44,8 @@ class ConnexionForm(FlaskForm):
     mot_de_passe=PasswordField('Mot de passe', validators=[DataRequired()])
     def get_authenticated_user(self):
         u = Utilisateur.query.filter_by(email_utilisateur=self.email.data).first()
-        if u and u.mdp_utilisateur == sha256(self.mot_de_passe.data.encode()).hexdigest() or u.id_role == 2:
+        
+        if u and u.mdp_utilisateur == sha256(self.mot_de_passe.data.encode()).hexdigest():
             return u
         return None
     
