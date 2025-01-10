@@ -1,8 +1,9 @@
+from datetime import time
 from .app import app, db
 from flask import render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
 from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser#, UpdatePassword
-
+from src.forms.CoursForm import CreationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
 from src.models.Horaire import Horaire
@@ -32,8 +33,7 @@ def signin():
             u = Utilisateur()
             u.nom_utilisateur = f.nom_user.data
             u.prenom_utilisateur = f.prenom_user.data
-            u.mdp_utilisateur = sha256(
-            f.mot_de_passe.data.encode()).hexdigest()
+            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
             u.email_utilisateur = f.email.data
             u.img_utilisateur = str(Utilisateur.get_last_id() + 1)
             u.id_role = 1
@@ -146,7 +146,7 @@ def modifier_profil():
     f.email.data = current_user.email_utilisateur 
     return render_template('profil.html', form=f)
 
-#@app.route('/profil/<int:id>', methods=['GET','POST'])
+@login_required
 @app.route('/planning', methods=['GET','POST'])
 def planning():
     """Renvoie la page de planning
@@ -154,5 +154,61 @@ def planning():
     Returns:
         planning.html: Une page de planning
     """
-    #user = Utilisateur.query.get(id)
-    return render_template('planning.html')
+    horaires = [
+        
+    {"id": 8, "plage": "08:00 - 09:00"},
+    {"id": 9, "plage": "09:00 - 10:00"},
+    {"id": 10, "plage": "10:00 - 11:00"},
+    {"id": 11, "plage": "11:00 - 12:00"},
+    {"id": 12, "plage": "12:00 - 13:00"},
+    {"id": 13, "plage": "13:00 - 14:00"},
+    {"id": 14, "plage": "14:00 - 15:00"},
+    {"id": 15, "plage": "15:00 - 16:00"},
+    {"id": 16, "plage": "16:00 - 17:00"},
+    {"id": 17, "plage": "17:00 - 18:00"},
+    ]
+    jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+
+    if current_user.is_authenticated :
+        mes_cours = Cours.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+        return render_template('planning.html', jours=jours,horaires=horaires, cours=mes_cours)
+    return redirect(url_for('home'))
+
+@app.route('/creer-cours', methods=['GET','POST'])    
+def creer_cours():
+    """Renvoie la page de création de cours
+
+    Returns:
+        creer_cours.html: Une page de création de cours
+    """
+    
+    f = CreationCoursForm()
+    if f.validate_on_submit():
+        if f.validate():
+            c = Cours()
+            c.nomCo = f.nomCo.data
+            c.collectif = bool(f.collectif.data)
+            c.nbPersonne = f.nbPersonne.data
+            c.duree = f.duree.data
+            c.date = f.date.data
+            c.heureDebut = f.heureDebut.data
+            cours = Cours.query.all()
+            if cours:
+                for cour in cours:
+                    if cour.date == c.date and cour.heureDebut == c.heureDebut:
+                        print("Un cours est déjà prévu à cette date et heure")
+                        return redirect(url_for('creer_cours'))
+            if current_user.id_utilisateur:
+                c.id_utilisateur = current_user.id_utilisateur
+            c.idCo = Cours.get_last_id() + 1
+            try:
+                db.session.add(c)
+                db.session.commit()
+                print("Cours créée")
+            except Exception as e:
+                print(f"Une erreur s'est produit {e}")
+                db.session.rollback()
+    
+            return redirect(url_for('planning'))
+    return render_template('creer-cours.html', form=f)
+

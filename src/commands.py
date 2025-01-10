@@ -87,6 +87,9 @@ def loaddb(filename):
             cours = Cours(
             idCo = elem["idCo"],
             nomCo = elem["nomCo"],
+            heureDebut = time.fromisoformat(elem["heureDebut"]),
+            duree = elem["duree"],
+            date = elem["date"],
             collectif = elem["collectif"],
             nbPersonne = elem["nbPersonne"],
             id_utilisateur = elem["idUser"],

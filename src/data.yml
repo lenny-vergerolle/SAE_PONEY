@@ -149,6 +149,9 @@
 - type: "Cours"
   idCo: 1
   nomCo: Cours Débutant
+  duree: 1
+  date : 2024-11-21
+  heureDebut: '08:00'
   collectif: true
   nbPersonne: 8
   idUser: 1
@@ -156,6 +159,9 @@
 - type: "Cours"
   idCo: 2
   nomCo: Cours Avancé
+  duree: 2
+  date : 2024-11-21
+  heureDebut: '09:00'
   collectif: true
   nbPersonne: 5
   idUser: 2
