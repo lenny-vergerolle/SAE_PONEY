@@ -1,6 +1,6 @@
 from datetime import time
 from .app import app, db
-from flask import render_template, redirect, url_for, request
+from flask import flash, render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
 from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser#, UpdatePassword
 from src.forms.CoursForm import CreationCoursForm
@@ -19,6 +19,7 @@ import os
 from functools import wraps
 from flask import abort
 
+from werkzeug.utils import secure_filename
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
@@ -216,7 +217,7 @@ def creer_cours():
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
 
-@app.route('/ajout-moniteur')
+@app.route('/ajout-moniteur', methods=['GET','POST'])
 @login_required
 def ajout_moniteur():
     """Renvoie la page d'inscription de moniteur dédiée aux admins
@@ -232,15 +233,20 @@ def ajout_moniteur():
             u.prenom_utilisateur = f.prenom_user.data
             u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
             u.email_utilisateur = f.email.data
-            u.img_utilisateur = str(Utilisateur.get_last_id() + 1)
+            u.certification = str(Utilisateur.get_last_id() + 1)
+            u.contrat = str(Utilisateur.get_last_id() + 1.1)
             u.id_role = 1
             u.ddn_utilisateur = f.ddn_user.data
             u.sexeUser = f.sexeUser.data
             u.poidsUser = float(f.poidsUser.data)
             u.tel_utilisateur = f.telUser.data
-            file = f.img.data
-            if file:
-                file.save(os.path.join("src/static/img/profil", str(Utilisateur.get_last_id()+1)))
             db.session.add(u)
             db.session.commit()
+            file = f.certificationUser.data
+            if file:
+                file.save(os.path.join("src/static/doc_moniteur/certification/certification", str(Utilisateur.get_last_id()+1)))
+                flash('Fichier téléchargé avec succès !', 'success')
+                print("Nom du fichier :", file)
+            else:
+                print("Aucun fichier reçu.")
     return render_template('ajout_moniteur.html', form=f)

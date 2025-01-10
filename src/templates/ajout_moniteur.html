@@ -60,6 +60,13 @@
                     {{ form.mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="certification">{{ form.certificationUser.label }}</label>
+                <div class="col-sm-8">
+                    {{ form.certificationUser(class="form-control") }}
+                </div>
+            </div>
+            </div>
             <div class="d-flex justify-content-center mt-4">
                 <button class="btn btn-success fw-bolder px-4 py-1" style="margin-top:30px" type="submit">Valider</button>
             </div>
