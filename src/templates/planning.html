@@ -17,7 +17,6 @@
 </form>
 
   <script>  
-   
 
     function afficherJourEtNumero() {
       const today = new Date();
@@ -74,6 +73,8 @@
       <tbody>
         {% for horaire in horaires %}
         <tr>
+
+          
             <td id="{{ horaire.id }}">{{ horaire.plage }}</td>
             
             {% set cours_trouve = false %}

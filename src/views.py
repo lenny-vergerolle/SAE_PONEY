@@ -136,6 +136,7 @@ def planning():
         planning.html: Une page de planning
     """
     horaires = [
+        
     {"id": 8, "plage": "08:00 - 09:00"},
     {"id": 9, "plage": "09:00 - 10:00"},
     {"id": 10, "plage": "10:00 - 11:00"},
