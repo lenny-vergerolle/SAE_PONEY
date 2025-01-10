@@ -2,7 +2,7 @@ from datetime import time
 from .app import app, db
 from flask import render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
-from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser#, UpdatePassword
+from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser,ReservationCoursForm#, UpdatePassword
 from src.forms.CoursForm import CreationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
@@ -145,34 +145,54 @@ def modifier_profil():
     f.prenom_user.data = current_user.prenom_utilisateur
     f.email.data = current_user.email_utilisateur 
     return render_template('profil.html', form=f)
-
 @login_required
 @app.route('/planning', methods=['GET','POST'])
 def planning():
-    """Renvoie la page de planning
+    """Renvoie la page de planning"""
 
-    Returns:
-        planning.html: Une page de planning
-    """
     horaires = [
-        
-    {"id": 8, "plage": "08:00 - 09:00"},
-    {"id": 9, "plage": "09:00 - 10:00"},
-    {"id": 10, "plage": "10:00 - 11:00"},
-    {"id": 11, "plage": "11:00 - 12:00"},
-    {"id": 12, "plage": "12:00 - 13:00"},
-    {"id": 13, "plage": "13:00 - 14:00"},
-    {"id": 14, "plage": "14:00 - 15:00"},
-    {"id": 15, "plage": "15:00 - 16:00"},
-    {"id": 16, "plage": "16:00 - 17:00"},
-    {"id": 17, "plage": "17:00 - 18:00"},
+        {"id": 8, "plage": "08:00 - 09:00"},
+        {"id": 9, "plage": "09:00 - 10:00"},
+        {"id": 10, "plage": "10:00 - 11:00"},
+        {"id": 11, "plage": "11:00 - 12:00"},
+        {"id": 12, "plage": "12:00 - 13:00"},
+        {"id": 13, "plage": "13:00 - 14:00"},
+        {"id": 14, "plage": "14:00 - 15:00"},
+        {"id": 15, "plage": "15:00 - 16:00"},
+        {"id": 16, "plage": "16:00 - 17:00"},
+        {"id": 17, "plage": "17:00 - 18:00"},
     ]
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-
-    if current_user.is_authenticated :
+    
+    # Crée un dictionnaire avec une liste vide pour chaque jour
+    dico_jours_horaires = {jour: {horaire['id']: [] for horaire in horaires} for jour in jours}
+    
+    #mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+    
+    jours_mapping = {
+        "Monday": "Lundi",
+        "Tuesday": "Mardi",
+        "Wednesday": "Mercredi",
+        "Thursday": "Jeudi",
+        "Friday": "Vendredi",
+        "Saturday": "Samedi",
+        "Sunday": "Dimanche"
+    }
+    
+    if current_user.is_authenticated:
+        # Récupérer les cours de l'utilisateur
         mes_cours = Cours.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
-        return render_template('planning.html', jours=jours,horaires=horaires, cours=mes_cours)
+        
+        # Organiser les cours par jour et horaire
+        for cour in mes_cours:
+            jour_francais = jours_mapping[cour.date.strftime('%A')]
+            if jour_francais in jours and cour.heureDebut.hour in [horaire['id'] for horaire in horaires]:
+                dico_jours_horaires[jour_francais][cour.heureDebut.hour].append(cour)
+        
+        return render_template('planning.html', dico=dico_jours_horaires, jours=jours, horaires=horaires, cours=mes_cours)
+    
     return redirect(url_for('home'))
+
 
 @app.route('/creer-cours', methods=['GET','POST'])    
 def creer_cours():
@@ -211,4 +231,43 @@ def creer_cours():
     
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
+
+
+@app.route('/reserver-cours', methods=['GET','POST'])    
+def reserver_cours():
+    """Renvoie la page de réservation de cours
+
+    Returns:
+        reserver_cours.html: Une page de réservation de cours
+    """
+    f = ReservationCoursForm()
+    f.poney.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
+    if f.validate_on_submit():
+        if f.validate():
+            c = Cours()
+            c.nomCo = f.nomCo.data
+            c.collectif = bool(f.collectif.data)
+            c.nbPersonne = f.nbPersonne.data
+            c.duree = f.duree.data
+            c.date = f.date.data
+            c.heureDebut = f.heureDebut.data
+            cours = Cours.query.all()
+            if cours:
+                for cour in cours:
+                    if cour.date == c.date and cour.heureDebut == c.heureDebut:
+                        print("Un cours est déjà prévu à cette date et heure")
+                        return redirect(url_for('creer_cours'))
+            if current_user.id_utilisateur:
+                c.id_utilisateur = current_user.id_utilisateur
+            c.idCo = Cours.get_last_id() + 1
+            try:
+                db.session.add(c)
+                db.session.commit()
+                print("Cours créée")
+            except Exception as e:
+                print(f"Une erreur s'est produit {e}")
+                db.session.rollback()
+    
+            return redirect(url_for('planning'))
+    return render_template('reserver-cours.html', form=f)
 

@@ -20,25 +20,25 @@
 
     function afficherJourEtNumero() {
       const today = new Date();
-      let numeroJour = today.getDate(); // numéro du jour 
-      let numeroMois = today.getMonth() + 1; // numéro du mois
-      let numeroAnnee = today.getFullYear(); // numéro de l'année
+      let numeroJour = today.getDate(); // jour 
+      let numeroMois = today.getMonth() + 1; // mois
+      let numeroAnnee = today.getFullYear(); // année
 
-      let numeroJourSemaineSuiv = today.getDate(); // numéro du jour de la semaine
+      let numeroJourSemaineSuiv = today.getDate(); // jour de la semaine
       numeroJourSemaineSuiv = parseInt(numeroJourSemaineSuiv) + 7;
 
       if (numeroJourSemaineSuiv > 30) {
         numeroJourSemaineSuiv = numeroJourSemaineSuiv - 30;
       }
 
-      let numeroMoisSuiv = today.getMonth() + 1; // numéro du mois
+      let numeroMoisSuiv = today.getMonth() + 1; // mois
 
       if (numeroMoisSuiv > 12) {
         numeroMoisSuiv = numeroMoisSuiv - 12 ;
       }
     
       const joursSemaine = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-      const jourSemaine = joursSemaine[today.getDay()]; // jour de la semaine 
+      const jourSemaine = joursSemaine[today.getDay()]; // jour semaine 
     
       document.getElementById("numero-jour-mois").textContent = numeroJour + "/" + numeroMois+ "/" + numeroAnnee;
       document.getElementById("numero-jour-mois-suiv").textContent = numeroJourSemaineSuiv + "/" + numeroMoisSuiv + "/" + numeroAnnee;
@@ -65,41 +65,44 @@
     
     <table>
       <thead>
-        <th>Horaire</th>
-        {% for jour in jours %}
-            <th>{{ jour }}</th>
-        {% endfor %}
+          <tr>
+              <th>Horaire</th>
+              {% for jour in jours %}
+                  <th>{{ jour }}</th>
+              {% endfor %}
+          </tr>
       </thead>
       <tbody>
-        {% for horaire in horaires %}
-        <tr>
+          {% for horaire in horaires %}
+              <tr>
+                  <td>{{ horaire.plage }}</td>
+                  
+                  {% for jour in jours %}
+                    
+                  
+                      <td>
+                        {% if horaire.id == 12 or horaire.id == 13 %}
+                          <p>Déjeuner</p>
+                        {% else %}  
+                          {% set cours_trouve = false %}
+                          {% for cour in dico[jour][horaire.id] %}
+                            
+                              <p>{{ cour.nomCo }}</p>
+                              {% set cours_trouve = true %}
+                          {% endfor %}
+                          {% if not cours_trouve %}
+                              <p>  </p>
+                          {% endif %}
+                        {%endif%}
 
-          
-            <td id="{{ horaire.id }}">{{ horaire.plage }}</td>
-            
-            {% set cours_trouve = false %}
-            {% for cour in cours %}
-                {% if cour.heureDebut.strftime('%H')|int == horaire.id %}
-                    <td>{{ cour.nomCo }}</td>
-                    {% set cours_trouve = true %}
-                {% endif %}
-            {% endfor %}
-            
-            {% if not cours_trouve %}
-                <td></td>
-            {% endif %}
-            
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    
-    </table>
+                      </td>
+                  {% endfor %}
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  
+  
   </body>
 </form>
 

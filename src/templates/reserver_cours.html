@@ -1,0 +1,50 @@
+{%extends 'base.html'%}
+{%block content%}
+    <div class="mx-auto w-25 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4">
+        <div>
+            <h1 class="fw-bolder display-4 m-4 color_white">Reserver un cours</h1>
+        </div>
+
+        <form method="post" action="{{ url_for('signin') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.nom_user.label(class="mb-3") }}
+                {{ form.nom_user(size=50, placeholder="Nom", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.prenom_user.label(class="mb-3") }}
+                {{ form.prenom_user(size=50, placeholder="Prénom", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.mot_de_passe.label(class="mb-3") }}
+                {{ form.mot_de_passe(size=50, placeholder="Mot de passe", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.confirmation_mot_de_passe.label(class="mb-3") }}
+                {{ form.confirmation_mot_de_passe(size=50, placeholder="Confirmation du mot de passe", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.email.label(class="mb-3") }}
+                {{ form.email(size=50, placeholder="Adresse mail", class="rounded-3") }}
+            </div>
+        
+            <div class="color_white mb-3 form-group">
+                {{ form.ddn_user.label(class="mb-3") }}
+                {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
+            </div>
+        
+        
+            <div class="color_white mb-3 form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Reserver</button>
+
+            </div>
+            
+        </form>
+    </div>
+
+{%endblock%}

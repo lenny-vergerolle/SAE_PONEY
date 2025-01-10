@@ -3,6 +3,7 @@ from src.app import db
 class Reserver(db.Model):
     __tablename__ = 'RESERVER'
     
+    nomRes = db.Column(db.String(50), nullable=False)
     duree = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False, primary_key=True)
     heure = db.Column(db.Time, nullable=False, primary_key=True)

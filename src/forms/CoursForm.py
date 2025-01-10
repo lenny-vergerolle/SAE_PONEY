@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_security import current_user
-from wtforms import BooleanField, DateField, IntegerField, StringField, HiddenField, FileField, PasswordField, RadioField, FloatField, SubmitField, TimeField
+from wtforms import BooleanField, DateField, IntegerField, SelectField, StringField, HiddenField, FileField, PasswordField, RadioField, FloatField, SubmitField, TimeField
 from wtforms.validators import DataRequired
 from hashlib import sha256
 from src.models.Role import Role
@@ -24,3 +24,11 @@ class CreationCoursForm(FlaskForm):
     #        return False  
     #    return True
    
+class ReservationCoursForm(FlaskForm):
+    nomRes = StringField('Nom', validators=[DataRequired()]) 
+    collectif = RadioField('Cours collectif',choices=[(True, 'Oui'), (False, 'Non')],validators=[DataRequired()])
+    heureDebut = TimeField('Heure de début',format='%H:%M',render_kw={'min': '08:00', 'max': '17:00'}, validators=[DataRequired()])
+    duree = IntegerField('Durée du cours', render_kw={"min": 1, 'max':2}, validators=[DataRequired()])
+    date = DateField('Date du cours', default=date.today, render_kw={"min": date.today().strftime("%Y-%m-%d")} , validators=[DataRequired()])
+    poney = SelectField('Poney',coerce=int)
+    moniteurs = SelectField('Moniteur',coerce=int)
