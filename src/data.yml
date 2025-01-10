@@ -76,6 +76,34 @@
   couleurPo: Marron
   ddnPo: 2021-07-09
 
+
+#Utilisateur administrateur
+- type: "Utilisateur"
+  idUser: 1
+  nomUser: AdminA
+  prenomUser: AdminA
+  ddnUser: 1985-05-15
+  sexeUser: M
+  telUser: '0612345678'
+  mailUser: Admin.A@gmail.com
+  motDePasseUser: '1234'
+  poidsUser: 75.0
+  role_id: 2
+  imgUser: 'path/to/benjamin_sandoval.jpg'
+
+- type: "Utilisateur"
+  idUser: 200                                                                                 
+  nomUser: a
+  prenomUser: a
+  ddnUser: 1985-05-15
+  sexeUser: M
+  telUser: '0612345678'
+  mailUser: a
+  motDePasseUser: 'a'
+  poidsUser: 75.0
+  role_id: 2
+  imgUser: 'path/to/benjamin_sandoval.jpg'
+
 #Utilisateur Adherent
 - type: "Utilisateur"
   idUser: 3
@@ -105,7 +133,7 @@
   imgUser: 'path/to/sarah_snyder.jpg'
 #Utilisateur Moniteur
 - type: "Utilisateur"
-  idUser: 1
+  idUser: 5
   nomUser: Miller
   prenomUser: David
   ddnUser: 1997-08-03
@@ -119,7 +147,7 @@
   role_id: 3
   imgUser: 'path/to/david_miller.jpg'
 - type: "Utilisateur"
-  idUser: 2
+  idUser: 6
   nomUser: Robertson
   prenomUser: Bethany
   ddnUser: 1986-02-02
@@ -132,19 +160,9 @@
   contrat: Stage
   role_id: 3
   imgUser: 'path/to/bethany_robertson.jpg'
-#Utilisateur administrateur
-- type: "Utilisateur"
-  idUser: 5
-  nomUser: Sandoval
-  prenomUser: Benjamin
-  ddnUser: 1985-05-15
-  sexeUser: M
-  telUser: '0612345678'
-  mailUser: benjamin.sandoval@mail.com
-  motDePasseUser: '1234'
-  poidsUser: 75.0
-  role_id: 2
-  imgUser: 'path/to/benjamin_sandoval.jpg'
+
+
+
   #Cours
 - type: "Cours"
   idCo: 1

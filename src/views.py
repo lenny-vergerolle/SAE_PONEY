@@ -209,18 +209,9 @@ def creer_cours():
         if f.validate():
             c = Cours()
             c.nomCo = f.nomCo.data
-            c.collectif = bool(f.collectif.data)
-            c.nbPersonne = f.nbPersonne.data
             c.duree = f.duree.data
             c.date = f.date.data
             c.heureDebut = f.heureDebut.data
-            cours = Cours.query.all()
-            if cours:
-                for cour in cours:
-                    if cour.date == c.date and cour.heureDebut == c.heureDebut:
-                        print("Un cours est déjà prévu à cette date et heure")
-                        return redirect(url_for('creer_cours'))
-            
             c.id_utilisateur = current_user.id_utilisateur
             c.idCo = Cours.get_last_id() + 1
             try:
@@ -271,4 +262,8 @@ def reserver_cours():
     
             return redirect(url_for('planning'))
     return render_template('reserver-cours.html', form=f)
+
+@app.route('/inscrire-moniteur', methods=['GET','POST'])
+def inscrire_moniteur():
+    return redirect(url_for('signin'))
 
