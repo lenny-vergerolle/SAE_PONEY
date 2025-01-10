@@ -87,11 +87,7 @@ def loaddb(filename):
             cours = Cours(
             idCo = elem["idCo"],
             nomCo = elem["nomCo"],
-            heureDebut = time.fromisoformat(elem["heureDebut"]),
-            duree = elem["duree"],
             date = elem["date"],
-            collectif = elem["collectif"],
-            nbPersonne = elem["nbPersonne"],
             id_utilisateur = elem["idUser"],
             )
             elements["cours"][elem["idCo"]] = cours
@@ -120,7 +116,10 @@ def loaddb(filename):
             reserver = Reserver(
             duree = elem["duree"],
             date = elem["date"],
-            heure = time.fromisoformat(elem["heure"]),
+            heureDebut = time.fromisoformat(elem["heure"]),
+            nbPersonne = elem["nbPersonne"],
+            collectif = elem["collectif"],
+            nomRes = elem["nomRes"],
             idCo = elem["idCo"],
             idPo = elem["idPo"],
             id_utilisateur = elem["idUser"],

@@ -6,10 +6,9 @@ class Cours(db.Model):
     
     idCo = db.Column(db.Integer, primary_key=True)
     nomCo = db.Column(db.String(42))
-    collectif = db.Column(db.Boolean)
-    nbPersonne = db.Column(db.Integer)
-    duree = db.Column(db.Integer)
-    heureDebut =  db.Column(Time, nullable=False) 
+    #collectif = db.Column(db.Boolean)
+    #duree = db.Column(db.Integer)
+    #heureDebut =  db.Column(Time, nullable=False) 
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'))
     date = db.Column(db.Date)
     utilisateur = db.relationship('Utilisateur', back_populates='cours')

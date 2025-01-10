@@ -40,13 +40,25 @@
                 <div>
 
                     {% if current_user.id_role == 1 %}
-                        <a href="" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                        <a href="{{url_for('reserver_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Réserver
                         </a>
                         <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Gérer les réservations
                         </a>
                     {% endif %}
+
+                    {% if current_user.id_role == 2 %}
+                        <a href="{{url_for('inscrire_moniteur')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Inscrire un moniteur
+                        </a>
+                        <!-- <a href="{{url_for('creer_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Créer un cours
+                        </a> -->
+                    {% endif %}
+
+
+
 
                     {% if current_user.id_role == 3 %}
                         <a href="" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
