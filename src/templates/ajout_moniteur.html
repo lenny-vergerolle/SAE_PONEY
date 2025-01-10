@@ -4,7 +4,6 @@
     <div class="d-flex justify-content-center">
         <h1 class="fw-bolder display-4 m-4">Inscrire un moniteur</h1>
     </div>
-
     <div class="mx-auto w-50 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4" style="background-color:white;max-width: 600px;">
         <form class="w-100" method="post" action="{{ url_for('ajout_moniteur') }}" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -40,7 +39,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-4 color_white mb-3" for="poids">{{ form.poidsUser.label }}</label>
                 <div class="col-sm-8">
-                    {{ form.poidsUser(class_ ="form-control") }}
+                    {{ form.poidsUser(class="form-control", type="number", placeholder="ex : 70", style="font-style:italic", step="1", min="0") }}
                 </div>
             </div>
             <div class="mb-3 row">
