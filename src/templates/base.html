@@ -35,22 +35,39 @@
                         </a>
                     {% endif%}
                 </div>
-                <div>
-                    {% if current_user.is_authenticated %}
 
-                        <a class="btn" href="{{url_for('modifier_profil')}}">
-                            <img
-                                src="{{ url_for('static', filename='img/profil/' ~ current_user.img_utilisateur)
-                            }}"
-                                alt="profil"
-                                class="img-fluid rounded-circle"
-                                style="width: 50px; height: 50px"
-                            />
-                            {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
-                        
+                {% if current_user.is_authenticated %}
+                <div>
+
+                    {% if current_user.id_role == 1 %}
+                        <a href="" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Réserver
                         </a>
-                    {% endif%}
+                        <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer les réservations
+                        </a>
+                    {% endif %}
+
+                    {% if current_user.id_role == 3 %}
+                        <a href="" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir les plannings
+                        </a>
+                    {% endif %}
+
+                    <a href="{{url_for('logout')}}" class="mx-4 btn-vert">
+                        Se Déconnecter
+                    </a>
+                    <a class="btn" href="{{url_for('modifier_profil')}}">
+                        <img
+                            src="{{ url_for('static', filename='img/profil/' ~ current_user.img_utilisateur)}}"
+                            alt="profil"
+                            class="img-fluid rounded-circle"
+                            style="width: 50px; height: 50px"
+                        />
+                        {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
+                    </a>
                 </div>
+                {% endif%}
             </nav>
         </header>
 

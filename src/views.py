@@ -58,6 +58,14 @@ def home():
     """
     return render_template('home.html')
 
+@app.route("/mes-reservations")
+def mes_reservations():
+    """Renvoie la page d'accueil
+
+    Returns:
+        home.html : Une page d'accueil
+    """
+    return render_template('mes-reservations.html')
 
 @app.route("/accueil-visiteur")
 def accueil_visiteur():
@@ -67,6 +75,17 @@ def accueil_visiteur():
         accueil_visiteur.html : Une page d'accueil pour les visiteurs
     """
     return render_template('accueil_visiteur.html')
+  
+  
+@app.route('/accueil-adherent')
+@login_required
+def accueil_adherent():
+    """Renvoie la page d'accueil des adherents
+
+    Returns:
+        accueil_adherent.html : Une page d'accueil pour les adherents
+    """
+    return render_template('accueil_adherent.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -94,7 +113,7 @@ def logout():
         login : Redirige vers la page de connexion
     """
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 # A charger après la définition de la route login
@@ -192,3 +211,4 @@ def creer_cours():
     
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
+
