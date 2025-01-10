@@ -216,3 +216,31 @@ def creer_cours():
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
 
+@app.route('/ajout-moniteur')
+@login_required
+def ajout_moniteur():
+    """Renvoie la page d'inscription de moniteur dédiée aux admins
+
+    Returns:
+        ajout-moniteur : Une page d'inscription de moniteur dédiée aux admins
+    """
+    f = InscriptionForm()
+    if f.validate_on_submit():
+        if f.validate():
+            u = Utilisateur()
+            u.nom_utilisateur = f.nom_user.data
+            u.prenom_utilisateur = f.prenom_user.data
+            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
+            u.email_utilisateur = f.email.data
+            u.img_utilisateur = str(Utilisateur.get_last_id() + 1)
+            u.id_role = 1
+            u.ddn_utilisateur = f.ddn_user.data
+            u.sexeUser = f.sexeUser.data
+            u.poidsUser = float(f.poidsUser.data)
+            u.tel_utilisateur = f.telUser.data
+            file = f.img.data
+            if file:
+                file.save(os.path.join("src/static/img/profil", str(Utilisateur.get_last_id()+1)))
+            db.session.add(u)
+            db.session.commit()
+    return render_template('ajout_moniteur.html', form=f)
