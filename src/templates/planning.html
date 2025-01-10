@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% block content %}
 <form method="post" action="{{ url_for('planning') }}" >
-  {% for cour in cours %}
-  
-    {{ cour.nomCo }}
-    {{ cour.collectif }}
-    {{ cour.nbPersonne }}
-    {% if cour.heureDebut.strftime('%H:%M:%S') > "08:00:00.000000" %}
-      <td>Activité B</td>
-    {% endif %}
-  
-    {{ cour.heureDebut }}
-    {{ cour.duree }}
-    {{ cour.date.strftime('%A') }}
-  {% endfor %}
 </form>
 
   <script>  
@@ -76,31 +63,27 @@
           {% for horaire in horaires %}
               <tr>
                   <td>{{ horaire.plage }}</td>
-                  
                   {% for jour in jours %}
-                    
-                  
                       <td>
-                        {% if horaire.id == 12 or horaire.id == 13 %}
-                          <p>Déjeuner</p>
-                        {% else %}  
-                          {% set cours_trouve = false %}
-                          {% for cour in dico[jour][horaire.id] %}
-                            
-                              <p>{{ cour.nomCo }}</p>
-                              {% set cours_trouve = true %}
-                          {% endfor %}
-                          {% if not cours_trouve %}
-                              <p>  </p>
+                          {% if horaire.id == 12 or horaire.id == 13 %}
+                              <p>Déjeuner</p>
+                          {% else %}
+                              {% set cours = dico[jour][horaire.id] %}
+                              {% if cours %}
+                                  {% for cour in cours %}
+                                      <p>{{ cour.nomRes }}</p>
+                                  {% endfor %}
+                              {% else %}
+                                  <p> </p>
+                              {% endif %}
                           {% endif %}
-                        {%endif%}
-
                       </td>
                   {% endfor %}
               </tr>
           {% endfor %}
       </tbody>
   </table>
+  
   
   
   </body>

@@ -1,9 +1,9 @@
 from datetime import time
 from .app import app, db
-from flask import render_template, redirect, url_for, request
+from flask import flash, render_template, redirect, url_for, request
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
-from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser,ReservationCoursForm#, UpdatePassword
-from src.forms.CoursForm import CreationCoursForm
+from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser #, UpdatePassword
+from src.forms.CoursForm import CreationCoursForm,ReservationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
 from src.models.Horaire import Horaire
@@ -56,7 +56,9 @@ def home():
     Returns:
         home.html : Une page d'accueil
     """
-    return render_template('home.html')
+    nb_adherents = len(Utilisateur.query.filter_by(id_role=1).all())
+    nb_moniteurs = len(Utilisateur.query.filter_by(id_role=3).all())
+    return render_template('home.html',nb_adherents=nb_adherents,nb_moniteurs=nb_moniteurs)
 
 @app.route("/mes-reservations")
 def mes_reservations():
@@ -180,20 +182,20 @@ def planning():
     }
     
     if current_user.is_authenticated:
-        # Récupérer les cours de l'utilisateur
-        mes_cours = Cours.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
-        
-        # Organiser les cours par jour et horaire
-        for cour in mes_cours:
-            jour_francais = jours_mapping[cour.date.strftime('%A')]
-            if jour_francais in jours and cour.heureDebut.hour in [horaire['id'] for horaire in horaires]:
-                dico_jours_horaires[jour_francais][cour.heureDebut.hour].append(cour)
-        
-        return render_template('planning.html', dico=dico_jours_horaires, jours=jours, horaires=horaires, cours=mes_cours)
+        mes_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     
+        # Organiser les cours par jour et horaire
+        for reservation in mes_reservations:
+            jour_francais = jours_mapping[reservation.date.strftime('%A')]
+            
+            if jour_francais in jours and reservation.heureDebut.hour in [horaire['id'] for horaire in horaires]:
+                dico_jours_horaires[jour_francais][reservation.heureDebut.hour].append(reservation)
+                
+
+        return render_template('planning.html', dico=dico_jours_horaires, jours=jours, horaires=horaires)
     return redirect(url_for('home'))
 
-
+@login_required
 @app.route('/creer-cours', methods=['GET','POST'])    
 def creer_cours():
     """Renvoie la page de création de cours
@@ -218,8 +220,8 @@ def creer_cours():
                     if cour.date == c.date and cour.heureDebut == c.heureDebut:
                         print("Un cours est déjà prévu à cette date et heure")
                         return redirect(url_for('creer_cours'))
-            if current_user.id_utilisateur:
-                c.id_utilisateur = current_user.id_utilisateur
+            
+            c.id_utilisateur = current_user.id_utilisateur
             c.idCo = Cours.get_last_id() + 1
             try:
                 db.session.add(c)
@@ -232,7 +234,7 @@ def creer_cours():
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
 
-
+@login_required
 @app.route('/reserver-cours', methods=['GET','POST'])    
 def reserver_cours():
     """Renvoie la page de réservation de cours
@@ -241,29 +243,28 @@ def reserver_cours():
         reserver_cours.html: Une page de réservation de cours
     """
     f = ReservationCoursForm()
-    f.poney.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
+    f.moniteurs.choices = [(moniteur.id_utilisateur, moniteur.prenom_utilisateur) for moniteur in Utilisateur.query.filter_by(id_role=3).all()]
+    f.poneys.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
     if f.validate_on_submit():
         if f.validate():
-            c = Cours()
-            c.nomCo = f.nomCo.data
-            c.collectif = bool(f.collectif.data)
-            c.nbPersonne = f.nbPersonne.data
-            c.duree = f.duree.data
-            c.date = f.date.data
-            c.heureDebut = f.heureDebut.data
-            cours = Cours.query.all()
-            if cours:
-                for cour in cours:
-                    if cour.date == c.date and cour.heureDebut == c.heureDebut:
-                        print("Un cours est déjà prévu à cette date et heure")
-                        return redirect(url_for('creer_cours'))
-            if current_user.id_utilisateur:
-                c.id_utilisateur = current_user.id_utilisateur
-            c.idCo = Cours.get_last_id() + 1
+            r = Reserver()
+            r.nomRes = f.nomRes.data
+            r.collectif = f.collectif.data == 'true'
+            r.nbPersonne = f.nbPersonne.data
+            r.duree = f.duree.data
+            r.date = f.date.data
+            r.heureDebut = f.heureDebut.data
+            conflit = Reserver.query.filter(Reserver.date == r.date,Reserver.heureDebut <= r.heureDebut,(Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
+            if conflit:
+                flash("Un cours est déjà prévu à cette date et heure")
+                return redirect(url_for('reserver_cours'))
+            r.id_utilisateur = current_user.id_utilisateur
+            r.idCo= Reserver.get_last_id() + 1
+            r.idPo = f.poneys.data
             try:
-                db.session.add(c)
+                db.session.add(r)
                 db.session.commit()
-                print("Cours créée")
+                print("Réservation effectué")
             except Exception as e:
                 print(f"Une erreur s'est produit {e}")
                 db.session.rollback()

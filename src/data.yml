@@ -149,21 +149,13 @@
 - type: "Cours"
   idCo: 1
   nomCo: Cours Débutant
-  duree: 1
   date : 2024-11-21
-  heureDebut: '08:00'
-  collectif: true
-  nbPersonne: 8
   idUser: 1
 
 - type: "Cours"
   idCo: 2
   nomCo: Cours Avancé
-  duree: 2
   date : 2024-11-21
-  heureDebut: '09:00'
-  collectif: true
-  nbPersonne: 5
   idUser: 2
 
 #Reserver
@@ -174,13 +166,19 @@
   idCo: 1
   idPo: 1
   idUser: 1
+  nbPersonne: 1
+  collectif: true
+  nomRes: "Réservation 1"
 - type: "Reserver"
   duree: 2
   date: 2024-11-21
   heure: '09:00'
   idCo: 2
   idPo: 2
+  nbPersonne: 10
   idUser: 2
+  collectif: true
+  nomRes: "Réservation 2"
 #Travailler 
 - type: "Travailler"
   idUser: 1
