@@ -135,6 +135,8 @@ def modifier_profil():
             user.prenom_utilisateur = f.prenom_user.data
             user.nom_utilisateur = f.nom_user.data
             user.email_utilisateur = f.email.data
+            user.tel_utilisateur = f.telUser.data
+            user.poidsUser = f.poidsUser.data
             file = f.img.data
             if file:
                 file_path = os.path.join("src/static/img/profil", str(current_user.id_utilisateur))
@@ -144,6 +146,8 @@ def modifier_profil():
     f.nom_user.data = current_user.nom_utilisateur
     f.prenom_user.data = current_user.prenom_utilisateur
     f.email.data = current_user.email_utilisateur 
+    f.telUser.data = current_user.tel_utilisateur
+    f.poidsUser.data = current_user.poidsUser
     return render_template('profil.html', form=f)
 
 @login_required
