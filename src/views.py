@@ -212,3 +212,29 @@ def creer_cours():
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
 
+@login_required
+@app.route('/reserver', methods=['GET','POST'])
+def reserver():
+    """Renvoie la page de reservation
+
+    Returns:
+        reserver.html: Une page de reservation
+    """
+    horaires = [
+        
+    {"id": 8, "plage": "08:00 - 09:00"},
+    {"id": 9, "plage": "09:00 - 10:00"},
+    {"id": 10, "plage": "10:00 - 11:00"},
+    {"id": 11, "plage": "11:00 - 12:00"},
+    {"id": 12, "plage": "12:00 - 13:00"},
+    {"id": 13, "plage": "13:00 - 14:00"},
+    {"id": 14, "plage": "14:00 - 15:00"},
+    {"id": 15, "plage": "15:00 - 16:00"},
+    {"id": 16, "plage": "16:00 - 17:00"},
+    {"id": 17, "plage": "17:00 - 18:00"},
+    ]
+    jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+
+    if current_user.is_authenticated:
+        return render_template('reserver.html', jours=jours,horaires=horaires)
+    return redirect(url_for('home'))

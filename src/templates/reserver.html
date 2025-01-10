@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% block content %}
-<form method="post" action="{{ url_for('planning') }}" >
+<form method="post" action="{{ url_for('reserver') }}" >
   {% for cour in cours %}
   
     {{ cour.nomCo }}
@@ -70,36 +70,25 @@
             <th>{{ jour }}</th>
         {% endfor %}
       </thead>
+
       <tbody>
         {% for horaire in horaires %}
         <tr>
-
-          
+            <th>aze</th>
             <td id="{{ horaire.id }}">{{ horaire.plage }}</td>
             
-            {% set cours_trouve = false %}
-            {% for cour in cours %}
-                {% if cour.heureDebut.strftime('%H')|int == horaire.id %}
-                    <td>{{ cour.nomCo }}</td>
-                    {% set cours_trouve = true %}
-                {% endif %}
-            {% endfor %}
-            
-            {% if not cours_trouve %}
-                <td></td>
-            {% endif %}
-            
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="padding: 0px;"><input style="width: 100%; height: 100%; margin: 0px; padding-top: 20px;" type="button" name="" id=""></td>
+            <td style="padding: 0px;">
+              <input style="width: 100%; height: 100%; margin: 0px; padding-top: 20px;" type="button" name="" id="">
+            </td>
+
         </tr>
         {% endfor %}
     </tbody>
     
     </table>
+
+    <input type="button" name="choisi_poney" id="choisi_poney" value="Choisir un Poney">
+
   </body>
 </form>
 

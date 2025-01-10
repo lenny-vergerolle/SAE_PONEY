@@ -47,4 +47,10 @@
         </div>
     </div>
 
+    <div>
+        {%if current_user.id_role == 1%}
+            {%include 'accueil_adherent.html'%}
+        {%endif%}
+    </div>
+
 {% endblock %}

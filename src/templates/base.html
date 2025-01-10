@@ -40,7 +40,7 @@
                 <div>
 
                     {% if current_user.id_role == 1 %}
-                        <a href="" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                        <a href="{{url_for('reserver')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Réserver
                         </a>
                         <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
