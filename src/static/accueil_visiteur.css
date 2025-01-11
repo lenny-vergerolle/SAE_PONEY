@@ -1,3 +1,9 @@
+.fleche a {
+    position: absolute; 
+    top: 87px;
+    left: 18px; 
+}
+
 .accueil {
     display: flex;
     gap: 8em;
