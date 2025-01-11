@@ -64,3 +64,6 @@ table tr th {
 table tr td {
     border: thin solid gray;
 }
+.aucun {
+    border: none;
+}

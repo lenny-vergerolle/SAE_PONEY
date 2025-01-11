@@ -1,3 +1,4 @@
+from hashlib import sha256
 import click
 from .app import app, db
 from . models.Utilisateur import Utilisateur
@@ -55,7 +56,7 @@ def loaddb(filename):
                 id_utilisateur = elem["idUser"],
                 nom_utilisateur = elem["nomUser"],
                 prenom_utilisateur = elem["prenomUser"],
-                mdp_utilisateur = elem["motDePasseUser"],
+                mdp_utilisateur = sha256(elem["motDePasseUser"].encode()).hexdigest(),
                 email_utilisateur = elem["mailUser"],
                 img_utilisateur =  elem["imgUser"],
                 id_role = elem["role_id"],
@@ -87,11 +88,7 @@ def loaddb(filename):
             cours = Cours(
             idCo = elem["idCo"],
             nomCo = elem["nomCo"],
-            heureDebut = time.fromisoformat(elem["heureDebut"]),
-            duree = elem["duree"],
             date = elem["date"],
-            collectif = elem["collectif"],
-            nbPersonne = elem["nbPersonne"],
             id_utilisateur = elem["idUser"],
             )
             elements["cours"][elem["idCo"]] = cours
@@ -120,7 +117,10 @@ def loaddb(filename):
             reserver = Reserver(
             duree = elem["duree"],
             date = elem["date"],
-            heure = time.fromisoformat(elem["heure"]),
+            heureDebut = time.fromisoformat(elem["heure"]),
+            nbPersonne = elem["nbPersonne"],
+            collectif = elem["collectif"],
+            nomRes = elem["nomRes"],
             idCo = elem["idCo"],
             idPo = elem["idPo"],
             id_utilisateur = elem["idUser"],

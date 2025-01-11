@@ -38,8 +38,6 @@ class InscriptionForm(FlaskForm):
             self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
             return False
         return True
-    
-
 
 class ConnexionForm(FlaskForm):
     id=HiddenField('id')
@@ -47,6 +45,7 @@ class ConnexionForm(FlaskForm):
     mot_de_passe=PasswordField('Mot de passe', validators=[DataRequired()])
     def get_authenticated_user(self):
         u = Utilisateur.query.filter_by(email_utilisateur=self.email.data).first()
+        
         if u and u.mdp_utilisateur == sha256(self.mot_de_passe.data.encode()).hexdigest():
             return u
         return None

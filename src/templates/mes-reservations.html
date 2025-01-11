@@ -6,9 +6,9 @@
     <h1>Les réservations</h1>
 
     <div style="width: 60%;">
+        {% for reservation in les_reservations %}
         {%include 'une-reservation.html'%}
-        {%include 'une-reservation.html'%}
-        {%include 'une-reservation.html'%}
+        {% endfor %}
     </div>
     
 </div>
