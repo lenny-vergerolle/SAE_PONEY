@@ -67,7 +67,9 @@ def mes_reservations():
     Returns:
         home.html : Une page d'accueil
     """
-    return render_template('mes-reservations.html')
+    moniteurs = Utilisateur.query.filter_by(id_role=3).all()
+    les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+    return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
 @app.route("/accueil-visiteur")
 def accueil_visiteur():
@@ -256,6 +258,8 @@ def reserver_cours():
             r.id_utilisateur = current_user.id_utilisateur
             r.idCo= Reserver.get_last_id() + 1
             r.idPo = f.poneys.data
+            moniteur = Utilisateur.query.get(f.moniteurs.data)
+            r.id_moniteur = moniteur.id_utilisateur
             try:
                 db.session.add(r)
                 db.session.commit()
