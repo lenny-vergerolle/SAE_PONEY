@@ -5,7 +5,7 @@
         <h1 class="fw-bolder display-4 m-4">Inscrire un moniteur</h1>
     </div>
     <div class="mx-auto w-50 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4" style="background-color:white;max-width: 600px;">
-        <form class="w-100" method="post" action="{{ url_for('ajout_moniteur') }}" enctype="multipart/form-data">
+        <form class="w-100" method="POST" action="{{ url_for('ajout_moniteur') }}" enctype="multipart/form-data">            
             {{ form.hidden_tag() }}
             <div class="mb-3 row">
                 <label class="col-sm-4 color_white mb-2" for="name">{{ form.nom_user.label }}</label>
@@ -61,9 +61,21 @@
                 </div>
             </div>
             <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-3" for="mdp">{{ form.confirmation_mot_de_passe.label }}</label>
+                <div class="col-sm-8">
+                    {{ form.confirmation_mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
+                </div>
+            </div>
+            <div class="mb-3 row">
                 <label class="col-sm-4 color_white mb-2" for="certification">{{ form.certificationUser.label }}</label>
                 <div class="col-sm-8">
-                    {{ form.certificationUser(class="form-control") }}
+                    {{ form.certificationUser(class="form-control-file") }}
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="contrat">{{ form.contratUser.label }}</label>
+                <div class="col-sm-8">
+                    {{ form.contratUser(class="form-control-file") }}
                 </div>
             </div>
             </div>

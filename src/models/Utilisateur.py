@@ -18,7 +18,7 @@ class Utilisateur(db.Model, UserMixin):
     ddn_utilisateur = db.Column(db.String(45))
     sexe_utilisateur = db.Column(db.CHAR(1))
     cotisation = db.Column(db.Float)  #Pour les adherents
-    certification = db.Column(db.String(45)) #Pour les moniteurs
+    certification = db.Column(db.String(100), nullable=True) #Pour les moniteurs
     contrat = db.Column(db.String(45)) #Pour les moniteurs
     active = db.Column(db.Boolean, default=True)
     fs_uniquifier = db.Column(db.String(255), unique=True, default=lambda: str(uuid.uuid4()))  

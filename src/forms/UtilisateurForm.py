@@ -8,6 +8,7 @@ from src.models.Utilisateur import Utilisateur
 from flask import current_app
 from wtforms.validators import Email
 from flask_wtf.file import FileAllowed
+from werkzeug.datastructures import FileStorage
 
 class InscriptionForm(FlaskForm):
     id = HiddenField('id')
@@ -16,13 +17,14 @@ class InscriptionForm(FlaskForm):
     mot_de_passe = PasswordField('Mot de passe', validators=[DataRequired()])
     confirmation_mot_de_passe = PasswordField('Confirmation mot de passe', validators=[DataRequired()])
     email = StringField('Adresse mail', validators=[DataRequired()])
-    img = FileField('Photo de profil', validators=[DataRequired()])
+    img = FileField('Photo de profil')
     #role = RadioField('Role', validators=[DataRequired()])
     ddn_user = DateField('Date de naissance', validators=[DataRequired()])
     sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')])
     poidsUser = FloatField('Poids', validators=[DataRequired()])
     telUser = StringField('Telephone', validators=[DataRequired()])
-    certificationUser = FileField('Certification', validators=[DataRequired(), FileAllowed(['pdf'], 'Seuls les fichiers PDF sont autorisés !')])
+    certificationUser = FileField('Certification')
+    contratUser = FileField('Contrat')
     def validate(self, extra_validators=None):
         if not FlaskForm.validate(self, extra_validators=extra_validators):
             return False

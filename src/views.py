@@ -18,8 +18,8 @@ from flask_security import Security, SQLAlchemySessionUserDatastore
 import os
 from functools import wraps
 from flask import abort
+from werkzeug.datastructures import FileStorage
 
-from werkzeug.utils import secure_filename
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
@@ -227,6 +227,7 @@ def ajout_moniteur():
     """
     f = InscriptionForm()
     if f.validate_on_submit():
+        print("Formulaire soumis et validé.")
         if f.validate():
             u = Utilisateur()
             u.nom_utilisateur = f.nom_user.data
@@ -235,18 +236,20 @@ def ajout_moniteur():
             u.email_utilisateur = f.email.data
             u.certification = str(Utilisateur.get_last_id() + 1)
             u.contrat = str(Utilisateur.get_last_id() + 1.1)
-            u.id_role = 1
+            u.id_role = 3
             u.ddn_utilisateur = f.ddn_user.data
-            u.sexeUser = f.sexeUser.data
+            u.sexe_utilisateur = f.sexeUser.data
             u.poidsUser = float(f.poidsUser.data)
             u.tel_utilisateur = f.telUser.data
             db.session.add(u)
             db.session.commit()
-            file = f.certificationUser.data
-            if file:
-                file.save(os.path.join("src/static/doc_moniteur/certification/certification", str(Utilisateur.get_last_id()+1)))
-                flash('Fichier téléchargé avec succès !', 'success')
-                print("Nom du fichier :", file)
-            else:
-                print("Aucun fichier reçu.")
+            file_certif = f.certificationUser.data
+            if file_certif:
+                file_path = os.path.join("src/static/doc_moniteur/certification/",f"certification_{Utilisateur.get_last_id() + 1}.pdf")
+                file_certif.save(file_path)
+            file_contrat = f.contratUser.data
+            if file_contrat:
+                file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
+                file_contrat.save(file_path)
+            return redirect(url_for('ajout_moniteur'))
     return render_template('ajout_moniteur.html', form=f)
