@@ -6,3 +6,7 @@ class Role(db.Model, RoleMixin):
     id_role = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     users = db.relationship('Utilisateur', back_populates='role', overlaps="utilisateurs")
+    
+    def add_role(self):
+        db.session.add(self)
+        db.session.commit()
