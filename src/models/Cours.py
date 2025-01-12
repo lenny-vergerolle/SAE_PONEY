@@ -21,3 +21,7 @@ class Cours(db.Model):
             if cour.idCo > id:
                 id = cour.idCo
         return id
+
+    def add_cours(self):
+        db.session.add(self)
+        db.session.commit()

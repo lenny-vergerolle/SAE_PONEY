@@ -1,7 +1,7 @@
-from datetime import date
+from datetime import date, time 
 import unittest
 from src.app import app_pour_tests, mkpath, db
-from src.models import Utilisateur, Poney, Role
+from src.models import Utilisateur, Poney, Role, Cours, Horaire, Travailler
 
 class tests_BD(unittest.TestCase):
     def setUp(self):
@@ -65,6 +65,36 @@ class tests_BD(unittest.TestCase):
             self.assertIsNotNone(admin)
             self.assertEqual(role3.name, "Admin")
             
-
+    def test_cours(self):
+        with self.app.app_context():
+            cours = Cours(idCo=1,nomCo="initiation au poney",id_utilisateur=1,date=date(2025,4,4))
+            Cours.add_cours(cours)
             
+            initiation = db.session.get(Cours,1)
+            self.assertIsNotNone(initiation)
+            self.assertEqual(cours.nomCo, initiation.nomCo)
+            self.assertEqual(initiation.id_utilisateur, 1)
+            self.assertEqual(initiation.date, date(2025, 4, 4))
             
+    def test_horaires(self):
+        with self.app.app_context():
+            horaire = Horaire(idHoraire=1,jour="lundi",horaireDebut=time(9,0,0),horaireFin=time(10,0,0))
+            Horaire.add_horaire(horaire)
+            
+            lundi = db.session.get(Horaire,1)
+            self.assertIsNotNone(lundi)
+            self.assertEqual(horaire.jour, "lundi")
+            self.assertEqual(lundi.horaireDebut, time(9,0,0))
+            self.assertEqual(lundi.horaireFin, time(10,0,0))
+            
+    def test_travailler(self):
+        with self.app.app_context():
+            travailler = Travailler(id_utilisateur=1, idHoraire=1)
+            Travailler.add_travailler(travailler)
+            
+            travail = db.session.get(Travailler,(1,1))
+            self.assertIsNotNone(travail)
+            self.assertEqual(travailler.id_utilisateur, travail.id_utilisateur)
+            self.assertEqual(travailler.idHoraire, travail.idHoraire)
+            self.assertEqual(travail.id_utilisateur, 1)
+            self.assertEqual(travail.idHoraire, 1)

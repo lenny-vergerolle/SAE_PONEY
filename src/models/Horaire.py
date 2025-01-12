@@ -11,3 +11,7 @@ class Horaire(db.Model):
 
     # Relation avec Travailler
     travailler = db.relationship('Travailler', back_populates='horaire', lazy='dynamic')
+    
+    def add_horaire(self):
+        db.session.add(self)
+        db.session.commit()

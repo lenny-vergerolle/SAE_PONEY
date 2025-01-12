@@ -9,3 +9,7 @@ class Travailler(db.Model):
     # Relations vers les autres tables
     utilisateur= db.relationship('Utilisateur', back_populates='travailler')
     horaire = db.relationship('Horaire', back_populates='travailler')
+
+    def add_travailler(self):
+        db.session.add(self)
+        db.session.commit()
