@@ -18,6 +18,7 @@ from flask_security import Security, SQLAlchemySessionUserDatastore
 import os
 from functools import wraps
 from flask import abort
+from werkzeug.datastructures import FileStorage
 
 
 @app.route('/signin', methods=['GET','POST'])
@@ -67,7 +68,9 @@ def mes_reservations():
     Returns:
         home.html : Une page d'accueil
     """
-    return render_template('mes-reservations.html')
+    moniteurs = Utilisateur.query.filter_by(id_role=3).all()
+    les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+    return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
 @app.route("/accueil-visiteur")
 def accueil_visiteur():
@@ -229,6 +232,43 @@ def creer_cours():
             return redirect(url_for('planning'))
     return render_template('creer-cours.html', form=f)
 
+@app.route('/ajout-moniteur', methods=['GET','POST'])
+@login_required
+def ajout_moniteur():
+    """Renvoie la page d'inscription de moniteur dédiée aux admins
+
+    Returns:
+        ajout-moniteur : Une page d'inscription de moniteur dédiée aux admins
+    """
+    f = InscriptionForm()
+    if f.validate_on_submit():
+        print("Formulaire soumis et validé.")
+        if f.validate():
+            u = Utilisateur()
+            u.nom_utilisateur = f.nom_user.data
+            u.prenom_utilisateur = f.prenom_user.data
+            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
+            u.email_utilisateur = f.email.data
+            u.certification = str(Utilisateur.get_last_id() + 1)
+            u.contrat = str(Utilisateur.get_last_id() + 1.1)
+            u.id_role = 3
+            u.ddn_utilisateur = f.ddn_user.data
+            u.sexe_utilisateur = f.sexeUser.data
+            u.poidsUser = float(f.poidsUser.data)
+            u.tel_utilisateur = f.telUser.data
+            db.session.add(u)
+            db.session.commit()
+            file_certif = f.certificationUser.data
+            if file_certif:
+                file_path = os.path.join("src/static/doc_moniteur/certification/",f"certification_{Utilisateur.get_last_id() + 1}.pdf")
+                file_certif.save(file_path)
+            file_contrat = f.contratUser.data
+            if file_contrat:
+                file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
+                file_contrat.save(file_path)
+            return redirect(url_for('ajout_moniteur'))
+    return render_template('ajout_moniteur.html', form=f)
+
 @login_required
 @app.route('/reserver-cours', methods=['GET','POST'])    
 def reserver_cours():
@@ -256,6 +296,8 @@ def reserver_cours():
             r.id_utilisateur = current_user.id_utilisateur
             r.idCo= Reserver.get_last_id() + 1
             r.idPo = f.poneys.data
+            moniteur = Utilisateur.query.get(f.moniteurs.data)
+            r.id_moniteur = moniteur.id_utilisateur
             try:
                 db.session.add(r)
                 db.session.commit()
@@ -270,4 +312,3 @@ def reserver_cours():
 @app.route('/inscrire-moniteur', methods=['GET','POST'])
 def inscrire_moniteur():
     return redirect(url_for('signin'))
-

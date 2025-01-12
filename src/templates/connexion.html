@@ -1,6 +1,9 @@
 
 {% extends 'base.html' %}
 {% block content %}
+<a href="{{ url_for('home') }}">
+    <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3" style="position:absolute;width:25px;height:auto;">
+</a>
 <div class="d-flex flex-column align-items-center my-5">
     <div class="d-flex justify-content-center align-items-center">
         <img class = "my-2 img-fluid" src="../static/img/logo.png" alt="logo de GrandGalop">

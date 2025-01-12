@@ -9,6 +9,7 @@ class Reserver(db.Model):
     heureDebut = db.Column(db.Time, nullable=False, primary_key=True)
     nbPersonne = db.Column(db.Integer)
     collectif = db.Column(db.Boolean, nullable=False)
+    id_moniteur = db.Column(db.Integer)
 
     idCo = db.Column(db.Integer, db.ForeignKey('COURS.idCo'), nullable=False, primary_key=True)
     idPo = db.Column(db.Integer, db.ForeignKey('PONEY.idPo'), nullable=False, primary_key=True)
