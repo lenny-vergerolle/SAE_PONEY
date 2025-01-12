@@ -35,13 +35,13 @@ class Utilisateur(db.Model, UserMixin):
     role = db.relationship('Role', backref='utilisateurs')
     
     def is_adherent(self):
-        return self.role_id == 1
+        return self.id_role == 1
     
     def is_admin(self):
-        return self.role_id == 2
+        return self.id_role == 2
 
     def is_moniteur(self):
-        return self.role_id == 3
+        return self.id_role == 3
     
     def get_last_id():
         id = 0
