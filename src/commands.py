@@ -88,8 +88,8 @@ def loaddb(filename):
             cours = Cours(
             idCo = elem["idCo"],
             nomCo = elem["nomCo"],
-            date = elem["date"],
             id_utilisateur = elem["idUser"],
+            id_adherent = elem["id_adherent"],
             )
             elements["cours"][elem["idCo"]] = cours
             db.session.add(cours)

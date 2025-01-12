@@ -1,6 +1,7 @@
 from datetime import time
 from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
+from sqlalchemy import or_
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
 from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser #, UpdatePassword
 from src.forms.CoursForm import CreationCoursForm,ReservationCoursForm
@@ -72,16 +73,6 @@ def mes_reservations():
     les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
-@app.route("/accueil-visiteur")
-def accueil_visiteur():
-    """Renvoie la page d'accueil des visiteurs
-
-    Returns:
-        accueil_visiteur.html : Une page d'accueil pour les visiteurs
-    """
-    return render_template('accueil_visiteur.html')
-  
-  
 @app.route('/accueil-adherent')
 @login_required
 def accueil_adherent():
@@ -189,7 +180,11 @@ def planning():
     }
     
     if current_user.is_authenticated:
-        mes_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+        if current_user.id_role == 3:
+            mes_reservations = Reserver.query.filter_by(id_moniteur=current_user.id_utilisateur).all()
+        else :
+            mes_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
+
     
         # Organiser les cours par jour et horaire
         for reservation in mes_reservations:
@@ -212,14 +207,14 @@ def creer_cours():
     """
     
     f = CreationCoursForm()
+    f.adherents.choices = [(adherent.id_utilisateur, adherent.nom_utilisateur) for adherent in Utilisateur.query.filter_by(id_role=1).all()]
     if f.validate_on_submit():
         if f.validate():
             c = Cours()
             c.nomCo = f.nomCo.data
-            c.duree = f.duree.data
-            c.date = f.date.data
-            c.heureDebut = f.heureDebut.data
             c.id_utilisateur = current_user.id_utilisateur
+            adherent =  Utilisateur.query.get(f.adherents.data)
+            c.id_adherent= adherent.id_utilisateur
             c.idCo = Cours.get_last_id() + 1
             try:
                 db.session.add(c)
@@ -229,7 +224,7 @@ def creer_cours():
                 print(f"Une erreur s'est produit {e}")
                 db.session.rollback()
     
-            return redirect(url_for('planning'))
+            return redirect(url_for('home'))
     return render_template('creer-cours.html', form=f)
 
 @app.route('/ajout-moniteur', methods=['GET','POST'])
@@ -280,35 +275,52 @@ def reserver_cours():
     f = ReservationCoursForm()
     f.moniteurs.choices = [(moniteur.id_utilisateur, moniteur.prenom_utilisateur) for moniteur in Utilisateur.query.filter_by(id_role=3).all()]
     f.poneys.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
-    if f.validate_on_submit():
-        if f.validate():
-            r = Reserver()
-            r.nomRes = f.nomRes.data
-            r.collectif = f.collectif.data == 'true'
-            r.nbPersonne = f.nbPersonne.data
-            r.duree = f.duree.data
-            r.date = f.date.data
-            r.heureDebut = f.heureDebut.data
-            conflit = Reserver.query.filter(Reserver.date == r.date,Reserver.heureDebut <= r.heureDebut,(Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
-            if conflit:
-                flash("Un cours est déjà prévu à cette date et heure")
-                return redirect(url_for('reserver_cours'))
-            r.id_utilisateur = current_user.id_utilisateur
-            r.idCo= Reserver.get_last_id() + 1
-            r.idPo = f.poneys.data
-            moniteur = Utilisateur.query.get(f.moniteurs.data)
-            r.id_moniteur = moniteur.id_utilisateur
-            try:
-                db.session.add(r)
-                db.session.commit()
-                print("Réservation effectué")
-            except Exception as e:
-                print(f"Une erreur s'est produit {e}")
-                db.session.rollback()
-    
-            return redirect(url_for('planning'))
+    f.cours.choices = [
+        (cour.idCo, cour.nomCo) for cour in Cours.query.filter(Cours.id_adherent != current_user.id_utilisateur).all()
+    ]
+    if f.validate():
+        r = Reserver()
+        r.nomRes = f.nomRes.data
+        r.collectif = f.collectif.data == 'true'
+        r.nbPersonne = f.nbPersonne.data
+        r.duree = f.duree.data
+        r.date = f.date.data
+        r.heureDebut = f.heureDebut.data
+        conflit = Reserver.query.filter(Reserver.date == r.date, Reserver.heureDebut <= r.heureDebut, (Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
+        if conflit:
+            flash("Un cours est déjà prévu à cette date et heure")
+            return redirect(url_for('reserver_cours'))
+        r.id_utilisateur = current_user.id_utilisateur
+        r.idCo = Reserver.get_last_id() + 1
+        r.idPo = f.poneys.data
+        moniteur = Utilisateur.query.get(f.moniteurs.data)
+        r.id_moniteur = moniteur.id_utilisateur
+        try:
+            db.session.add(r)
+            db.session.commit()
+            print("Réservation effectué")
+        except Exception as e:
+            print(f"Une erreur s'est produit {e}")
+            db.session.rollback()
+
+        return redirect(url_for('planning'))
     return render_template('reserver-cours.html', form=f)
 
-@app.route('/inscrire-moniteur', methods=['GET','POST'])
-def inscrire_moniteur():
-    return redirect(url_for('signin'))
+
+@app.route('/home/suppression_reservation/<int:id_utilisateur>/<int:idCo>/<int:idPo>', methods=['GET'])
+def suppression_reservation(idPo,id_utilisateur,idCo):
+    """Supprime un réseau
+    Args:
+        id_reseau (int): L'identifiant du réseau
+    Returns:
+        mes-reseaux-admin.html: Une page des réseaux pour un organisateur
+    """
+    reservation = Reserver.query.filter_by(id_utilisateur=id_utilisateur,idPo=idPo,idCo=idCo).first()
+    if reservation:
+        db.session.delete(reservation)
+        db.session.commit()
+        print('La réservation a été supprimée avec succès.', 'success')
+    else:
+        print('La réservation n\'a pas été trouvée.', 'error')
+    return redirect(url_for('mes_reservations'))
+
