@@ -63,7 +63,15 @@ table tr th {
 
 table tr td {
     border: thin solid gray;
+
 }
-.aucun {
-    border: none;
+ul#collectif {
+    list-style-type: none; /* Supprime les puces */
+    padding: 2px; /* Enlève les marges internes par défaut */
+    margin: 5px; /* Enlève les marges externes */
+}
+
+ul#collectif li {
+    display: flex; /* Facultatif : Aligne les éléments horizontalement si besoin */
+    align-items: center;
 }
