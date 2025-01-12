@@ -89,7 +89,7 @@
   motDePasseUser: '1234'
   poidsUser: 75.0
   role_id: 2
-  imgUser: 'path/to/benjamin_sandoval.jpg'
+  imgUser: '7'
 
 - type: "Utilisateur"
   idUser: 200                                                                                 
@@ -102,7 +102,7 @@
   motDePasseUser: 'a'
   poidsUser: 75.0
   role_id: 2
-  imgUser: 'path/to/benjamin_sandoval.jpg'
+  imgUser: '200'
 
 #Utilisateur Adherent
 - type: "Utilisateur"
@@ -145,7 +145,7 @@
   certification: médical
   contrat: Stage
   role_id: 3
-  imgUser: 'path/to/david_miller.jpg'
+  imgUser: '6'
 - type: "Utilisateur"
   idUser: 6
   nomUser: Robertson
@@ -165,14 +165,21 @@
 - type: "Cours"
   idCo: 1
   nomCo: Cours Débutant
-  date : 2024-11-21
   idUser: 1
+  id_adherent: 1
+  
 
 - type: "Cours"
   idCo: 2
   nomCo: Cours Avancé
-  date : 2024-11-21
   idUser: 2
+  id_adherent: 1
+
+- type: "Cours"
+  idCo: 3
+  nomCo: Cours Intermédiaire
+  idUser: 2
+  id_adherent: 1
 
 #Reserver
 - type: "Reserver"

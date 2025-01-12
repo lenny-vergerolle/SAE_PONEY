@@ -3,12 +3,20 @@
 
 <div class="d-flex flex-column align-items-center" style="width: 100%; min-height: 100vh; background-color: #ECF8F6;">
 
+    {%if les_reservations%}
     <h1>Les réservations</h1>
 
-    <div style="width: 60%;">
-        {% for reservation in les_reservations %}
-        {%include 'une-reservation.html'%}
-        {% endfor %}
+        <div style="width: 60%;">
+        
+            {% for reservation in les_reservations %}
+        
+                {%include 'une-reservation.html'%}
+        
+            {% endfor %}
+            {%else%}
+            <h3 class="mx-auto"> Vous n'avez aucune réservation pour le moment </h3>
+        {%endif%}
+        
     </div>
     
 </div>
