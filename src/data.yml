@@ -134,13 +134,13 @@
 #Utilisateur Moniteur
 - type: "Utilisateur"
   idUser: 5
-  nomUser: Miller
-  prenomUser: David
+  nomUser: b
+  prenomUser: b
   ddnUser: 1997-08-03
   sexeUser: M
   telUser: '0609017071'
-  mailUser: david.miller@mail.com
-  motDePasseUser: '1234'
+  mailUser: b
+  motDePasseUser: 'b'
   poidsUser: 79.2
   certification: médical
   contrat: Stage
@@ -160,8 +160,6 @@
   contrat: Stage
   role_id: 3
   imgUser: 'path/to/bethany_robertson.jpg'
-
-
 
   #Cours
 - type: "Cours"
