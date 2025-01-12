@@ -73,6 +73,16 @@ def mes_reservations():
     les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
+@app.route('/accueil-visiteur')
+def accueil_visiteur():
+    """Renvoie la page d'accueil des adherents
+
+    Returns:
+        accueil_adherent.html : Une page d'accueil pour les adherents
+    """
+    return render_template('accueil_visiteur.html')
+
+
 @app.route('/accueil-adherent')
 @login_required
 def accueil_adherent():

@@ -10,9 +10,9 @@ class Cours(db.Model):
     #duree = db.Column(db.Integer)
     #heureDebut =  db.Column(Time, nullable=False) 
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'))
-    date = db.Column(db.Date)
     utilisateur = db.relationship('Utilisateur', back_populates='cours')
     reserver = db.relationship('Reserver', back_populates='cours')
+    id_adherent = db.Column(db.Integer)
 
     def get_last_id():
         id = 0
