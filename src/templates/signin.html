@@ -9,14 +9,16 @@
             <h1 class="fw-bolder display-4 m-4 color_white">Formulaire d'inscription</h1>
         </div>
         <div class="mx-auto w-50 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4" style="background-color:white;max-width: 600px;">
-            <form method="post" action="{{ url_for('signin') }}" enctype="multipart/form-data">
+            <form class="w-100" method="post" action="{{ url_for('signin') }}" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
             
-                <div class="color_white mb-3 form-group">
-                    {{ form.nom_user.label(class="mb-3") }}
-                    {{ form.nom_user(size=50, placeholder="Nom", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-2" for="name">{{ form.nom_user.label }}</label>
+                    <div class="col-sm-8">    
+                        {{ form.nom_user(class_ ="form-control", placeholder="ex : Dupond") }}
+                    </div>
                 </div>
-            
+
                 <div class="color_white mb-3 form-group">
                     {{ form.prenom_user.label(class="mb-3") }}
                     {{ form.prenom_user(size=50, placeholder="Prénom", class="rounded-3") }}
@@ -26,7 +28,7 @@
                     {{ form.ddn_user.label(class="mb-3") }}
                     {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
                 </div>
-                
+
                 <div class="color_white mb-3 form-group">
                     {{ form.sexeUser.label(class="mb-3") }}
                     {% for subfield in form.sexeUser %}
