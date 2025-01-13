@@ -57,18 +57,21 @@
   poidsMax: 130.71
   couleurPo: Marron
   ddnPo: 2015-01-22
+
 - type: "Poney"
   idPo: 2
   nomPo: Brandon
   poidsMax: 104.34
   couleurPo: Marron
   ddnPo: 2017-01-31
+
 - type: "Poney"
   idPo: 3
   nomPo: Jimmy
   poidsMax: 51.36
   couleurPo: Tacheté
   ddnPo: 2017-04-08
+
 - type: "Poney"
   idPo: 4
   nomPo: Brad
@@ -92,7 +95,7 @@
   imgUser: '7'
 
 - type: "Utilisateur"
-  idUser: 200                                                                                 
+  idUser: 2                                                                               
   nomUser: a
   prenomUser: a
   ddnUser: 1985-05-15
@@ -106,6 +109,20 @@
 
 #Utilisateur Adherent
 - type: "Utilisateur"
+  idUser: 0
+  nomUser: Aucun
+  prenomUser: Aucun
+  ddnUser: 1994-09-28
+  sexeUser: F
+  telUser: '0616275479'
+  mailUser: aucun.aucun@gmail.com
+  motDePasseUser: '1234'
+  poidsUser: 58.5
+  cotisation: false
+  role_id: 1
+  imgUser: 'path/to/sarah_snyder.jpg'
+
+- type: "Utilisateur"
   idUser: 3
   nomUser: Newton
   prenomUser: Sabrina
@@ -118,6 +135,7 @@
   cotisation: true
   role_id: 1
   imgUser: 'path/to/sabrina_newton.jpg'
+  
 - type: "Utilisateur"
   idUser: 4
   nomUser: Snyder
@@ -131,24 +149,24 @@
   cotisation: false
   role_id: 1
   imgUser: 'path/to/sarah_snyder.jpg'
+
 - type: "Utilisateur"
-  idUser: 7
-  nomUser: Aucun
-  prenomUser: Aucun
+  idUser: 5
+  nomUser: z
+  prenomUser: z
   ddnUser: 1994-09-28
-  sexeUser: F
+  sexeUser: M
   telUser: '0616275479'
-  mailUser: aucun.aucun@gmail.com
-  motDePasseUser: '1234'
+  mailUser: z
+  motDePasseUser: '594e519ae499312b29433b7dd8a97ff068defcba9755b6d5d00e84c524d67b06'
   poidsUser: 58.5
   cotisation: false
   role_id: 1
-  imgUser: 'path/to/sarah_snyder.jpg'
-
+  imgUser: 'path/to/z.jpg'
 
 #Utilisateur Moniteur
 - type: "Utilisateur"
-  idUser: 5
+  idUser: 6
   nomUser: b
   prenomUser: b
   ddnUser: 1997-08-03
@@ -161,8 +179,9 @@
   contrat: Stage
   role_id: 3
   imgUser: '6'
+
 - type: "Utilisateur"
-  idUser: 6
+  idUser: 7
   nomUser: Robertson
   prenomUser: Bethany
   ddnUser: 1986-02-02
