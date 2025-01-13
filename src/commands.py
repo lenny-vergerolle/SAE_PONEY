@@ -1,6 +1,7 @@
 from hashlib import sha256
 import click
-from .app import app, db
+from .app import db
+from .views import app
 from . models.Utilisateur import Utilisateur
 from .models.Cours import Cours
 from .models.Horaire import Horaire
@@ -8,6 +9,7 @@ from .models.Poney import Poney
 from .models.Reserver import Reserver
 from .models.Travailler import Travailler
 from .models.Role import Role
+
 
 @app.cli.command()
 @click.argument('filename')

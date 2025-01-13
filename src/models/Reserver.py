@@ -22,3 +22,7 @@ class Reserver(db.Model):
     def get_last_id():
         last_reservation = Reserver.query.order_by(Reserver.idCo.desc()).first()
         return last_reservation.idCo if last_reservation else 0
+    
+    def add_reserver(self):
+        db.session.add(self)
+        db.session.commit()

@@ -11,7 +11,7 @@ class Utilisateur(db.Model, UserMixin):
     prenom_utilisateur = db.Column(db.Text)
     mdp_utilisateur = db.Column(db.Text)
     email_utilisateur = db.Column(db.Text, unique=True)
-    img_utilisateur = db.Column(db.Text)
+    img_utilisateur = db.Column(db.Text,nullable=True)
     id_role = db.Column(db.Integer, db.ForeignKey('ROLE.id_role'))
     poidsUser = db.Column(db.Float) 
     tel_utilisateur = db.Column(db.String(45)) 
@@ -35,13 +35,13 @@ class Utilisateur(db.Model, UserMixin):
     role = db.relationship('Role', backref='utilisateurs')
     
     def is_adherent(self):
-        return self.role_id == 1
+        return self.id_role == 1
     
     def is_admin(self):
-        return self.role_id == 2
+        return self.id_role == 2
 
     def is_moniteur(self):
-        return self.role_id == 3
+        return self.id_role == 3
     
     def get_last_id():
         id = 0
@@ -50,4 +50,8 @@ class Utilisateur(db.Model, UserMixin):
             if user.id_utilisateur > id:
                 id = user.id_utilisateur
         return id
+    
+    def add_utilisateur(self):
+        db.session.add(self)
+        db.session.commit()
 

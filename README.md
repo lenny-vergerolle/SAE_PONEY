@@ -28,3 +28,4 @@ Une fois connecté à mysql :
 
 
 
+pour lancer les tests : `python -m unittest src/models/tests/tests_BD.py`

@@ -10,3 +10,7 @@ class Poney(db.Model):
     ddnPo = db.Column(db.Date)
 
     reserver = db.relationship('Reserver', back_populates='poney')
+
+    def add_poney(self):
+        db.session.add(self)
+        db.session.commit()

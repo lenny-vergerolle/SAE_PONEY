@@ -21,7 +21,6 @@ from functools import wraps
 from flask import abort
 from werkzeug.datastructures import FileStorage
 
-
 @app.route('/signin', methods=['GET','POST'])
 def signin():
     f = InscriptionForm()
