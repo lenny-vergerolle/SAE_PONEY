@@ -1,6 +1,6 @@
 from datetime import date, time 
 import unittest
-from src.app import app_pour_tests, mkpath, db
+from src.app import app_pour_tests, db
 from src.models import Utilisateur, Poney, Role, Cours, Horaire, Travailler, Reserver
 
 class tests_BD(unittest.TestCase):
