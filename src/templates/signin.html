@@ -19,58 +19,76 @@
                     </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.prenom_user.label(class="mb-3") }}
-                    {{ form.prenom_user(size=50, placeholder="Prénom", class="rounded-3") }}
-                </div>
-            
-                <div class="color_white mb-3 form-group">
-                    {{ form.ddn_user.label(class="mb-3") }}
-                    {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="firstname">{{ form.prenom_user.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.prenom_user(class_ ="form-control", placeholder="ex : Jean") }}
+                    </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.sexeUser.label(class="mb-3") }}
-                    {% for subfield in form.sexeUser %}
-                    <div class="form-check">
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="ddn">{{ form.ddn_user.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="color_white mb-3 row form-group">
+                    <label class="col-sm-4 color_white mb-3" for="sexe">{{ form.sexeUser.label }}</label>
+                    <div class="col-sm-8">
+                        {% for subfield in form.sexeUser %}
+                    <div class="form-check form-check-inline">
                         <input type="radio" class="form-check-input" id="{{ subfield.id }}" name="{{ subfield.name }}" value="{{ subfield.data }}" {% if subfield.checked %}checked{% endif %}>
                         <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
                     </div>
                     {% endfor %}
+                    </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.poidsUser.label(class="mb-3") }}
-                    {{ form.poidsUser(size=50, placeholder="Poids", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="poids">{{ form.poidsUser.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.poidsUser(class="form-control", type="number", placeholder="ex : 70", step="1", min="0") }}
+                    </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.telUser.label(class="mb-3") }}
-                    {{ form.telUser(size=50, placeholder="Téléphone", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="numero">{{ form.telUser.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.telUser(class_ ="form-control", placeholder="ex : 0712345567") }}
+                    </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.email.label(class="mb-3") }}
-                    {{ form.email(size=50, placeholder="Adresse mail", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="email">{{ form.email.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.email(class_ ="form-control", placeholder="ex : jean@mail.com") }}
+                    </div>
                 </div>
 
-                <div class="color_white mb-3 form-group">
-                    {{ form.mot_de_passe.label(class="mb-3") }}
-                    {{ form.mot_de_passe(size=50, placeholder="Mot de passe", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="mdp">{{ form.mot_de_passe.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
+                    </div>
                 </div>
             
-                <div class="color_white mb-3 form-group">
-                    {{ form.confirmation_mot_de_passe.label(class="mb-3") }}
-                    {{ form.confirmation_mot_de_passe(size=50, placeholder="Confirmation du mot de passe", class="rounded-3") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-3" for="mdp">{{ form.confirmation_mot_de_passe.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.confirmation_mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
+                    </div>
                 </div>
          
-                <div class="color_white mb-3 form-group mt-2 fw-bold">
-                    {{ form.img.label(class="mb-3") }}
-                    {{ form.img(class="form-control-file") }}
+                <div class="mb-3 row">
+                    <label class="col-sm-4 color_white mb-2" for="image">{{ form.img.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.img(class="form-control") }}
+                    </div>
                 </div>
-                <div class="color_white mb-3 form-group d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">S'inscrire</button>
 
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn btn-success fw-bolder px-4 py-1" style="margin-top:30px" type="submit">S'inscrire</button>
                 </div>
           
             </form>
