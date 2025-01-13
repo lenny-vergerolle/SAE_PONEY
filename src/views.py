@@ -270,8 +270,8 @@ def ajout_moniteur():
             if file_contrat:
                 file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
                 file_contrat.save(file_path)
-            return redirect(url_for('ajout_moniteur'))
-    return render_template('ajout_moniteur.html', form=f)
+            return redirect(url_for('home'))
+    return render_template('ajout-moniteur.html', form=f)
 
 @login_required
 @app.route('/reserver-cours', methods=['GET','POST'])    
@@ -328,8 +328,8 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
     if reservation:
         db.session.delete(reservation)
         db.session.commit()
-        print('La réservation a été supprimée avec succès.', 'success')
+        print('La réservation a été supprimée avec succès.')
     else:
-        print('La réservation n\'a pas été trouvée.', 'error')
+        print('La réservation n\'a pas été trouvée.')
     return redirect(url_for('mes_reservations'))
 
