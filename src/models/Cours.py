@@ -12,7 +12,7 @@ class Cours(db.Model):
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('UTILISATEUR.id_utilisateur'))
     utilisateur = db.relationship('Utilisateur', back_populates='cours')
     reserver = db.relationship('Reserver', back_populates='cours')
-    id_adherent = db.Column(db.Integer)
+    id_adherent = db.Column(db.Integer, default=0)
 
     def get_last_id():
         id = 0

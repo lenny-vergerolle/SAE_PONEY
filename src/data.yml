@@ -131,6 +131,21 @@
   cotisation: false
   role_id: 1
   imgUser: 'path/to/sarah_snyder.jpg'
+- type: "Utilisateur"
+  idUser: 7
+  nomUser: Aucun
+  prenomUser: Aucun
+  ddnUser: 1994-09-28
+  sexeUser: F
+  telUser: '0616275479'
+  mailUser: aucun.aucun@gmail.com
+  motDePasseUser: '1234'
+  poidsUser: 58.5
+  cotisation: false
+  role_id: 1
+  imgUser: 'path/to/sarah_snyder.jpg'
+
+
 #Utilisateur Moniteur
 - type: "Utilisateur"
   idUser: 5
@@ -166,20 +181,20 @@
   idCo: 1
   nomCo: Cours Débutant
   idUser: 1
-  id_adherent: 1
+  id_adherent: 0
   
 
 - type: "Cours"
   idCo: 2
   nomCo: Cours Avancé
   idUser: 2
-  id_adherent: 1
+  id_adherent: 0
 
 - type: "Cours"
   idCo: 3
   nomCo: Cours Intermédiaire
   idUser: 2
-  id_adherent: 1
+  id_adherent: 0
 
 #Reserver
 - type: "Reserver"
