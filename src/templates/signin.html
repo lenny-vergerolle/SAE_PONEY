@@ -23,30 +23,10 @@
                 </div>
             
                 <div class="color_white mb-3 form-group">
-                    {{ form.mot_de_passe.label(class="mb-3") }}
-                    {{ form.mot_de_passe(size=50, placeholder="Mot de passe", class="rounded-3") }}
-                </div>
-            
-                <div class="color_white mb-3 form-group">
-                    {{ form.confirmation_mot_de_passe.label(class="mb-3") }}
-                    {{ form.confirmation_mot_de_passe(size=50, placeholder="Confirmation du mot de passe", class="rounded-3") }}
-                </div>
-            
-                <div class="color_white mb-3 form-group">
-                    {{ form.email.label(class="mb-3") }}
-                    {{ form.email(size=50, placeholder="Adresse mail", class="rounded-3") }}
-                </div>
-            
-                <div class="color_white mb-3 form-group">
                     {{ form.ddn_user.label(class="mb-3") }}
                     {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
                 </div>
-            
-                <div class="color_white mb-3 form-group">
-                    {{ form.telUser.label(class="mb-3") }}
-                    {{ form.telUser(size=50, placeholder="Téléphone", class="rounded-3") }}
-                </div>
-            
+                
                 <div class="color_white mb-3 form-group">
                     {{ form.sexeUser.label(class="mb-3") }}
                     {% for subfield in form.sexeUser %}
@@ -56,13 +36,32 @@
                     </div>
                     {% endfor %}
                 </div>
-            
+
                 <div class="color_white mb-3 form-group">
                     {{ form.poidsUser.label(class="mb-3") }}
                     {{ form.poidsUser(size=50, placeholder="Poids", class="rounded-3") }}
                 </div>
+
+                <div class="color_white mb-3 form-group">
+                    {{ form.telUser.label(class="mb-3") }}
+                    {{ form.telUser(size=50, placeholder="Téléphone", class="rounded-3") }}
+                </div>
+
+                <div class="color_white mb-3 form-group">
+                    {{ form.email.label(class="mb-3") }}
+                    {{ form.email(size=50, placeholder="Adresse mail", class="rounded-3") }}
+                </div>
+
+                <div class="color_white mb-3 form-group">
+                    {{ form.mot_de_passe.label(class="mb-3") }}
+                    {{ form.mot_de_passe(size=50, placeholder="Mot de passe", class="rounded-3") }}
+                </div>
             
-            
+                <div class="color_white mb-3 form-group">
+                    {{ form.confirmation_mot_de_passe.label(class="mb-3") }}
+                    {{ form.confirmation_mot_de_passe(size=50, placeholder="Confirmation du mot de passe", class="rounded-3") }}
+                </div>
+         
                 <div class="color_white mb-3 form-group mt-2 fw-bold">
                     {{ form.img.label(class="mb-3") }}
                     {{ form.img(class="form-control-file") }}
