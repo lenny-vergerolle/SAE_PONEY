@@ -70,14 +70,14 @@ class tests_BD(unittest.TestCase):
             
     def test_cours(self):
         with self.app.app_context():
-            cours = Cours(idCo=1,nomCo="initiation au poney",id_utilisateur=1,date=date(2025,4,4))
+            cours = Cours(idCo=1,nomCo="initiation au poney",id_utilisateur=1,id_adherent=1)
             Cours.add_cours(cours)
-            
+
             initiation = db.session.get(Cours,1)
             self.assertIsNotNone(initiation)
             self.assertEqual(cours.nomCo, initiation.nomCo)
             self.assertEqual(initiation.id_utilisateur, 1)
-            self.assertEqual(initiation.date, date(2025, 4, 4))
+            self.assertEqual(initiation.id_adherent,1)
             
     def test_horaires(self):
         with self.app.app_context():
