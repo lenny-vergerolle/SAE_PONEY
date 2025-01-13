@@ -37,6 +37,7 @@ class ReservationCoursForm(FlaskForm):
     nbPersonne = IntegerField('Nombre de personnes', render_kw={'min':1,'max':15}, validators=[DataRequired()])
     poneys = SelectField('Poney',coerce=int)
     moniteurs = SelectField('Moniteur',coerce=int)
+    cours = SelectField('Cours',coerce=int)
     
     #def validate(self, extra_validators=None):
     #    if self.collectif.data == 'True':

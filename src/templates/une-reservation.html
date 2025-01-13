@@ -40,7 +40,11 @@
         </div>
     </div>
     <div class="d-flex justify-content-center">
-        <input type="button" class="btn-modifier mx-5" value="Modifier le cours">
+        <!-- <input type="button" class="btn-modifier mx-5" value="Modifier le cours"> -->
+         <a href="{{ url_for('reserver_cours', date=reservation.date, heureDebut=reservation.heureDebut, idCo=reservation.idCo, idPo=reservation.idPo, id_utilisateur=reservation.id_utilisateur) }}" class="btn-modifier mx-5">
+            <input class="btn btn-base w-100 py-3 fw-bolder" style="font-size: 1.5em;" type="button"
+                        name="repondre" id="repondre" value="Répondre">
+         </a>
         <input type="button" class="btn-supprimer mx-5" value="Supprimer le cours">
     </div>
 </div>

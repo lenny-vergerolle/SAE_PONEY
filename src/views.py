@@ -232,8 +232,8 @@ def creer_cours():
     return render_template('creer-cours.html', form=f)
 
 @login_required
-@app.route('/reserver-cours', methods=['GET','POST'])    
-def reserver_cours():
+@app.route('/reserver-cours/<string:date>/<string:heureDebut>/<string:idCo>/<string:idPo>/<string:id_utilisateur>', methods=['GET','POST'])
+def reserver_cours(date, heureDebut, idCo, idPo, id_utilisateur):
     """Renvoie la page de réservation de cours
 
     Returns:
@@ -242,34 +242,69 @@ def reserver_cours():
     f = ReservationCoursForm()
     f.moniteurs.choices = [(moniteur.id_utilisateur, moniteur.prenom_utilisateur) for moniteur in Utilisateur.query.filter_by(id_role=3).all()]
     f.poneys.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
-    if f.validate_on_submit():
-        if f.validate():
-            r = Reserver()
-            r.nomRes = f.nomRes.data
-            r.collectif = f.collectif.data == 'true'
-            r.nbPersonne = f.nbPersonne.data
-            r.duree = f.duree.data
-            r.date = f.date.data
-            r.heureDebut = f.heureDebut.data
-            conflit = Reserver.query.filter(Reserver.date == r.date,Reserver.heureDebut <= r.heureDebut,(Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
-            if conflit:
-                flash("Un cours est déjà prévu à cette date et heure")
-                return redirect(url_for('reserver_cours'))
-            r.id_utilisateur = current_user.id_utilisateur
-            r.idCo= Reserver.get_last_id() + 1
-            r.idPo = f.poneys.data
-            moniteur = Utilisateur.query.get(f.moniteurs.data)
-            r.id_moniteur = moniteur.id_utilisateur
-            try:
-                db.session.add(r)
-                db.session.commit()
-                print("Réservation effectué")
-            except Exception as e:
-                print(f"Une erreur s'est produit {e}")
-                db.session.rollback()
+    f.cours.choices = [(cours.idCo, cours.nomCo) for cours in Cours.query.all()]
+    # reservation = Reserver.query.filter_by(nomRes=nomRes).first()
+    reservation = Reserver.query.filter_by(date=date, heureDebut=heureDebut, idCo=idCo, idPo=idPo, id_utilisateur=id_utilisateur)
     
-            return redirect(url_for('planning'))
-    return render_template('reserver-cours.html', form=f)
+    try:
+        
+        f.nomRes.data = reservation.nomRes
+        f.date.data = date
+    except:
+        pass
+    # try:
+    #     r = Reserver.query.filter_by(date=reservation.date, heureDebut=reservation.heureDebut, idCo=reservation.idCo, idPo=reservation.idPo, id_utilisateur=reservation.id_utilisateur)
+    # except:
+    #     r = None
+
+    # # r = Reserver.query.filter_by(date=, heureDebut=, idCo=, idPo=, id_utilisateur=)
+    # if r is not None:
+    #     if f.validate_on_submit():
+    #         reservation.nomRes = f.nomRes.data
+    #         reservation.idCo = Cours.query.get(f.cours.data).idCo
+    #         reservation.collectif = f.collectif.data == 'true'
+    #         reservation.nbPersonne = f.nbPersonne.data
+    #         reservation.duree = f.duree.data
+    #         reservation.date = f.date.data
+    #         reservation.heureDebut = f.heureDebut.data
+    #         reservation.id_utilisateur = current_user.id_utilisateur
+    #         reservation.idPo = f.poneys.data
+    #         moniteur = Utilisateur.query.get(f.moniteurs.data)
+    #         reservation.id_moniteur = moniteur.id_utilisateur
+    #         db.session.commit()
+    #         return redirect(url_for('mes_reservations'))
+    #     f.nomRes.data = reservation.nomRes
+    #     f.cours.data = Cours.query.get(reservation.idCo)
+    #     f.nbPersonne.data = reservation.collectif
+    #     f.nbPersonne.data = reservation.nbPersonne
+    #     f.duree.data = reservation.duree
+    #     f.date.data = reservation.date
+    #     f.heureDebut.data = reservation.heureDebut
+    #     f.poneys.data = reservation.idPo
+    #     f.moniteurs.data = Utilisateur.query.get(moniteur.id_utilisateur)
+    #     redirect(url_for('mes_reservations'))
+    # else:
+    #     if f.validate_on_submit():
+    #         r = Reserver()
+    #         r.nomRes = f.nomRes.data
+    #         r.idCo = Cours.query.get(f.cours.data).idCo
+    #         r.collectif = f.collectif.data == 'true'
+    #         r.nbPersonne = f.nbPersonne.data
+    #         r.duree = f.duree.data
+    #         r.date = f.date.data
+    #         r.heureDebut = f.heureDebut.data
+    #         # conflit = Reserver.query.filter_by(Reserver.date == r.date, Reserver.heureDebut <= r.heureDebut,(Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
+    #         # if conflit:
+    #         #     flash("Un cours est déjà prévu à cette date et heure")
+    #         #     return redirect(url_for('reserver_cours'))
+    #         r.id_utilisateur = current_user.id_utilisateur
+    #         r.idPo = f.poneys.data
+    #         moniteur = Utilisateur.query.get(f.moniteurs.data)
+    #         r.id_moniteur = moniteur.id_utilisateur
+    #         db.session.add(r)
+    #         db.session.commit()
+    #         return redirect(url_for('planning'))
+    return render_template('reserver-cours.html', form=f, date=date, heureDebut=heureDebut, idCo=idCo, idPo=idPo, id_utilisateur=id_utilisateur)
 
 @app.route('/inscrire-moniteur', methods=['GET','POST'])
 def inscrire_moniteur():
