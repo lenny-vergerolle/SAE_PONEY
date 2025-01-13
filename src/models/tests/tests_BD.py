@@ -1,7 +1,7 @@
 from datetime import date, time 
 import unittest
 from src.app import app_pour_tests, mkpath, db
-from src.models import Utilisateur, Poney, Role, Cours, Horaire, Travailler
+from src.models import Utilisateur, Poney, Role, Cours, Horaire, Travailler, Reserver
 
 class tests_BD(unittest.TestCase):
     def setUp(self):
@@ -20,6 +20,9 @@ class tests_BD(unittest.TestCase):
             utilisateur = Utilisateur(id_utilisateur=1,nom_utilisateur="Dupond",prenom_utilisateur="Pierre",mdp_utilisateur="1234",email_utilisateur="dupond@mail.com",img_utilisateur=None,id_role=1,poidsUser=70,tel_utilisateur="1234567890",ddn_utilisateur="12/30/2000",sexe_utilisateur="M")
             Utilisateur.add_utilisateur(utilisateur)
             
+            moniteur = Utilisateur(id_utilisateur=2,nom_utilisateur="Mirabelle",prenom_utilisateur="Paul",mdp_utilisateur="1234",email_utilisateur="paul@mail.com",img_utilisateur=None,id_role=3,poidsUser=85,tel_utilisateur="1234567890",ddn_utilisateur="1/3/1997",sexe_utilisateur="M")
+            Utilisateur.add_utilisateur(moniteur)
+            
             dupond = db.session.get(Utilisateur,1)
             self.assertIsNotNone(dupond)
             self.assertEqual(utilisateur.nom_utilisateur, dupond.nom_utilisateur)
@@ -30,7 +33,7 @@ class tests_BD(unittest.TestCase):
             self.assertTrue(dupond.is_adherent())
             self.assertFalse(dupond.is_admin())
             self.assertFalse(dupond.is_moniteur())
-            self.assertEqual(Utilisateur.get_last_id(),dupond.id_utilisateur)
+            self.assertEqual(Utilisateur.get_last_id(),moniteur.id_utilisateur)
             
     def test_poney(self):
         with self.app.app_context():
@@ -98,3 +101,20 @@ class tests_BD(unittest.TestCase):
             self.assertEqual(travailler.idHoraire, travail.idHoraire)
             self.assertEqual(travail.id_utilisateur, 1)
             self.assertEqual(travail.idHoraire, 1)
+            
+    def test_reserver(self):
+        with self.app.app_context():
+            reserver = Reserver(nomRes="reservation",duree=1,date=date(2025,4,4),heureDebut=time(9,0,0),nbPersonne=1,collectif=False,id_moniteur=2,idCo=1,idPo=1,id_utilisateur=1)
+            Reserver.add_reserver(reserver)
+            
+            reservation = db.session.get(Reserver,(date(2025,4,4),time(9,0,0),1,1,1))
+            self.assertIsNotNone(reservation)
+            self.assertEqual(reserver.idCo, reservation.idCo)
+            self.assertEqual(reserver.idPo, reservation.idPo)
+            self.assertEqual(reserver.id_utilisateur, reservation.id_utilisateur)
+            self.assertEqual(reservation.idCo, 1)
+            self.assertEqual(reservation.idPo, 1)
+            self.assertEqual(reservation.id_utilisateur, 1)
+            self.assertEqual(reservation.date,date(2025,4,4))
+            self.assertEqual(reservation.heureDebut,time(9,0,0))
+            self.assertFalse(reservation.collectif)
