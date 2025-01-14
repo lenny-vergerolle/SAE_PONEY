@@ -2,83 +2,34 @@
 {% block content %}
 <div class="page" style="background-color: #ECF8F6;min-height: 92vh;">
     <div class="d-flex justify-content-center">
-        <h1 class="fw-bolder display-4 m-4">Inscrire un moniteur</h1>
+        <h1 class="fw-bolder display-4 m-4">Ajouter un poney</h1>
     </div>
     <div class="mx-auto w-50 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4" style="background-color:white;max-width: 600px;">
-        <form class="w-100" method="POST" action="{{ url_for('ajout_moniteur') }}" enctype="multipart/form-data">            
+        <form class="w-100" method="POST" action="{{ url_for('ajout_poney') }}" enctype="multipart/form-data">            
             {{ form.hidden_tag() }}
             <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-2" for="name">{{ form.nom_user.label }}</label>
+                <label class="col-sm-4 color_white mb-2" for="name">{{ form.nomPo.label }}</label>
                     <div class="col-sm-8">    
-                        {{ form.nom_user(class_ ="form-control", placeholder="ex : Dupond") }}
+                        {{ form.nomPo(class_ ="form-control", placeholder="ex : Dupond") }}
                     </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="firstname">{{ form.prenom_user.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.prenom_user(class_ ="form-control", placeholder="ex : Jean") }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="ddn">{{ form.ddn_user.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.ddn_user(size=50, placeholder="JJ/MM/AAAA", class="form-control") }}
-                </div>
-            </div>
-            <div class="color_white mb-3 row form-group">
-                <label class="col-sm-4 color_white mb-3" for="sexe">{{ form.sexeUser.label }}</label>
-                <div class="col-sm-8">
-                    {% for subfield in form.sexeUser %}
-                <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" id="{{ subfield.id }}" name="{{ subfield.name }}" value="{{ subfield.data }}" {% if subfield.checked %}checked{% endif %}>
-                    <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
-                </div>
-                {% endfor %}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="poids">{{ form.poidsUser.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.poidsUser(class="form-control", type="number", placeholder="ex : 70", step="1", min="0") }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="numero">{{ form.telUser.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.telUser(class_ ="form-control", placeholder="ex : 0712345567") }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="email">{{ form.email.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.email(class_ ="form-control", placeholder="ex : jean@mail.com") }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="mdp">{{ form.mot_de_passe.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-3" for="mdp">{{ form.confirmation_mot_de_passe.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.confirmation_mot_de_passe(class_ ="form-control", placeholder="ex : mot de passe") }}
-                </div>
+                <label class="col-sm-4 color_white mb-2" for="name">{{ form.couleurPo.label }}</label>
+                    <div class="col-sm-8">    
+                        {{ form.couleurPo(class_ ="form-control", placeholder="ex : Dupond") }}
+                    </div>
             </div>
 
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-2" for="certification">{{ form.certificationUser.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.certificationUser(class="form-control") }}
-                </div>
+            <div class="color_white mb-3 form-group">
+                {{ form.ddnPo.label(class="mb-3") }}
+                {{ form.ddnPo(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
             </div>
-            <div class="mb-3 row">
-                <label class="col-sm-4 color_white mb-2" for="contrat">{{ form.contratUser.label }}</label>
-                <div class="col-sm-8">
-                    {{ form.contratUser(class="form-control") }}
-                </div>
+
+            <div class="color_white mb-3 form-group">
+                {{ form.poidsMax.label(class="mb-3") }}
+                {{ form.poidsMax(size=50, placeholder="Poids", class="rounded-3") }}
             </div>
+            
             <div class="d-flex justify-content-center mt-4">
                 <button class="btn btn-success fw-bolder px-4 py-1" style="margin-top:30px" type="submit">Valider</button>
             </div>

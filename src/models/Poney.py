@@ -9,4 +9,4 @@ class Poney(db.Model):
     couleurPo = db.Column(db.String(45))
     ddnPo = db.Column(db.Date)
 
-    reserver = db.relationship('Reserver', back_populates='poney')
+    reserver = db.relationship('Reserver', back_populates='poney',cascade='all, delete')

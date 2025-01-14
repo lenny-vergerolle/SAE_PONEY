@@ -1,4 +1,6 @@
 from datetime import time
+
+from src.forms.PoneyForm import PoneyForm
 from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
 from sqlalchemy import or_
@@ -397,16 +399,14 @@ def ajout_poney():
     Returns:
         ajout-poney.html: Une page d'ajout de poney
     """
-    if request.method == 'POST':
-        nomPo = request.form['nomPo']
-        poidsMax = request.form['poidsMax']
-        couleurPo = request.form['couleurPo']
-        ddnPo = request.form['ddnPo']
+    f = PoneyForm()
+    if f.validate_on_submit():
         p = Poney()
-        p.nomPo = nomPo
-        p.poidsMax = poidsMax
-        p.couleurPo = couleurPo
-        p.ddnPo = ddnPo
+
+        p.nomPo = f.nomPo.data
+        p.poidsMax = f.poidsMax.data
+        p.couleurPo = f.couleurPo.data
+        p.ddnPo = f.ddnPo.data
         try:
             db.session.add(p)
             db.session.commit()
@@ -414,4 +414,5 @@ def ajout_poney():
         except Exception as e:
             print(f"Une erreur s'est produit {e}")
             db.session.rollback()
-    return render_template('ajout-poney.html')
+        return redirect(url_for('gerer_poneys'))
+    return render_template('ajout-poney.html',form =f)

@@ -9,10 +9,11 @@
         <thead>
             <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
+                <th scope="col">Poids</th>
                 <th scope="col">Date de naissance</th>
-                <th scope="col"><td><a href="{{url_for('ajout_poney')}}" class="btn-vert">Ajouter</a></td></th>
                 <th scope="col">Supprimer</th>
+                <th scope="col"><td><a href="{{url_for('ajout_poney')}}" class="btn-vert">Ajouter</a></td></th>
+                
 
             </tr>
         </thead>
@@ -20,9 +21,9 @@
              
             {% for poney in poneys %}
             <tr>
-                <td>{{poney.nom_utilisateur}}</td>
-                <td>{{poney.prenom_utilisateur}}</td>
-                <td>{{poney.ddn_utilisateur}}</td>
+                <td>{{poney.nomPo}}</td>
+                <td>{{poney.poidsMax}}</td>
+                <td>{{poney.ddnPo}}</td>
                 <td><a href="{{url_for('suppression_poney',idPo = poney.idPo)}}" class="btn-vert">Supprimer</a></td>
             </tr>
             {% endfor %}

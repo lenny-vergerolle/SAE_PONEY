@@ -24,7 +24,7 @@ class Utilisateur(db.Model, UserMixin):
     fs_uniquifier = db.Column(db.String(255), unique=True, default=lambda: str(uuid.uuid4()))  
     
     # Relation vers les reservations
-    reserver = db.relationship('Reserver', back_populates='utilisateur')
+    reserver = db.relationship('Reserver', back_populates='utilisateur',cascade='all, delete')
  
     # Relation vers les cours
     cours = db.relationship('Cours', back_populates='utilisateur')
