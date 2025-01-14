@@ -153,7 +153,7 @@ def modifier_profil():
             return redirect(url_for('home'))
     f.nom_user.data = current_user.nom_utilisateur
     f.prenom_user.data = current_user.prenom_utilisateur
-    f.email.data = current_user.email_utilisateur 
+    f.email.data = current_user.email_utilisateur
     f.telUser.data = current_user.tel_utilisateur
     f.poidsUser.data = current_user.poidsUser
     return render_template('profil.html', form=f)
@@ -175,12 +175,12 @@ def planning():
         {"id": 17, "plage": "17:00 - 18:00"},
     ]
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-    
+
     # Crée un dictionnaire avec une liste vide pour chaque jour
     dico_jours_horaires = {jour: {horaire['id']: [] for horaire in horaires} for jour in jours}
-    
+
     #mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
-    
+
     jours_mapping = {
         "Monday": "Lundi",
         "Tuesday": "Mardi",
@@ -190,34 +190,34 @@ def planning():
         "Saturday": "Samedi",
         "Sunday": "Dimanche"
     }
-    
+
     if current_user.is_authenticated:
         if current_user.id_role == 3:
             mes_reservations = Reserver.query.filter_by(id_moniteur=current_user.id_utilisateur).all()
         else :
             mes_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
 
-    
+
         # Organiser les cours par jour et horaire
         for reservation in mes_reservations:
             jour_francais = jours_mapping[reservation.date.strftime('%A')]
-            
+
             if jour_francais in jours and reservation.heureDebut.hour in [horaire['id'] for horaire in horaires]:
                 dico_jours_horaires[jour_francais][reservation.heureDebut.hour].append(reservation)
-                
+
 
         return render_template('planning.html', dico=dico_jours_horaires, jours=jours, horaires=horaires)
     return redirect(url_for('home'))
 
 @login_required
-@app.route('/creer-cours', methods=['GET','POST'])    
+@app.route('/creer-cours', methods=['GET','POST'])
 def creer_cours():
     """Renvoie la page de création de cours
 
     Returns:
         creer_cours.html: Une page de création de cours
     """
-    
+
     f = CreationCoursForm()
     f.adherents.choices = [(adherent.id_utilisateur, adherent.nom_utilisateur) for adherent in Utilisateur.query.filter_by(id_role=1).all()]
     if f.validate_on_submit():
@@ -235,7 +235,7 @@ def creer_cours():
             except Exception as e:
                 print(f"Une erreur s'est produit {e}")
                 db.session.rollback()
-    
+
             return redirect(url_for('home'))
     return render_template('creer-cours.html', form=f)
 
@@ -277,7 +277,7 @@ def ajout_moniteur():
     return render_template('ajout_moniteur.html', form=f)
 
 @login_required
-@app.route('/reserver-cours', methods=['GET','POST'])    
+@app.route('/reserver-cours', methods=['GET','POST'])
 def reserver_cours():
     """Renvoie la page de réservation de cours
 
@@ -416,3 +416,33 @@ def ajout_poney():
             db.session.rollback()
         return redirect(url_for('gerer_poneys'))
     return render_template('ajout-poney.html',form =f)
+
+
+@app.route('/home/gerer-adherents', methods=['GET'])
+def gerer_adherents():
+    """Renvoie la page de gestion des poneys
+
+    Returns:
+        gerer_poneys.html: Une page de gestion des poneys
+    """
+    adherents = Utilisateur.query.filter_by(id_role=1).all()
+    return render_template('gerer-adherents.html', adherents=adherents)
+
+
+
+@app.route('/home/suppression-adherent/<int:id_utilisateur>', methods=['GET'])
+def suppression_adherent(id_utilisateur):
+    """Supprime un adherent
+    Args:
+        id_utilisateur (int): L'identifiant de l'adherent
+    Returns:
+        gerer-moniteurs.html: Une page de gestion des adherents
+    """
+    adherent = Utilisateur.query.filter_by(id_utilisateur=id_utilisateur).first()
+    if adherent:
+        db.session.delete(adherent)
+        db.session.commit()
+        print('Le moniteur a été supprimée avec succès.')
+    else:
+        print('La moniteur n\'a pas été trouvée.')
+    return redirect(url_for('gerer_adherents'))

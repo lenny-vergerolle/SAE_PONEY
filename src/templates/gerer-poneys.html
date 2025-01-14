@@ -24,7 +24,7 @@
                 <td>{{poney.nomPo}}</td>
                 <td>{{poney.poidsMax}}</td>
                 <td>{{poney.ddnPo}}</td>
-                <td><a href="{{url_for('suppression_poney',idPo = poney.idPo)}}" class="btn-vert">Supprimer</a></td>
+                <td class="btn-vert"><a href="{{url_for('suppression_poney',idPo = poney.idPo)}}" class="btn-vert" style="margin:0;display: block; width: 100%; height: 100%;">Supprimer</a></td>
             </tr>
             {% endfor %}
         </tbody>

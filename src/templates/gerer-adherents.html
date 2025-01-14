@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page" style="background-color: #ECF8F6;min-height: 92vh;">
+    <div class="d-flex justify-content-center">
+        <h1 class="fw-bolder display-4 m-4">Gérer les adhérents </h1>
+    </div>
+    <h3>Liste des adhérents</h3>
+    <a href="{{url_for('signin')}}" class="btn-vert">Ajouter</a>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Date de naissance</th>
+                <th scope="col">Supprimer</th>
+        
+            </tr>
+        </thead>
+        <tbody>
+             
+            {% for adherent in adherents %}
+            <tr>
+                <td>{{adherent.nom_utilisateur}}</td>
+                <td>{{adherent.prenom_utilisateur}}</td>
+                <td>{{adherent.ddn_utilisateur}}</td>
+                <td><a href="{{url_for('suppression_adherent',id_utilisateur = adherent.id_utilisateur)}}"class="btn-vert" style="margin:0;display: block; width: 100%; height: 100%;">Supprimer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    
+
+</div>
+{% endblock %}
