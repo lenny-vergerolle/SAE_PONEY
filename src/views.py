@@ -75,6 +75,18 @@ def mes_reservations():
     les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
+@app.route('/details-reservation/<string:nomRes>')
+def details_reservation(nomRes):
+    """Renvoie la page de détails d'une réservation
+
+    Returns:
+        details-reservation.html : Une page de détails d'une réservation
+    """
+    #reservation = Reserver.query.filter_by(idCo=idCo,id_utilisateur=id_utilisateur,idPo=idPo).first()
+    reservation = Reserver.query.filter_by(nomRes=nomRes).first()
+    
+    return render_template('une-reservation.html', reservation=reservation)
+
 @app.route('/accueil-visiteur')
 def accueil_visiteur():
     """Renvoie la page d'accueil des adherents
