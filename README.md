@@ -6,11 +6,10 @@
 - Akhtar Naima 21
 
 ## Commandes pratiques
-Une fois connecté à mysql : 
-- supprimer la base de données : `source delPon.sql;`
-- créer la base de données : `source creaPon.sql;`
-- ajouter les insertions : `source insPon.sql;`
-  
+
+pip install -r requirements.txt
+flask loaddb src/data.yml
+flask run
 ## Organisation 
 
 |  date  | Lenny (chef de projet)        |  Valentin           | Naima             |
