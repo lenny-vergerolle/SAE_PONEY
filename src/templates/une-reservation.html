@@ -1,33 +1,69 @@
-<div class="pb-5 my-5" style="background-color: white; border-radius: 50px;">
-    <div class="d-flex text-decoration-none text-black">
-        <div class="d-flex flex-column w-100 m-5">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Grand Galop</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/logo.png') }}" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    {% endblock %}
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+</head>
+<body>
+    <a href="{{ url_for('planning') }}">
+        <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
+    </a>
+    <div style=" margin: 0;padding: 0;display: flex;justify-content: center;align-items: center;height: 100vh;background-color: #f5f5f5;">  
+
+        <div class="pb-5 my-5" style="background-color: white; border-radius: 50px;">
             <div class="d-flex justify-content-center">
                 <h3>{{ reservation.nomRes }}</h3>
             </div>
             <div class="d-flex flex-nowrap justify-content-between">
                 <div class="d-flex flex-column">
-                    <h3 class="my-2">{{reservation.date}}</h3>
-                    <p class="my-2">Début: {{reservation.heureDebut}}</p>
+                    <h3 class="my-2">{{ reservation.date }}</h3>
+                    <p class="my-2">Début: {{ reservation.heureDebut }}</p>
                     <div class="d-flex flex-nowrap align-items-center my-2">
-                        <img src="{{url_for('static', filename='img/horloge.png')}}" alt="horloge" style="width: 25px; height: auto; margin-right: 5px;">
-                        <p class="m-0"> {{reservation.duree}} h</p>
+                        <img src="{{ url_for('static', filename='img/horloge.png') }}" alt="horloge" style="width: 25px; height: auto; margin-right: 5px;">
+                        <p class="m-0">{{ reservation.duree }} h</p>
                     </div>
                 </div>
                 <div class="d-flex flex-nowrap align-items-center">
-                    <img src="{{url_for('static', filename='img/utilisateur.png')}}" alt="utilisateur" style="width: 50px; height: auto;">
-                    <p class="mb-0 mx-2">x{{reservation.nbPersonne}}</p>
+                    <img src="{{ url_for('static', filename='img/utilisateur.png') }}" alt="utilisateur" style="width: 50px; height: auto;">
+                    <p class="mb-0 mx-2">x{{ reservation.nbPersonne }}</p>
                 </div>
             </div>
             <div class="d-flex flex-nowrap justify-content-between mt-2">
-                <h3>
-                    Moniteur: 
-                    {% for moniteur in moniteurs %}
-                    {% if moniteur.id_utilisateur == reservation.id_moniteur %}
-                        {{ moniteur.prenom_utilisateur }}
+                    {% if current_user.id_role == 1 %}
+                    <h3>
+                        Moniteur: 
+                        {% for moniteur in moniteurs %}
+                            {% if moniteur.id_utilisateur == reservation.id_moniteur %}
+                                {{ moniteur.prenom_utilisateur }}
+                            {% endif %}
+                        {% endfor %}
+                    </h3>
                     {% endif %}
-                    {% endfor %}
-                </h3>
-                <h3>Poney: {{reservation.poney.nomPo}}</h3>
+                </div>
+                <div class="d-flex flex-nowrap justify-content-between mt-2">
+                    {% if current_user.id_role == 3 %}
+                    <h3>
+                        Adhérent: 
+                        {% for adh in adherents %}
+                            {% if adh.id_utilisateur == reservation.id_utilisateur %}
+                                {{ adh.prenom_utilisateur }}
+                            {% endif %}
+                        {% endfor %}
+                    </h3>
+                    {% endif %}
+                
+                <h3>Poney: {{ reservation.poney.nomPo }}</h3>
                 <h3>Type de cours: 
                     {% if reservation.collectif == 1 %}
                         Collectif
@@ -36,16 +72,14 @@
                     {% endif %}
                 </h3>
             </div>
-
+            <div class="d-flex justify-content-center mt-3">
+                <input type="button" class="btn-modifier mx-5" value="Modifier la réservation">
+                <a href="{{ url_for('suppression_reservation', idPo=reservation.idPo, id_utilisateur=reservation.id_utilisateur, idCo=reservation.idCo) }}" 
+                   class="btn-supprimer mx-5">
+                    Supprimer la réservation
+                </a>
+            </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        <input type="button" class="btn-modifier mx-5" value="Modifier la réservation">
-    
-        <a href="{{ url_for('suppression_reservation', idPo=reservation.idPo, id_utilisateur=reservation.id_utilisateur, idCo=reservation.idCo) }}" 
-           class="btn-supprimer mx-5">
-            Supprimer la réservation
-        </a>
-    </div>
-    
-</div>
+</body>
+</html>

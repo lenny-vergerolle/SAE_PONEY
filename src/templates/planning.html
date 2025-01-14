@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% block content %}
+<a href="{{ url_for('home') }}">
+  <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
+</a>
 <form method="post" action="{{ url_for('planning') }}" >
-</form>
 
   <script>  
 
@@ -70,8 +72,10 @@
                           {% else %}
                               {% set cours = dico[jour][horaire.id] %}
                               {% if cours %}
-                                  {% for cour in cours %}
-                                      <p>{{ cour.nomRes }}</p>
+                                    {% for cour in cours %}
+                                    <a href="{{ url_for('details_reservation', nomRes=cour.nomRes) }}" style="display: block; width: 100%; height: 100%;">
+                                      <input class="btn-vert" type="button" value="{{ cour.nomRes }}" style="width: 100%; height: 100%; border:none;">
+                                    </a>
                                   {% endfor %}
                               {% else %}
                                   <p> </p>

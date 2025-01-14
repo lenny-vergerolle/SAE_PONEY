@@ -1,4 +1,6 @@
 from datetime import time
+
+from src.forms.PoneyForm import PoneyForm
 from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
 from sqlalchemy import or_
@@ -71,6 +73,18 @@ def mes_reservations():
     moniteurs = Utilisateur.query.filter_by(id_role=3).all()
     les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
+
+@app.route('/details-reservation/<string:nomRes>')
+def details_reservation(nomRes):
+    """Renvoie la page de détails d'une réservation
+
+    Returns:
+        details-reservation.html : Une page de détails d'une réservation
+    """
+    #reservation = Reserver.query.filter_by(idCo=idCo,id_utilisateur=id_utilisateur,idPo=idPo).first()
+    reservation = Reserver.query.filter_by(nomRes=nomRes).first()
+    
+    return render_template('une-reservation.html', reservation=reservation)
 
 @app.route('/accueil-visiteur')
 def accueil_visiteur():
@@ -323,11 +337,13 @@ def reserver_cours():
 
 @app.route('/home/suppression_reservation/<int:id_utilisateur>/<int:idCo>/<int:idPo>', methods=['GET'])
 def suppression_reservation(idPo,id_utilisateur,idCo):
-    """Supprime un réseau
+    """Supprime une réservation
     Args:
-        id_reseau (int): L'identifiant du réseau
+        idPo (int): L'identifiant du poney
+        id_utilisateur (int): L'identifiant de l'utilisateur
+        idCo (int): L'identifiant du cours
     Returns:
-        mes-reseaux-admin.html: Une page des réseaux pour un organisateur
+        redirect: Redirige vers la page des réservations
     """
     reservation = Reserver.query.filter_by(id_utilisateur=id_utilisateur,idPo=idPo,idCo=idCo).first()
     if reservation:
@@ -337,3 +353,112 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
     else:
         print('La réservation n\'a pas été trouvée.')
     return redirect(url_for('mes_reservations'))
+  
+@app.route('/home/gerer-moniteurs', methods=['GET'])
+def gerer_moniteurs():
+    """Renvoie la page de gestion des poneys
+
+    Returns:
+        gerer_poneys.html: Une page de gestion des poneys
+    """
+    moniteurs = Utilisateur.query.filter_by(id_role=3).all()
+    return render_template('gerer-moniteurs.html', moniteurs=moniteurs)
+
+@app.route('/home/suppression-moniteur/<int:id_utilisateur>', methods=['GET'])
+def suppression_moniteur(id_utilisateur):
+    """Supprime un moniteur
+    Args:
+        id_utilisateur (int): L'identifiant du moniteur
+    Returns:
+        gerer-moniteurs.html: Une page de gestion des moniteurs
+    """
+    moniteur = Utilisateur.query.filter_by(id_utilisateur=id_utilisateur).first()
+    if moniteur:
+        db.session.delete(moniteur)
+        db.session.commit()
+        print('Le moniteur a été supprimée avec succès.')
+    else:
+        print('La moniteur n\'a pas été trouvée.')
+    return redirect(url_for('gerer_moniteurs'))
+
+@app.route('/home/gerer-poneys', methods=['GET'])
+def gerer_poneys():
+    """Renvoie la page de gestion des moniteurs
+
+    Returns:
+        gerer_moniteurs.html: Une page de gestion des moniteurs
+    """
+    poneys = Poney.query.all()
+    return render_template('gerer-poneys.html', poneys=poneys)
+
+@app.route('/home/suppression-poney/<int:idPo>', methods=['GET'])
+def suppression_poney(idPo):
+    """Supprime un poney
+    Args:
+        idPo (int): L'identifiant du poney
+    Returns:
+        gerer-poneys.html: Une page de gestion des poneys
+    """
+    poney = Poney.query.filter_by(idPo=idPo).first()
+    if poney:
+        db.session.delete(poney)
+        db.session.commit()
+        print('Le poney a été supprimé avec succès.')
+    else:
+        print('Le poney n\'a pas été trouvé.')
+    return redirect(url_for('gerer_poneys'))
+
+@app.route('/home/ajout-poney', methods=['GET','POST'])
+def ajout_poney():
+    """Renvoie la page d'ajout de poney
+
+    Returns:
+        ajout-poney.html: Une page d'ajout de poney
+    """
+    f = PoneyForm()
+    if f.validate_on_submit():
+        p = Poney()
+
+        p.nomPo = f.nomPo.data
+        p.poidsMax = f.poidsMax.data
+        p.couleurPo = f.couleurPo.data
+        p.ddnPo = f.ddnPo.data
+        try:
+            db.session.add(p)
+            db.session.commit()
+            print("Poney ajouté")
+        except Exception as e:
+            print(f"Une erreur s'est produit {e}")
+            db.session.rollback()
+        return redirect(url_for('gerer_poneys'))
+    return render_template('ajout-poney.html',form =f)
+
+
+@app.route('/home/gerer-adherents', methods=['GET'])
+def gerer_adherents():
+    """Renvoie la page de gestion des poneys
+
+    Returns:
+        gerer_poneys.html: Une page de gestion des poneys
+    """
+    adherents = Utilisateur.query.filter_by(id_role=1).all()
+    return render_template('gerer-adherents.html', adherents=adherents)
+
+
+
+@app.route('/home/suppression-adherent/<int:id_utilisateur>', methods=['GET'])
+def suppression_adherent(id_utilisateur):
+    """Supprime un adherent
+    Args:
+        id_utilisateur (int): L'identifiant de l'adherent
+    Returns:
+        gerer-moniteurs.html: Une page de gestion des adherents
+    """
+    adherent = Utilisateur.query.filter_by(id_utilisateur=id_utilisateur).first()
+    if adherent:
+        db.session.delete(adherent)
+        db.session.commit()
+        print('Le moniteur a été supprimée avec succès.')
+    else:
+        print('La moniteur n\'a pas été trouvée.')
+    return redirect(url_for('gerer_adherents'))
