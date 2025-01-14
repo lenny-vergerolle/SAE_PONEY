@@ -26,12 +26,11 @@
 
                 <div class="mx-5 d-flex align-items-center flex-wrap">
                     {% if not current_user.is_authenticated %}
-                        <a href="{{url_for('signin')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
-                            Inscription
-                        </a>
-                    
                         <a href="{{url_for('login')}}" class="mx-4 btn-vert">
                             Se connecter
+                        </a>
+                        <a href="{{url_for('signin')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            S'inscrire
                         </a>
                     {% endif%}
                 </div>
@@ -40,12 +39,16 @@
                 <div>
 
                     {% if current_user.id_role == 1 %}
+                        <a href="{{url_for('planning')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir mon planning
+                        </a>
                         <a href="{{url_for('reserver_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Réserver
                         </a>
                         <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Gérer les réservations
                         </a>
+                        
                     {% endif %}
 
                     {% if current_user.id_role == 2 %}
