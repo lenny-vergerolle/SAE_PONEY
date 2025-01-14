@@ -338,10 +338,10 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
 
 @app.route('/home/gerer-moniteurs', methods=['GET'])
 def gerer_moniteurs():
-    """Renvoie la page de gestion des moniteurs
+    """Renvoie la page de gestion des poneys
 
     Returns:
-        gerer_moniteurs.html: Une page de gestion des moniteurs
+        gerer_poneys.html: Une page de gestion des poneys
     """
     moniteurs = Utilisateur.query.filter_by(id_role=3).all()
     return render_template('gerer-moniteurs.html', moniteurs=moniteurs)
@@ -362,3 +362,56 @@ def suppression_moniteur(id_utilisateur):
     else:
         print('La moniteur n\'a pas été trouvée.')
     return redirect(url_for('gerer_moniteurs'))
+
+@app.route('/home/gerer-poneys', methods=['GET'])
+def gerer_poneys():
+    """Renvoie la page de gestion des moniteurs
+
+    Returns:
+        gerer_moniteurs.html: Une page de gestion des moniteurs
+    """
+    poneys = Poney.query.all()
+    return render_template('gerer-poneys.html', poneys=poneys)
+
+@app.route('/home/suppression-poney/<int:idPo>', methods=['GET'])
+def suppression_poney(idPo):
+    """Supprime un poney
+    Args:
+        idPo (int): L'identifiant du poney
+    Returns:
+        gerer-poneys.html: Une page de gestion des poneys
+    """
+    poney = Poney.query.filter_by(idPo=idPo).first()
+    if poney:
+        db.session.delete(poney)
+        db.session.commit()
+        print('Le poney a été supprimé avec succès.')
+    else:
+        print('Le poney n\'a pas été trouvé.')
+    return redirect(url_for('gerer_poneys'))
+
+@app.route('/home/ajout-poney', methods=['GET','POST'])
+def ajout_poney():
+    """Renvoie la page d'ajout de poney
+
+    Returns:
+        ajout-poney.html: Une page d'ajout de poney
+    """
+    if request.method == 'POST':
+        nomPo = request.form['nomPo']
+        poidsMax = request.form['poidsMax']
+        couleurPo = request.form['couleurPo']
+        ddnPo = request.form['ddnPo']
+        p = Poney()
+        p.nomPo = nomPo
+        p.poidsMax = poidsMax
+        p.couleurPo = couleurPo
+        p.ddnPo = ddnPo
+        try:
+            db.session.add(p)
+            db.session.commit()
+            print("Poney ajouté")
+        except Exception as e:
+            print(f"Une erreur s'est produit {e}")
+            db.session.rollback()
+    return render_template('ajout-poney.html')
