@@ -319,11 +319,13 @@ def reserver_cours():
 
 @app.route('/home/suppression_reservation/<int:id_utilisateur>/<int:idCo>/<int:idPo>', methods=['GET'])
 def suppression_reservation(idPo,id_utilisateur,idCo):
-    """Supprime un réseau
+    """Supprime une réservation
     Args:
-        id_reseau (int): L'identifiant du réseau
+        idPo (int): L'identifiant du poney
+        id_utilisateur (int): L'identifiant de l'utilisateur
+        idCo (int): L'identifiant du cours
     Returns:
-        mes-reseaux-admin.html: Une page des réseaux pour un organisateur
+        redirect: Redirige vers la page des réservations
     """
     reservation = Reserver.query.filter_by(id_utilisateur=id_utilisateur,idPo=idPo,idCo=idCo).first()
     if reservation:
@@ -334,3 +336,29 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
         print('La réservation n\'a pas été trouvée.', 'error')
     return redirect(url_for('mes_reservations'))
 
+@app.route('/home/gerer-moniteurs', methods=['GET'])
+def gerer_moniteurs():
+    """Renvoie la page de gestion des moniteurs
+
+    Returns:
+        gerer_moniteurs.html: Une page de gestion des moniteurs
+    """
+    moniteurs = Utilisateur.query.filter_by(id_role=3).all()
+    return render_template('gerer-moniteurs.html', moniteurs=moniteurs)
+
+@app.route('/home/suppression-moniteur/<int:id_utilisateur>', methods=['GET'])
+def suppression_moniteur(id_utilisateur):
+    """Supprime un moniteur
+    Args:
+        id_utilisateur (int): L'identifiant du moniteur
+    Returns:
+        gerer-moniteurs.html: Une page de gestion des moniteurs
+    """
+    moniteur = Utilisateur.query.filter_by(id_utilisateur=id_utilisateur).first()
+    if moniteur:
+        db.session.delete(moniteur)
+        db.session.commit()
+        print('Le moniteur a été supprimée avec succès.')
+    else:
+        print('La moniteur n\'a pas été trouvée.')
+    return redirect(url_for('gerer_moniteurs'))
