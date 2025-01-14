@@ -10,7 +10,7 @@ from datetime import date, datetime, time, timedelta
 
 class CreationCoursForm(FlaskForm):
     nomCo = StringField('Nom du cours', validators=[DataRequired()])
-    adherents = SelectField('Adherents',coerce=int)
+    adherents = SelectField('Adherent',coerce=int)
     #def validate(self, extra_validators=None):
     #    if self.collectif.data == 'True':
     #        self.collectif.data = True

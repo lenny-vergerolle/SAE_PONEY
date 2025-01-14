@@ -23,7 +23,6 @@ from functools import wraps
 from flask import abort
 from werkzeug.datastructures import FileStorage
 
-
 @app.route('/signin', methods=['GET','POST'])
 def signin():
     f = InscriptionForm()
@@ -285,8 +284,8 @@ def ajout_moniteur():
             if file_contrat:
                 file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
                 file_contrat.save(file_path)
-            return redirect(url_for('ajout_moniteur'))
-    return render_template('ajout_moniteur.html', form=f)
+            return redirect(url_for('home'))
+    return render_template('ajout-moniteur.html', form=f)
 
 @login_required
 @app.route('/reserver-cours', methods=['GET','POST'])
@@ -297,11 +296,13 @@ def reserver_cours():
         reserver_cours.html: Une page de réservation de cours
     """
     f = ReservationCoursForm()
-    f.moniteurs.choices = [(moniteur.id_utilisateur, moniteur.prenom_utilisateur) for moniteur in Utilisateur.query.filter_by(id_role=3).all()]
-    f.poneys.choices = [(poney.idPo, poney.nomPo) for poney in Poney.query.all()]
-    f.cours.choices = [
-        (cour.idCo, cour.nomCo) for cour in Cours.query.filter(Cours.id_adherent != current_user.id_utilisateur).all()
+    f.moniteurs.choices = [
+        (moniteur.id_utilisateur, moniteur.prenom_utilisateur)
+        for moniteur in Utilisateur.query.filter_by(id_role=3).all()
     ]
+    f.poneys.choices = [(poney.idPo, poney.nomPo)
+                        for poney in Poney.query.all()]
+    f.cours.choices = [(cour.idCo, cour.nomCo) for cour in Cours.query.filter(or_(Cours.id_adherent == current_user.id_utilisateur,Cours.id_adherent ==0)).all()]
     if f.validate():
         r = Reserver()
         r.nomRes = f.nomRes.data
@@ -310,7 +311,10 @@ def reserver_cours():
         r.duree = f.duree.data
         r.date = f.date.data
         r.heureDebut = f.heureDebut.data
-        conflit = Reserver.query.filter(Reserver.date == r.date, Reserver.heureDebut <= r.heureDebut, (Reserver.heureDebut + Reserver.duree) > r.heureDebut).first()
+        conflit = Reserver.query.filter(Reserver.date == r.date,
+                                        Reserver.heureDebut <= r.heureDebut,
+                                        (Reserver.heureDebut + Reserver.duree)
+                                        > r.heureDebut).first()
         if conflit:
             flash("Un cours est déjà prévu à cette date et heure")
             return redirect(url_for('reserver_cours'))
@@ -345,11 +349,11 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
     if reservation:
         db.session.delete(reservation)
         db.session.commit()
-        print('La réservation a été supprimée avec succès.', 'success')
+        print('La réservation a été supprimée avec succès.')
     else:
-        print('La réservation n\'a pas été trouvée.', 'error')
+        print('La réservation n\'a pas été trouvée.')
     return redirect(url_for('mes_reservations'))
-
+  
 @app.route('/home/gerer-moniteurs', methods=['GET'])
 def gerer_moniteurs():
     """Renvoie la page de gestion des poneys
