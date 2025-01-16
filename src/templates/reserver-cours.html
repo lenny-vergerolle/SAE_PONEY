@@ -45,14 +45,20 @@
                 </div>
             </div>
 
-            <div class ="mx-auto d-flex flex-column m-4 w-50">
-                <label class="my-3   fs-5" for="name">{{ form.duree.label }} </label>
-                {{ form.duree(size=50, class_="form-control rounded-5 ") }}
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="duree">{{ form.duree.label }}</label>
+                <div class="col-sm-8">    
+                    {{ form.duree(size=50, class_="form-control rounded-5 ") }}
+                </div>
             </div>
-            <div class ="mx-auto d-flex flex-column m-4 w-50">
-                <label class="my-3   fs-5" for="name">{{ form.date.label }} </label>
-                {{ form.date(size=50, class_="form-control rounded-5 ") }}
+
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="date">{{ form.date.label }}</label>
+                <div class="col-sm-8">    
+                    {{ form.date(size=50, class_="form-control rounded-5 ") }}
+                </div>
             </div>
+
             <div class ="mx-auto d-flex flex-column m-4 w-50">
                 <label class="my-3   fs-5" for="name">{{ form.moniteurs.label }} </label>
                 {{ form.moniteurs(size=1, class_="form-control") }}
