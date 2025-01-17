@@ -35,7 +35,8 @@ Une fois connecté à mysql :
 ## Pour tester la BD
 - Pour lancer les tests : `python -m unittest src/models/tests/tests_BD.py`
 
-## Fonctionnalités
+## Fonctionnalités implémentées
+
 
 ### Pour un visiteur :
 - Consulter les informations du club sur la page d’accueil.
@@ -44,22 +45,35 @@ Une fois connecté à mysql :
 
 ### Pour un administrateur :
 - Se connecter/se déconnecter.
-- Gérer les moniteurs : consulter la liste des moniteurs et ajouter/supprimer un moniteur.
-- Gérer les adhérents : consulter la liste des adhérents et ajouter/supprimer un adhérent.
-- Gérer les poneys : consulter la liste des poneys et ajouter/supprimer un poney.
 - Modifier son profil : la photo de profil, le nom, le prénom, etc.
+
+## Après la soutenance :
+
+- Gérer les poneys : consulter la liste des poneys et ajouter/supprimer/modifier un poney.
+- Gérer les moniteurs : consulter la liste des moniteurs et ajouter/supprimer/modifier un moniteur.
+- Gérer les adhérents : consulter la liste des adhérents et ajouter/supprimer un adhérent.
 - Historique : garder en mémoire toutes les réservations même si elles sont supprimées.
+- Modifier le mot de passe des autres
+
 
 ### Pour un moniteur :
 - Se connecter/se déconnecter.
 - Consulter son planning : supprimer une réservation présente dans le planning.
+- Modifier son profil : la photo de profil, le nom, le prénom
+## Après la soutenance :
+
 - Créer un cours privé pour un adhérent.
 - Gérer ses réservations (depuis la navbar et depuis le planning) : consulter la liste des réservations et ajouter/supprimer une réservation.
-- Modifier son profil : la photo de profil, le nom, le prénom, etc.
-
+- Modifier son mot de passe
 ### Pour un adhérent :
 - Se connecter/se déconnecter.
 - Consulter son planning.
 - Réserver un cours.
-- Gérer ses réservations (depuis la navbar et depuis le planning) : consulter la liste des réservations et ajouter/supprimer une réservation.
 - Modifier son profil : la photo de profil, le nom, le prénom, etc.
+
+
+## Après la soutenance :
+
+- Gérer ses réservations (depuis la navbar et depuis le planning) : consulter la liste des réservations et ajouter/supprimer une réservation.
+- Modifier son mot de passe
+
