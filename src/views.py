@@ -1,6 +1,7 @@
 from datetime import time
 
 from src.forms.PoneyForm import PoneyForm
+from src.models.Historique import Historique
 from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
 from sqlalchemy import or_
@@ -63,6 +64,7 @@ def home():
     nb_moniteurs = len(Utilisateur.query.filter_by(id_role=3).all())
     return render_template('home.html',nb_adherents=nb_adherents,nb_moniteurs=nb_moniteurs)
 
+@login_required
 @app.route("/mes-reservations")
 def mes_reservations():
     """Renvoie la page d'accueil
@@ -74,6 +76,7 @@ def mes_reservations():
     les_reservations = Reserver.query.filter_by(id_utilisateur=current_user.id_utilisateur).all()
     return render_template('mes-reservations.html', les_reservations=les_reservations, moniteurs=moniteurs)
 
+@login_required
 @app.route('/details-reservation/<string:nomRes>')
 def details_reservation(nomRes):
     """Renvoie la page de détails d'une réservation
@@ -81,10 +84,9 @@ def details_reservation(nomRes):
     Returns:
         details-reservation.html : Une page de détails d'une réservation
     """
-    #reservation = Reserver.query.filter_by(idCo=idCo,id_utilisateur=id_utilisateur,idPo=idPo).first()
     reservation = Reserver.query.filter_by(nomRes=nomRes).first()
     
-    return render_template('une-reservation.html', reservation=reservation)
+    return render_template('une-reservation.html', reservation=reservation,historique=False)
 
 @app.route('/accueil-visiteur')
 def accueil_visiteur():
@@ -168,6 +170,7 @@ def modifier_profil():
     f.telUser.data = current_user.tel_utilisateur
     f.poidsUser.data = current_user.poidsUser
     return render_template('profil.html', form=f)
+
 @login_required
 @app.route('/planning', methods=['GET','POST'])
 def planning():
@@ -250,42 +253,51 @@ def creer_cours():
             return redirect(url_for('home'))
     return render_template('creer-cours.html', form=f)
 
-@app.route('/ajout-moniteur', methods=['GET','POST'])
+@app.route('/ajout-moniteur', defaults={'id_utilisateur': None}, methods=['GET', 'POST'])
+@app.route('/ajout-moniteur/<int:id_utilisateur>', methods=['GET', 'POST'])
 @login_required
-def ajout_moniteur():
-    """Renvoie la page d'inscription de moniteur dédiée aux admins
-
-    Returns:
-        ajout-moniteur : Une page d'inscription de moniteur dédiée aux admins
-    """
+def modifier_moniteur(id_utilisateur):
+    """Ajoute ou modifie un moniteur selon l'ID donné"""
     f = InscriptionForm()
+
+    moniteur = Utilisateur.query.get(id_utilisateur) if id_utilisateur else None
+
     if f.validate_on_submit():
-        print("Formulaire soumis et validé.")
-        if f.validate():
-            u = Utilisateur()
-            u.nom_utilisateur = f.nom_user.data
-            u.prenom_utilisateur = f.prenom_user.data
-            u.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
-            u.email_utilisateur = f.email.data
-            u.certification = str(Utilisateur.get_last_id() + 1)
-            u.contrat = str(Utilisateur.get_last_id() + 1.1)
-            u.id_role = 3
-            u.ddn_utilisateur = f.ddn_user.data
-            u.sexe_utilisateur = f.sexeUser.data
-            u.poidsUser = float(f.poidsUser.data)
-            u.tel_utilisateur = f.telUser.data
-            db.session.add(u)
-            db.session.commit()
-            file_certif = f.certificationUser.data
-            if file_certif:
-                file_path = os.path.join("src/static/doc_moniteur/certification/",f"certification_{Utilisateur.get_last_id() + 1}.pdf")
-                file_certif.save(file_path)
+        if not moniteur:
+            moniteur = Utilisateur()
+            moniteur.nom_utilisateur = f.nom_user.data
+            moniteur.prenom_utilisateur = f.prenom_user.data
+            moniteur.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest() if not moniteur.id_utilisateur else moniteur.mdp_utilisateur
+            moniteur.email_utilisateur = f.email.data
+            moniteur.id_role = 3  
+            moniteur.ddn_utilisateur = f.ddn_user.data
+            moniteur.sexe_utilisateur = f.sexeUser.data
+            moniteur.poidsUser = float(f.poidsUser.data)
+            moniteur.tel_utilisateur = f.telUser.data
+            db.session.add(moniteur)  
+
+        db.session.commit()  
+        file_certif = f.certificationUser.data
+        if file_certif:
+            file_path = os.path.join("src/static/doc_moniteur/certification/",f"certification_{Utilisateur.get_last_id() + 1}.pdf")
+            file_certif.save(file_path)
             file_contrat = f.contratUser.data
-            if file_contrat:
-                file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
-                file_contrat.save(file_path)
-            return redirect(url_for('home'))
+        if file_contrat:
+            file_path = os.path.join("src/static/doc_moniteur/contrat/",f"contrat_{Utilisateur.get_last_id() + 1}.pdf")
+            file_contrat.save(file_path)
+
+        flash("Moniteur ajouté/modifié avec succès.", "success")
+        return redirect(url_for('home'))
+
+    if moniteur:
+        f.nom_user.data = moniteur.nom_utilisateur
+        f.prenom_user.data = moniteur.prenom_utilisateur
+        f.email.data = moniteur.email_utilisateur
+        f.telUser.data = moniteur.tel_utilisateur
+        f.poidsUser.data = moniteur.poidsUser
+
     return render_template('ajout-moniteur.html', form=f)
+
 
 @login_required
 @app.route('/reserver-cours', methods=['GET','POST'])
@@ -301,7 +313,7 @@ def reserver_cours():
         for moniteur in Utilisateur.query.filter_by(id_role=3).all()
     ]
     f.poneys.choices = [(poney.idPo, poney.nomPo)
-                        for poney in Poney.query.all()]
+                        for poney in Poney.query.filter(Poney.poidsMax > current_user.poidsUser).all()]
     f.cours.choices = [(cour.idCo, cour.nomCo) for cour in Cours.query.filter(or_(Cours.id_adherent == current_user.id_utilisateur,Cours.id_adherent ==0)).all()]
     if f.validate():
         r = Reserver()
@@ -327,6 +339,8 @@ def reserver_cours():
             db.session.add(r)
             db.session.commit()
             print("Réservation effectué")
+            stocker_historique(current_user.id_utilisateur,r.nomRes,r.collectif,r.duree,r.idCo,r.date,r.idPo,r.heureDebut,r.nbPersonne)
+            
         except Exception as e:
             print(f"Une erreur s'est produit {e}")
             db.session.rollback()
@@ -334,7 +348,39 @@ def reserver_cours():
         return redirect(url_for('planning'))
     return render_template('reserver-cours.html', form=f)
 
+def stocker_historique(id_utilisateur,nomRes,collectif,duree ,idCo,date,idPo,heureDebut,nbPersonne):
+    """Stocke une action dans l'historique
 
+    Args:
+        id_utilisateur (int): L'identifiant de l'utilisateur
+        action (str): L'action effectuée
+    """
+    h = Historique()
+    h.nomRes = nomRes
+    h.collectif = collectif
+    h.nbPersonne = nbPersonne
+    h.duree = duree
+    h.date = date
+    h.heureDebut = heureDebut
+    h.idCo = idCo
+    h.idPo = idPo
+    h.id_utilisateur = id_utilisateur
+    db.session.add(h)
+    db.session.commit()
+    print("Historique stocké")
+
+@login_required
+@app.route('/home/historique', methods=['GET'])
+def historique():
+    """Renvoie la page de l'historique
+
+    Returns:
+        historique.html: Une page de l'historique
+    """
+    historiques = Historique.query.all()
+    return render_template('historique.html', historiques=historiques)
+
+@login_required
 @app.route('/home/suppression_reservation/<int:id_utilisateur>/<int:idCo>/<int:idPo>', methods=['GET'])
 def suppression_reservation(idPo,id_utilisateur,idCo):
     """Supprime une réservation
@@ -354,6 +400,7 @@ def suppression_reservation(idPo,id_utilisateur,idCo):
         print('La réservation n\'a pas été trouvée.')
     return redirect(url_for('mes_reservations'))
   
+@login_required
 @app.route('/home/gerer-moniteurs', methods=['GET'])
 def gerer_moniteurs():
     """Renvoie la page de gestion des poneys
@@ -364,6 +411,7 @@ def gerer_moniteurs():
     moniteurs = Utilisateur.query.filter_by(id_role=3).all()
     return render_template('gerer-moniteurs.html', moniteurs=moniteurs)
 
+@login_required
 @app.route('/home/suppression-moniteur/<int:id_utilisateur>', methods=['GET'])
 def suppression_moniteur(id_utilisateur):
     """Supprime un moniteur
@@ -381,6 +429,7 @@ def suppression_moniteur(id_utilisateur):
         print('La moniteur n\'a pas été trouvée.')
     return redirect(url_for('gerer_moniteurs'))
 
+@login_required
 @app.route('/home/gerer-poneys', methods=['GET'])
 def gerer_poneys():
     """Renvoie la page de gestion des moniteurs
@@ -391,6 +440,7 @@ def gerer_poneys():
     poneys = Poney.query.all()
     return render_template('gerer-poneys.html', poneys=poneys)
 
+@login_required
 @app.route('/home/suppression-poney/<int:idPo>', methods=['GET'])
 def suppression_poney(idPo):
     """Supprime un poney
@@ -408,6 +458,7 @@ def suppression_poney(idPo):
         print('Le poney n\'a pas été trouvé.')
     return redirect(url_for('gerer_poneys'))
 
+@login_required
 @app.route('/home/ajout-poney', methods=['GET','POST'])
 def ajout_poney():
     """Renvoie la page d'ajout de poney
@@ -433,7 +484,7 @@ def ajout_poney():
         return redirect(url_for('gerer_poneys'))
     return render_template('ajout-poney.html',form =f)
 
-
+@login_required
 @app.route('/home/gerer-adherents', methods=['GET'])
 def gerer_adherents():
     """Renvoie la page de gestion des poneys
@@ -445,7 +496,7 @@ def gerer_adherents():
     return render_template('gerer-adherents.html', adherents=adherents)
 
 
-
+@login_required
 @app.route('/home/suppression-adherent/<int:id_utilisateur>', methods=['GET'])
 def suppression_adherent(id_utilisateur):
     """Supprime un adherent
@@ -462,3 +513,14 @@ def suppression_adherent(id_utilisateur):
     else:
         print('La moniteur n\'a pas été trouvée.')
     return redirect(url_for('gerer_adherents'))
+
+@login_required
+@app.route('/home/gerer-grand-galop', methods=['GET','POST'])
+def gerer_grand_galop():
+    """Renvoie la page de gestion des poneys
+
+    Returns:
+        gerer_poneys.html: Une page de gestion des poneys
+    """
+    return render_template('gerer-grand-galop.html')
+

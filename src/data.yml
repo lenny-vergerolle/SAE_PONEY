@@ -236,6 +236,20 @@
   idUser: 2
   collectif: true
   nomRes: "Réservation 2"
+
+- type: "Historique"
+  idHistorique: 1
+  idUser: 1
+  id_moniteur: 6
+  idCo: 1
+  idPo: 1
+  date: 2024-11-21
+  heure: '08:00'
+  duree: 1
+  nbPersonne: 1
+  collectif: true
+  nomRes: "Réservation 1"
+
 #Travailler 
 - type: "Travailler"
   idUser: 1

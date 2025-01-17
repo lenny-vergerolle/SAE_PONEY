@@ -9,6 +9,7 @@ from .models.Poney import Poney
 from .models.Reserver import Reserver
 from .models.Travailler import Travailler
 from .models.Role import Role
+from .models.Historique import Historique
 
 
 @app.cli.command()
@@ -34,6 +35,7 @@ def loaddb(filename):
         'travailler':{},
         'utilisateur':{},
         'role':{},
+        'historique':{}
     }
 
     for elem in data:
@@ -143,8 +145,23 @@ def loaddb(filename):
             )
             elements["role"]["id_role"] = role
             db.session.add(role)
+        elif elem["type"] == "Historique":
+            historique = Historique(
+                nomRes = elem["nomRes"],
+                duree = elem["duree"],
+                date = elem["date"],
+                heureDebut = time.fromisoformat(elem["heure"]),
+                nbPersonne = elem["nbPersonne"],
+                collectif = elem["collectif"],
+                id_moniteur = elem["id_moniteur"],
+                idCo = elem["idCo"],
+                idPo = elem["idPo"],
+                id_utilisateur = elem["idUser"],
+            )
+            elements["historique"][elem["idCo"], elem["idPo"], elem["idUser"]] = historique
+            db.session.add(historique)
             
-        
+   
     db.session.commit()
     print("Base de données chargée avec succès")
 
