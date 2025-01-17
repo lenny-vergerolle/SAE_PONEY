@@ -42,7 +42,7 @@
                         <a href="{{url_for('planning')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Voir mon planning
                         </a>
-                        <a href="{{url_for('reserver_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                        <a href="{{url_for('reserver_cours',nomRes=nomRes)}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Réserver
                         </a>
                         <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
@@ -73,6 +73,10 @@
                         <a href="{{url_for('creer_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
                             Créer un cours privée
                         </a>
+                        <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer les réservations
+                        </a>
+
                     {% endif %}
 
                     <a href="{{url_for('logout')}}" class="mx-4 btn-vert">
