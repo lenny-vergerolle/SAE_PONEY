@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div>
-                <a href="{{url_for('modifier_mdp')}}">aze</a>
+                <a href="{{url_for('modifier_mdp', id_user = current_user.id_utilisateur)}}" class="text-black">Modifier le mot de passe</a>
             </div>
             <div class="d-flex justify-content-center mt-4">
                 <button class="btn btn-success fw-bolder px-4 py-1" style="margin-top:30px" type="submit">Enregistrer</button>

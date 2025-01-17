@@ -2,12 +2,6 @@
     {% block styles %}
         <link rel="stylesheet" href="{{ url_for('static', filename='accueil_visiteur.css')}}">
     {% endblock %}
-
-    <div class="fleche">
-        <a href="">
-            <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" style="width:25px;height:auto;">
-        </a>
-    </div>
     <div class="accueil">
         <div class="image">
             <img src="{{ url_for('static', filename='img/inscrire.png') }}" alt="inscrire">

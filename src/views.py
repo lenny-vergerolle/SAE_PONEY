@@ -172,16 +172,17 @@ def modifier_profil():
     return render_template('profil.html', form=f)
 
 @login_required
-@app.route('/modif-mdp/', methods=['GET','POST'])
-def modifier_mdp():
+@app.route('/modif-mdp/<int:id_user>', methods=['GET','POST'])
+def modifier_mdp(id_user):
     f = UpdatePassword()
+    user = Utilisateur.query.filter_by(id_utilisateur = id_user).first()
     if f.validate_on_submit():
         if f.validate():
-            user = Utilisateur.query.filter_by(id_utilisateur = current_user.id_utilisateur)
-            user.mdp_utilisateur = sha256(f.new_password.data.encode()).hexdigest()
-            db.session.commit()
-            return redirect(url_for('home'))
-    return render_template('modifer-mdp.html', form = f)
+            if user:
+                user.mdp_utilisateur = sha256(f.new_password.data.encode()).hexdigest()
+                db.session.commit()
+                return redirect(url_for('home'))
+    return render_template('modifer-mdp.html', form = f, id_user = id_user, user = user)
 
 @login_required
 @app.route('/planning', methods=['GET','POST'])
@@ -310,7 +311,7 @@ def modifier_moniteur(id_utilisateur):
         f.ddn_user.data = date.fromisoformat(moniteur.ddn_utilisateur)
         f.sexeUser.data = moniteur.sexe_utilisateur
 
-    return render_template('ajout-moniteur.html', form=f)
+    return render_template('ajout-moniteur.html', form=f , id_user = id_utilisateur)
 
 
 @login_required
