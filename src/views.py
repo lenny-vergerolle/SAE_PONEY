@@ -1,13 +1,12 @@
 from datetime import datetime, time, timedelta
-
 from src.forms.PoneyForm import PoneyForm
 from src.models.Historique import Historique
 from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
 from sqlalchemy import and_, or_
-from flask_security import login_required, current_user, roles_required, logout_user, login_user
-from src.forms.UtilisateurForm import InscriptionForm, ConnexionForm, UpdateUser  #, UpdatePassword
-from src.forms.CoursForm import CreationCoursForm, ReservationCoursForm
+from flask_security import login_required, current_user, roles_required,  logout_user, login_user
+from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdatePassword, UpdateUser #, UpdatePassword
+from src.forms.CoursForm import CreationCoursForm,ReservationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
 from src.models.Horaire import Horaire
@@ -193,7 +192,20 @@ def modifier_profil():
 
 
 @login_required
-@app.route('/planning', methods=['GET', 'POST'])
+@app.route('/modif-mdp/<int:id_user>', methods=['GET','POST'])
+def modifier_mdp(id_user):
+    f = UpdatePassword()
+    user = Utilisateur.query.filter_by(id_utilisateur = id_user).first()
+    if f.validate_on_submit():
+        if f.validate():
+            if user:
+                user.mdp_utilisateur = sha256(f.new_password.data.encode()).hexdigest()
+                db.session.commit()
+                return redirect(url_for('home'))
+    return render_template('modifer-mdp.html', form = f, id_user = id_user, user = user)
+
+@login_required
+@app.route('/planning', methods=['GET','POST'])
 def planning():
     """Renvoie la page de planning"""
 
@@ -321,6 +333,7 @@ def creer_cours():
 
             return redirect(url_for('home'))
     return render_template('creer-cours.html', form=f)
+
 @app.route('/modifier-moniteur', defaults={'id_utilisateur': None}, methods=['GET', 'POST'])
 @app.route('/modifier-moniteur/<int:id_utilisateur>', methods=['GET', 'POST'])
 @login_required
@@ -376,7 +389,8 @@ def modifier_moniteur(id_utilisateur=None):
         f.email.data = moniteur.email_utilisateur
         f.telUser.data = moniteur.tel_utilisateur
         f.poidsUser.data = moniteur.poidsUser
-
+        f.ddn_user.data = date.fromisoformat(moniteur.ddn_utilisateur)
+        f.sexeUser.data = moniteur.sexe_utilisateur
     return render_template('ajout-moniteur.html', form=f, existe=existe, id_utilisateur=id_utilisateur)
 
 @login_required

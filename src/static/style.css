@@ -13,8 +13,8 @@ nav{
     border-radius: 4px;
 }
 .btn-vert:hover {
-    background-color: white;
-    color : #18534F
+    background-color: #223d2d;
+    color : white;
 }
 
 .btn-modifier{

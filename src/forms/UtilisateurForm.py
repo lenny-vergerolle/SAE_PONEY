@@ -24,19 +24,19 @@ class InscriptionForm(FlaskForm):
     telUser = StringField('Telephone', validators=[DataRequired()])
     certificationUser = FileField('Certification')
     contratUser = FileField('Contrat')
-    #def validate(self, extra_validators=None):
-    #    if not FlaskForm.validate(self, extra_validators=extra_validators):
-    #        return False
-    #    if self.mot_de_passe.data != self.confirmation_mot_de_passe.data:
-    #        self.confirmation_mot_de_passe.errors.append('Les mots de passe ne correspondent pas')
-    #        return False
-    #    if Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
-    #        self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
-    #        return False
-    #    if '@' not in self.email.data or '.' not in self.email.data or len(self.email.data) < 8:
-    #        self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
-    #        return False
-    #    return True
+    def validate(self, extra_validators=None):
+        if not FlaskForm.validate(self, extra_validators=extra_validators):
+            return False
+        if self.mot_de_passe.data != self.confirmation_mot_de_passe.data:
+            self.confirmation_mot_de_passe.errors.append('Les mots de passe ne correspondent pas')
+            return False
+        if Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
+            self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
+            return False
+        if '@' not in self.email.data or '.' not in self.email.data or len(self.email.data) < 8:
+            self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
+            return False
+        return True
 
 class ConnexionForm(FlaskForm):
     id=HiddenField('id')
@@ -64,5 +64,25 @@ class UpdateUser(FlaskForm):
         user = current_user
         if user.email_utilisateur != self.email.data and Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
             self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
+            return False
+        return True
+    
+class UpdatePassword(FlaskForm):
+    id = HiddenField('id')
+    user_password = PasswordField('Mot de passe actuel', validators=[DataRequired()])
+    new_password = PasswordField('Nouveau mot de passe', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmation mot de passe', validators=[DataRequired()])
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators=extra_validators):
+            return False
+        user = current_user
+        if sha256(self.user_password.data.encode()).hexdigest() != user.mdp_utilisateur:
+            self.user_password.errors.append("Le mot de passe actuel ne correspond pas")
+            return False
+        if self.confirm_password.data != self.new_password.data:
+            self.new_password.errors.append("Le nouveau mot de passe ne correspond pas à la confirmation")
+            return False
+        if self.user_password.data == self.new_password.data:
+            self.new_password.errors.append("Le nouveau mot de passe est le même le l'ancien")
             return False
         return True

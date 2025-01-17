@@ -18,12 +18,12 @@
     <h1 class="plc-colored align-self-start"> Connexion</h1>
     <form action="{{ url_for('login') }}" method="post">
     {{ form.hidden_tag() }}
-        <div class="container d-flex flex-column align-items-start my-4">
+        <div class="d-flex flex-column align-items-start my-4">
             <label class="plc-colored m-1" for="email">{{ form.email.label }}</label>
             {{ form.email(size=50, placeholder="Entrer votre adresse e-mail", _class="rounded-2 w-75") }}
         </div>
         
-        <div class="container d-flex flex-column align-items-start my-4">
+        <div class="d-flex flex-column align-items-start my-4">
             <label class="plc-colored m-1 " for="password">{{ form.mot_de_passe.label }}</label>
             {{ form.mot_de_passe(size=50, placeholder="Entrer votre mot de passe", _class="rounded-2 w-75") }}
         </div>
