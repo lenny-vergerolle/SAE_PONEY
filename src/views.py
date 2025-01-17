@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import datetime, time, timedelta
 
 from src.forms.PoneyForm import PoneyForm
 from src.models.Historique import Historique
@@ -321,34 +321,39 @@ def creer_cours():
 
             return redirect(url_for('home'))
     return render_template('creer-cours.html', form=f)
-
 @app.route('/modifier-moniteur', defaults={'id_utilisateur': None}, methods=['GET', 'POST'])
 @app.route('/modifier-moniteur/<int:id_utilisateur>', methods=['GET', 'POST'])
 @login_required
-def modifier_moniteur(id_utilisateur):
+def modifier_moniteur(id_utilisateur=None):
     """Ajoute ou modifie un moniteur selon l'ID donné"""
     f = InscriptionForm()
 
-    moniteur = Utilisateur.query.get(
-        id_utilisateur) if id_utilisateur else None
-    existe = False
+    # Vérification de l'existence du moniteur
+    moniteur = Utilisateur.query.filter_by(id_utilisateur=id_utilisateur).first() if id_utilisateur else None
+    existe = bool(moniteur)
+
     if f.validate_on_submit():
         if not moniteur:
             moniteur = Utilisateur()
+            db.session.add(moniteur)
             moniteur.nom_utilisateur = f.nom_user.data
             moniteur.prenom_utilisateur = f.prenom_user.data
-            moniteur.mdp_utilisateur = sha256(
-                f.mot_de_passe.data.encode()).hexdigest(
-                ) if not moniteur.id_utilisateur else moniteur.mdp_utilisateur
+            if not existe or f.mot_de_passe.data:
+                moniteur.mdp_utilisateur = sha256(f.mot_de_passe.data.encode()).hexdigest()
             moniteur.email_utilisateur = f.email.data
-            moniteur.id_role = 3
+            moniteur.id_role = 3  
             moniteur.ddn_utilisateur = f.ddn_user.data
             moniteur.sexe_utilisateur = f.sexeUser.data
             moniteur.poidsUser = float(f.poidsUser.data)
             moniteur.tel_utilisateur = f.telUser.data
-            db.session.add(moniteur)
 
-        db.session.commit()
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erreur lors de la sauvegarde : {e}", "danger")
+            return redirect(url_for('modifier_moniteur', id_utilisateur=id_utilisateur))
+
         file_certif = f.certificationUser.data
         if file_certif:
             file_path = os.path.join(
@@ -363,76 +368,110 @@ def modifier_moniteur(id_utilisateur):
             file_contrat.save(file_path)
 
         flash("Moniteur ajouté/modifié avec succès.", "success")
-        return redirect(url_for('home'))
-
+        return redirect(url_for('gerer_moniteurs'))
+    #Modification des champs 
     if moniteur:
         f.nom_user.data = moniteur.nom_utilisateur
         f.prenom_user.data = moniteur.prenom_utilisateur
         f.email.data = moniteur.email_utilisateur
         f.telUser.data = moniteur.tel_utilisateur
         f.poidsUser.data = moniteur.poidsUser
-        existe = True
 
-    return render_template('ajout-moniteur.html', form=f,existe = existe)
-
+    return render_template('ajout-moniteur.html', form=f, existe=existe, id_utilisateur=id_utilisateur)
 
 @login_required
 @app.route('/reserver-cours', defaults={'nomRes': None}, methods=['GET', 'POST'])
 @app.route('/reserver-cours/<string:nomRes>', methods=['GET', 'POST'])
 def reserver_cours(nomRes):
-    """Renvoie la page de réservation de cours
-
-    Returns:
-        reserver_cours.html: Une page de réservation de cours
-    """
-    reservation = Reserver.query.filter_by(nomRes=nomRes).first()
+    """Renvoie la page de réservation de cours."""
     f = ReservationCoursForm()
+
+    # Remplissage des choix pour les champs déroulants
     f.moniteurs.choices = [
         (moniteur.id_utilisateur, moniteur.prenom_utilisateur)
         for moniteur in Utilisateur.query.filter_by(id_role=3).all()
     ]
-    f.poneys.choices = [(poney.idPo, poney.nomPo)
-                        for poney in Poney.query.filter(
-                            Poney.poidsMax > current_user.poidsUser).all()]
-    f.cours.choices = [(cour.idCo, cour.nomCo) for cour in Cours.query.filter(
-        or_(Cours.id_adherent == current_user.id_utilisateur, Cours.id_adherent
-            == 0)).all()]
-    if f.validate():
+    f.poneys.choices = [
+        (poney.idPo, poney.nomPo)
+        for poney in Poney.query.filter(Poney.poidsMax > current_user.poidsUser).all()
+    ]
+    f.cours.choices = [
+        (cour.idCo, cour.nomCo)
+        for cour in Cours.query.filter(
+            or_(
+                Cours.id_adherent == current_user.id_utilisateur,
+                Cours.id_adherent == 0
+            )
+        ).all()
+    ]
+
+    reservation = Reserver.query.filter_by(nomRes=nomRes).first()
+
+    if f.validate_on_submit():
+        
         if not reservation:
-            r = Reserver()
-            r.nomRes = f.nomRes.data
-            r.collectif = f.collectif.data == 'true'
-            r.nbPersonne = f.nbPersonne.data
-            r.duree = f.duree.data
-            r.date = f.date.data
-            r.heureDebut = f.heureDebut.data
-            conflit = Reserver.query.filter(Reserver.date == r.date,
-                                            Reserver.heureDebut <= r.heureDebut,
-                                            (Reserver.heureDebut + Reserver.duree)
-                                            > r.heureDebut).first()
-            if conflit:
-                flash("Un cours est déjà prévu à cette date et heure")
-                return redirect(url_for('reserver_cours'))
-            r.id_utilisateur = current_user.id_utilisateur
-            r.idCo = Reserver.get_last_id() + 1
-            r.idPo = f.poneys.data
-            moniteur = Utilisateur.query.get(f.moniteurs.data)
-            r.id_moniteur = moniteur.id_utilisateur
-            try:
-                db.session.add(r)
-                db.session.commit()
-                print("Réservation effectué")
-                stocker_historique(current_user.id_utilisateur, r.nomRes,
-                                   r.collectif, r.duree, r.idCo, r.date, r.idPo,
-                                   r.heureDebut, r.nbPersonne)
-            except Exception as e:
-                print(f"Une erreur s'est produit {e}")
-                db.session.rollback()
+            reservation = Reserver()
+            db.session.add(reservation)
+
+        # Mise à jour des champs
+        reservation.nomRes = f.nomRes.data
+        reservation.collectif = f.collectif.data == 'true'
+        reservation.nbPersonne = f.nbPersonne.data
+        reservation.duree = f.duree.data
+        reservation.date = f.date.data
+        reservation.heureDebut = f.heureDebut.data
+        reservation.id_utilisateur = current_user.id_utilisateur
+        reservation.idPo = f.poneys.data
+        reservation.id_moniteur = f.moniteurs.data
+        reservation.idCo = f.cours.data
+
+        # Vérification des conflits de réservation
+        heureDebut_datetime = datetime.combine(datetime.today(), reservation.heureDebut)
+
+        # Calcul de l'heure de fin de la réservation en ajoutant la durée (en minutes)
+        heureFin_datetime = heureDebut_datetime + timedelta(minutes=reservation.duree)
+        
+        # Recherche des conflits de réservation
+        conflit = Reserver.query.filter(
+            Reserver.date == reservation.date,
+            Reserver.heureDebut < heureFin_datetime.time(),  # Comparer avec l'heure de fin de la réservation
+            (Reserver.heureDebut + Reserver.duree) > reservation.heureDebut
+        ).first()
+
+        if conflit:
+            flash("Un cours est déjà prévu à cette date et heure.", "danger")
+            return redirect(url_for('reserver_cours', nomRes=nomRes))
+        # Stockage de l'historique
+        stocker_historique(
+            current_user.id_utilisateur,
+            reservation.nomRes,
+            reservation.collectif,
+            reservation.duree,
+            reservation.idCo,
+            reservation.date,
+            reservation.idPo,
+            reservation.heureDebut,
+            reservation.nbPersonne
+        )
+        try:
+            db.session.commit()
+            flash("Réservation effectuée avec succès.", "success")
+            print("Réservation effectuée avec succès.")
+
+            
+    
+
             return redirect(url_for('planning'))
-        return render_template('reserver-cours.html', form=f)
+        
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erreur lors de la sauvegarde : {e}", "danger")
+            return redirect(url_for('reserver_cours', nomRes=nomRes))
+
+    # Pré-remplissage des données du formulaire si une réservation existe
     if reservation:
         f.nomRes.data = reservation.nomRes
-        f.collectif.data = reservation.collectif
+        f.collectif.data = 'true' if reservation.collectif else 'false'
         f.nbPersonne.data = reservation.nbPersonne
         f.duree.data = reservation.duree
         f.date.data = reservation.date
@@ -440,38 +479,10 @@ def reserver_cours(nomRes):
         f.poneys.data = reservation.idPo
         f.moniteurs.data = reservation.id_moniteur
         f.cours.data = reservation.idCo
-        
 
-        update_Reserver(reservation.idCo, reservation.idPo,
-                        reservation.id_utilisateur,f.nbPersonne.data, f.nomRes.data,
-                        f.collectif.data == 'true', f.duree.data, f.date.data)
-    return render_template('reserver-cours.html', form=f)
+    return render_template('reserver-cours.html', form=f, nomRes=nomRes)
 
 
-def update_Reserver(idCo, idPo, id_utilisateur,nbPersonne, nomRes, collectif, duree, date):
-    """Met à jour une réservation
-
-    Args:
-        idCo (int): L'identifiant du cours
-        idPo (int): L'identifiant du poney
-        id_utilisateur (int): L'identifiant de l'utilisateur
-        nomRes (str): Le nom de la réservation
-        collectif (bool): Le type de cours
-        duree (int): La durée du cours
-        date (str): La date du cours
-    """
-    r = Reserver.query.filter_by(idCo=idCo, idPo=idPo,
-                                 id_utilisateur=id_utilisateur).first()
-    if r:
-        r.nomRes = nomRes
-        r.nbPersonne = nbPersonne
-        r.collectif = collectif
-        r.duree = duree
-        r.date = date
-        db.session.commit()
-        print("Réservation modifié")
-    else:
-        print("Réservation non trouvé")
 
 def stocker_historique(id_utilisateur, nomRes, collectif, duree, idCo, date,
                        idPo, heureDebut, nbPersonne):
@@ -479,22 +490,48 @@ def stocker_historique(id_utilisateur, nomRes, collectif, duree, idCo, date,
 
     Args:
         id_utilisateur (int): L'identifiant de l'utilisateur
-        action (str): L'action effectuée
+        nomRes (str): Le nom de la réservation
+        collectif (bool): Le type de réservation (collectif ou non)
+        duree (int): La durée de la réservation
+        idCo (int): L'identifiant du cours
+        date (datetime.date): La date de la réservation
+        idPo (int): L'identifiant du poney
+        heureDebut (datetime.time): L'heure de début de la réservation
+        nbPersonne (int): Le nombre de personnes
     """
-    h = Historique()
-    h.nomRes = nomRes
-    h.collectif = collectif
-    h.nbPersonne = nbPersonne
-    h.duree = duree
-    h.date = date
-    h.heureDebut = heureDebut
-    h.idCo = idCo
-    h.idPo = idPo
-    h.id_utilisateur = id_utilisateur
-    db.session.add(h)
-    db.session.commit()
-    print("Historique stocké")
+    
+    # Vérifier si l'historique existe déjà avec la même combinaison de colonnes
+    existe = Historique.query.filter_by(
+        date=date,
+        heureDebut=heureDebut,
+        idCo=idCo,
+        idPo=idPo,
+        id_utilisateur=id_utilisateur
+    ).first()
+    
+    if not existe:
+        # Si l'historique n'existe pas
+        h = Historique()
+        h.nomRes = nomRes
+        h.collectif = collectif
+        h.nbPersonne = nbPersonne
+        h.duree = duree
+        h.date = date
+        h.heureDebut = heureDebut
+        h.idCo = idCo
+        h.idPo = idPo
+        h.id_utilisateur = id_utilisateur
+        db.session.add(h)
+        db.session.commit()
+    else:
+        # Si l'historique existe déjà, mettre à jour
+        existe.nomRes = nomRes
+        existe.collectif = collectif
+        existe.nbPersonne = nbPersonne
+        existe.duree = duree
+        db.session.commit()
 
+    
 
 @login_required
 @app.route('/home/historique', methods=['GET'])
@@ -600,37 +637,54 @@ def suppression_poney(idPo):
 @app.route('/home/ajout-poney', defaults={'idPo': None}, methods=['GET', 'POST'])
 @app.route('/home/ajout-poney/<int:idPo>', methods=['GET', 'POST'])
 def ajout_poney(idPo):
-    """Renvoie la page d'ajout de poney
+    """Renvoie la page d'ajout ou de modification d'un poney
 
     Returns:
-        ajout-poney.html: Une page d'ajout de poney
+        ajout-poney.html: Une page d'ajout ou de modification d'un poney
     """
     f = PoneyForm()
-    poney = Poney.query.filter_by(idPo=idPo).first()
     existe = False
+    poney = Poney.query.filter_by(idPo=idPo).first() if idPo else None
     if f.validate_on_submit():
-        if not poney:
-            p = Poney()
-            p.nomPo = f.nomPo.data
-            p.poidsMax = f.poidsMax.data
-            p.couleurPo = f.couleurPo.data
-            p.ddnPo = f.ddnPo.data
+        print("form soumis")
+        if poney:
+            poney.nomPo = f.nomPo.data
+            poney.poidsMax = f.poidsMax.data
+            poney.couleurPo = f.couleurPo.data
+            poney.ddnPo = f.ddnPo.data
+            print("babar")
+            try:
+                db.session.commit()
+                print("Poney mis à jour")
+            except Exception as e:
+                print(f"Une erreur s'est produite : {e}")
+                db.session.rollback()
+        else:
+       
+            p = Poney(
+                nomPo=f.nomPo.data,
+                poidsMax=f.poidsMax.data,
+                couleurPo=f.couleurPo.data,
+                ddnPo=f.ddnPo.data
+            )
             try:
                 db.session.add(p)
                 db.session.commit()
                 print("Poney ajouté")
             except Exception as e:
-                print(f"Une erreur s'est produit {e}")
+                print(f"Une erreur s'est produite : {e}")
                 db.session.rollback()
-            return redirect(url_for('gerer_poneys'))
-        return render_template('ajout-poney.html', form=f)
+            return redirect(url_for('ajout_poneys'))
+        return redirect(url_for('gerer_poneys'))
     if poney:
         f.nomPo.data = poney.nomPo
         f.poidsMax.data = poney.poidsMax
         f.couleurPo.data = poney.couleurPo
         f.ddnPo.data = poney.ddnPo
         existe = True
-    return render_template('ajout-poney.html', form=f,existe=existe)
+
+    return render_template('ajout-poney.html', form=f, existe=existe,idPo=idPo)
+
 
 
 @login_required
