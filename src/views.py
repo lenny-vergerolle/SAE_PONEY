@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import date, time
 
 from src.forms.PoneyForm import PoneyForm
 from src.models.Historique import Historique
@@ -6,7 +6,7 @@ from .app import app, db
 from flask import flash, render_template, redirect, url_for, request
 from sqlalchemy import or_
 from flask_security import login_required, current_user, roles_required,  logout_user, login_user
-from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdateUser #, UpdatePassword
+from src.forms.UtilisateurForm import InscriptionForm , ConnexionForm, UpdatePassword, UpdateUser #, UpdatePassword
 from src.forms.CoursForm import CreationCoursForm,ReservationCoursForm
 from src.models.Utilisateur import Utilisateur
 from src.models.Cours import Cours
@@ -172,6 +172,18 @@ def modifier_profil():
     return render_template('profil.html', form=f)
 
 @login_required
+@app.route('/modif-mdp/', methods=['GET','POST'])
+def modifier_mdp():
+    f = UpdatePassword()
+    if f.validate_on_submit():
+        if f.validate():
+            user = Utilisateur.query.filter_by(id_utilisateur = current_user.id_utilisateur)
+            user.mdp_utilisateur = sha256(f.new_password.data.encode()).hexdigest()
+            db.session.commit()
+            return redirect(url_for('home'))
+    return render_template('modifer-mdp.html', form = f)
+
+@login_required
 @app.route('/planning', methods=['GET','POST'])
 def planning():
     """Renvoie la page de planning"""
@@ -295,6 +307,8 @@ def modifier_moniteur(id_utilisateur):
         f.email.data = moniteur.email_utilisateur
         f.telUser.data = moniteur.tel_utilisateur
         f.poidsUser.data = moniteur.poidsUser
+        f.ddn_user.data = date.fromisoformat(moniteur.ddn_utilisateur)
+        f.sexeUser.data = moniteur.sexe_utilisateur
 
     return render_template('ajout-moniteur.html', form=f)
 
