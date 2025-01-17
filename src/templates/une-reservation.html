@@ -17,8 +17,12 @@
 </head>
 
 <body>
-    
-    <div style=" margin: 0;padding: 0;display: flex;justify-content: center;align-items: center;height: 50vh;background-color: #f5f5f5;">  
+    {%if not retour%}
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Fleche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
+        </a>
+    {%endif%}
+    <div style=" margin: 0;padding: 0;display: flex;justify-content: center;align-items: center;height: 50vh;">  
 
         <div class="pb-5 my-5" style="background-color: white; border-radius: 50px;">
             <div class="d-flex justify-content-center">
@@ -62,7 +66,7 @@
                     </h3>
                     {% endif %}
                 
-                <h3>Poney: {{ reservation.poney.nomPo }}</h3>
+                <h3 class="mx-4">Poney: {{ reservation.poney.nomPo }}</h3>
                 <h3>Type de cours: 
                     {% if reservation.collectif == 1 %}
                         Collectif
@@ -73,7 +77,10 @@
             </div>
             {% if not historique %}
             <div class="d-flex justify-content-center mt-3">
-                <input type="button" class="btn-modifier mx-5" value="Modifier la réservation">
+                <a href="{{ url_for('reserver_cours',nomRes=reservation.nomRes) }}" class="btn-modifier mx-5">
+                    Modifier la réservation
+                </a>
+                <!-- cSpell:ignore Supprimer réservation -->
                 <a href="{{ url_for('suppression_reservation', idPo=reservation.idPo, id_utilisateur=reservation.id_utilisateur, idCo=reservation.idCo) }}" 
                    class="btn-supprimer mx-5">
                     Supprimer la réservation

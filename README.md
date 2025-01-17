@@ -11,7 +11,7 @@ Une fois connecté à mysql :
 - créer la base de données : `source creaPon.sql;`
 - ajouter les insertions : `source insPon.sql;`
   
-## Organisation 
+## Organisation 1ère Partie
 
 |  date  | Lenny (chef de projet)        |  Valentin           | Naima             |
 |--------|-------------------------------|---------------------|-------------------|
@@ -27,5 +27,39 @@ Une fois connecté à mysql :
 | 21/11  | triggers                      |                     | triggers          |
 
 
+## Commandes à réaliser pour lancer l'application
 
-pour lancer les tests : `python -m unittest src/models/tests/tests_BD.py`
+- Pour installer les prérequis : `./init.sh`
+- Pour lancer : `./start.sh`
+
+## Pour tester la BD
+- Pour lancer les tests : `python -m unittest src/models/tests/tests_BD.py`
+
+## Fonctionnalités
+
+### Pour un visiteur :
+- Consulter les informations du club sur la page d’accueil.
+- S’inscrire en tant qu’adhérent.
+- Se connecter, si la personne a déjà un compte.
+
+### Pour un administrateur :
+- Se connecter/se déconnecter.
+- Gérer les moniteurs : consulter la liste des moniteurs et ajouter/supprimer un moniteur.
+- Gérer les adhérents : consulter la liste des adhérents et ajouter/supprimer un adhérent.
+- Gérer les poneys : consulter la liste des poneys et ajouter/supprimer un poney.
+- Modifier son profil : la photo de profil, le nom, le prénom, etc.
+- Historique : garder en mémoire toutes les réservations même si elles sont supprimées.
+
+### Pour un moniteur :
+- Se connecter/se déconnecter.
+- Consulter son planning : supprimer une réservation présente dans le planning.
+- Créer un cours privé pour un adhérent.
+- Gérer ses réservations (depuis la navbar et depuis le planning) : consulter la liste des réservations et ajouter/supprimer une réservation.
+- Modifier son profil : la photo de profil, le nom, le prénom, etc.
+
+### Pour un adhérent :
+- Se connecter/se déconnecter.
+- Consulter son planning.
+- Réserver un cours.
+- Gérer ses réservations (depuis la navbar et depuis le planning) : consulter la liste des réservations et ajouter/supprimer une réservation.
+- Modifier son profil : la photo de profil, le nom, le prénom, etc.
