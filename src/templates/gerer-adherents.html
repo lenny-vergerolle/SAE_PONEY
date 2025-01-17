@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href="{{ url_for('home') }}">
+<a href="{{ url_for('gerer_grand_galop') }}">
     <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
 </a>
 <div class="page" style="background-color: #ECF8F6;min-height: 92vh;">
@@ -27,11 +27,12 @@
                 <td>{{adherent.nom_utilisateur}}</td>
                 <td>{{adherent.prenom_utilisateur}}</td>
                 <td>{{adherent.ddn_utilisateur}}</td>
+                <td ><a href="" class="btn-vert rounded-3" style="margin:0;display: block; width: 100%; height: 100%;">Modifier</a></td>
                 <td><a href="{{url_for('suppression_adherent',id_utilisateur = adherent.id_utilisateur)}}"class="btn-vert" style="margin:0;display: block; width: 100%; height: 100%;">Supprimer</a></td>
             </tr>
             {% endfor %}
         </tbody>
-        
+    
     </table>
     
 

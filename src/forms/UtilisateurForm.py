@@ -18,26 +18,25 @@ class InscriptionForm(FlaskForm):
     confirmation_mot_de_passe = PasswordField('Confirmation mot de passe', validators=[DataRequired()])
     email = StringField('Adresse mail', validators=[DataRequired()])
     img = FileField('Photo de profil')
-    #role = RadioField('Role', validators=[DataRequired()])
     ddn_user = DateField('Date de naissance', validators=[DataRequired()])
     sexeUser = RadioField('Sexe',choices=[('M', 'Masculin'), ('F', 'Féminin')])
     poidsUser = FloatField('Poids', validators=[DataRequired()])
     telUser = StringField('Telephone', validators=[DataRequired()])
     certificationUser = FileField('Certification')
     contratUser = FileField('Contrat')
-    #def validate(self, extra_validators=None):
-    #    if not FlaskForm.validate(self, extra_validators=extra_validators):
-    #        return False
-    #    if self.mot_de_passe.data != self.confirmation_mot_de_passe.data:
-    #        self.confirmation_mot_de_passe.errors.append('Les mots de passe ne correspondent pas')
-    #        return False
-    #    if Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
-    #        self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
-    #        return False
-    #    if '@' not in self.email.data or '.' not in self.email.data or len(self.email.data) < 8:
-    #        self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
-    #        return False
-    #    return True
+    def validate(self, extra_validators=None):
+        if not FlaskForm.validate(self, extra_validators=extra_validators):
+            return False
+        if self.mot_de_passe.data != self.confirmation_mot_de_passe.data:
+            self.confirmation_mot_de_passe.errors.append('Les mots de passe ne correspondent pas')
+            return False
+        if Utilisateur.query.filter_by(email_utilisateur=self.email.data).first():
+            self.email.errors.append('Un utilisateur existe déjà avec cette adresse mail')
+            return False
+        if '@' not in self.email.data or '.' not in self.email.data or len(self.email.data) < 8:
+            self.email.errors.append("L'adresse mail doit contenir un '@', un '.' et au moins 8 caractères")
+            return False
+        return True
 
 class ConnexionForm(FlaskForm):
     id=HiddenField('id')

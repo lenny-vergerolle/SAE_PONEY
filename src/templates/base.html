@@ -52,15 +52,16 @@
                     {% endif %}
 
                     {% if current_user.id_role == 2 %}
-                        <a href="{{url_for('gerer_moniteurs')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
-                            Gérer les moniteurs
+
+                    
+                        <a href="{{url_for('gerer_grand_galop')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer Grand Galop
                         </a>
-                        <a href="{{url_for('gerer_adherents')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
-                            Gérer les adhérents
+                        <a href="{{url_for('historique')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir l'historique des réservations
                         </a>
-                        <a href="{{url_for('gerer_poneys')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
-                            Gérer les poneys
-                        </a>
+                        
+                        
                         
                     {% endif %}
 
