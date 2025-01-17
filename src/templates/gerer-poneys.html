@@ -9,7 +9,7 @@
     </div>
     <h3 class="mx-3">Liste des Poneys</h3>
     <div class="d-flex justify-content-center">
-        <a href="{{url_for('ajout_poney')}}" class="btn-vert rounded-3" style="text-align: center;">Ajouter</a>
+        <a href="{{url_for('ajout_poney',idPo=0)}}" class="btn-vert rounded-3" style="text-align: center;">Ajouter</a>
     </div>
     <table class="table table-striped table-hover">
         <thead>
@@ -27,7 +27,7 @@
                 <td>{{poney.nomPo}}</td>
                 <td>{{poney.poidsMax}}</td>
                 <td>{{poney.ddnPo}}</td>
-                <td ><a href="" class="btn-vert rounded-3" style="margin:0;display: block; width: 100%; height: 100%;">Modifier</a></td>
+                <td ><a href="{{url_for('ajout_poney',idPo = poney.idPo)}}" class="btn-vert rounded-3" style="margin:0;display: block; width: 100%; height: 100%;">Modifier</a></td>
                 <td class="btn-vert"><a href="{{url_for('suppression_poney',idPo = poney.idPo)}}" class="btn-vert" style="margin:0;display: block; width: 100%; height: 100%;">Supprimer</a></td>
             </tr>
             {% endfor %}

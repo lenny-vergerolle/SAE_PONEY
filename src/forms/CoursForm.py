@@ -22,7 +22,7 @@ class CreationCoursForm(FlaskForm):
    
 class ReservationCoursForm(FlaskForm):
     nomRes = StringField('Nom de la réservation', validators=[DataRequired()])
-    collectif = RadioField('Cours collectif',choices=[('true', 'Oui'), ('false', 'Non')])
+    collectif = RadioField('Cours collectif',choices=[('true', 'Oui'), ('false', 'Non')], default='false', validators=[DataRequired()])
     heureDebut = TimeField('Heure de début', format='%H:%M', render_kw={'min': '08:00', 'max': '18:00'}, validators=[DataRequired()])
     id_moniteur = HiddenField('id_moniteur')
     def validate_heureDebut(self, field):
@@ -36,11 +36,4 @@ class ReservationCoursForm(FlaskForm):
     moniteurs = SelectField('Moniteur',coerce=int)
     cours = SelectField('Cours',coerce=int)
     
-    #def validate(self, extra_validators=None):
-    #    if self.collectif.data == 'True':
-    #        self.collectif.data = True
-    #    elif self.collectif.data == 'False':
-    #        self.collectif.data = False
-    #    else:
-    #        return False  
-    #    return True
+    
