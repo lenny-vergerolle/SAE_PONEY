@@ -5,7 +5,7 @@
 - Hun Valentin 23
 - Akhtar Naima 21
 
-## Commandes pratiques
+## Commandes pratiquesw
 Une fois connecté à mysql : 
 - supprimer la base de données : `source delPon.sql;`
 - créer la base de données : `source creaPon.sql;`
