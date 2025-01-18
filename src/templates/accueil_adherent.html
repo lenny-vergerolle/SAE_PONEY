@@ -1,0 +1,34 @@
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='accueil_adherent.css')}}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <section class="haut_de_page">
+        <div class="Bienvenue">
+            <h1>Bienvenue au Poney <br> Club Grand Galop</h1>
+            <p>
+                Découvrez notre passion pour l'équitation au cœur de la Sologne. <br>
+                Rejoignez-nous pour des cours adaptés à tous les niveaux, dans un <br> 
+                cadre convivial et chaleureux.
+            </p>
+            <a href="{{url_for('reserver_cours')}}" class="mx-4 btn-vert">
+                S'inscrire à un cours
+            </a>
+        </div>
+        <img src="{{url_for('static', filename='img/inscrire.png')}}" alt="inscrire">
+    </section>
+
+    <section class="bas_de_page">
+        <img src="{{url_for('static', filename='img/reservation.png')}}" alt="reservation">
+        <div class="reservation">
+            <h1>Accéder à vos réservations</h1>
+            <p>
+                Vous pouvez consulter vos futures cours, les annuler ou les <br> déplacer en cas d'imprévu.
+            </p>
+            <a href="{{url_for('mes_reservations')}}" class="mx-4 btn-vert">
+                Gérer les réservations
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

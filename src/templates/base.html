@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        {% block head %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Grand Galop</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="../static/img/logo.png" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}" />
+        {% endblock %} {% block styles %}
+        <!-- Bootstrap CSS -->
+        {{ bootstrap.load_css() }} {% endblock %}
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar border">
+                <div class="mx-5">
+                    <a href="{{url_for('home')}}" class="d-flex flex-wrap justify-content-center text-black text-decoration-none">
+                        <img src="{{url_for('static', filename='img/logo.png')}}" alt="logo" style="width: 50px; height: auto; margin-right: 15px;">
+                        <h2 style="margin-top: 0.5rem;">Grand Galop</h2>
+                    </a>
+                </div>
+
+                <div class="mx-5 d-flex align-items-center flex-wrap">
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{url_for('login')}}" class="mx-4 btn-vert">
+                            Se connecter
+                        </a>
+                        <a href="{{url_for('signin')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            S'inscrire
+                        </a>
+                    {% endif%}
+                </div>
+
+                {% if current_user.is_authenticated %}
+                <div>
+
+                    {% if current_user.id_role == 1 %}
+                        <a href="{{url_for('planning')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir mon planning
+                        </a>
+                        <a href="{{url_for('reserver_cours',nomRes=nomRes)}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Réserver
+                        </a>
+                        <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer les réservations
+                        </a>
+                        
+                    {% endif %}
+
+                    {% if current_user.id_role == 2 %}
+
+                    
+                        <a href="{{url_for('gerer_grand_galop')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer Grand Galop
+                        </a>
+                        <a href="{{url_for('historique')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir l'historique des réservations
+                        </a>
+                        
+                        
+                        
+                    {% endif %}
+
+
+                    {% if current_user.id_role == 3 %}
+                        <a href="{{url_for('planning')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Voir mon planning
+                        </a>
+                        <a href="{{url_for('creer_cours')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Créer un cours privée
+                        </a>
+                        <a href="{{url_for('mes_reservations')}}" class="mx-4 text-black text-decoration-none" style="font-size: 1.3em;">
+                            Gérer les réservations
+                        </a>
+
+                    {% endif %}
+
+                    <a href="{{url_for('modifier_profil')}}" class="text-black text-decoration-none" style="font-size: 1.3rem; margin-left: 1.5rem;">
+                        
+                        {% if current_user.id_role == 1 %}
+                        Adhérent : {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
+                        {% elif current_user.id_role == 2 %}
+                        Administrateur : {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
+                        {% elif current_user.id_role == 3 %}
+                        Moniteur : {{current_user.nom_utilisateur}} {{current_user.prenom_utilisateur}}
+                        {% endif %}
+
+                        <img
+                            src="{{ url_for('static', filename='img/profil/' ~ current_user.img_utilisateur)}}"
+                            alt="profil"
+                            class="img-fluid rounded-circle"
+                            style="width: 50px; height: 50px"
+                        />
+                    </a>
+
+                    <a href="{{url_for('logout')}}" class="btn-vert" style="margin-right: 1.5rem;">
+                        Se Déconnecter
+                    </a>
+                </div>
+                {% endif%}
+            </nav>
+        </header>
+
+        <main>{% block content %} {% endblock %}</main>
+    </body>
+
+</html>

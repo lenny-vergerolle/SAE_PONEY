@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{{ url_for('gerer_grand_galop') }}">
+    <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
+</a>
+<div class="page" style="background-color: #ECF8F6;min-height: 92vh;">
+    <div class="d-flex justify-content-center">
+        <h1 class="fw-bolder display-4 m-4">Gérer les moniteurs </h1>
+    </div>
+
+    <h3 class="mx-3">Liste des moniteurs</h3>
+    <div class="d-flex justify-content-center">
+        <a href="{{url_for('modifier_moniteur')}}" class="btn-vert rounded-3" style="text-align: center;">Ajouter</a>
+    </div>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Date de naissance</th>
+                <th style="border: none;"></th>
+            </tr>
+        </thead>
+        <tbody>
+             
+            {% for moniteur in moniteurs %}
+            <tr>
+                <td>{{moniteur.nom_utilisateur}}</td>
+                <td>{{moniteur.prenom_utilisateur}}</td>
+                <td>{{moniteur.ddn_utilisateur}}</td>
+                <td ><a href="{{url_for('modifier_moniteur',id_utilisateur = moniteur.id_utilisateur)}}" class="btn-vert rounded-3" style="margin:0;display: block; width: 100%; height: 100%;">Modifier</a></td>
+                <td ><a href="{{url_for('suppression_moniteur',id_utilisateur = moniteur.id_utilisateur)}}" class="btn-vert rounded-3" style="margin:0;display: block; width: 100%; height: 100%;">Supprimer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+
+
+</div>
+{% endblock %}

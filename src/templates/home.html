@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex flex-wrap justify-content-evenly" style="margin: 75px;">
+        <div class="d-flex flex-column justify-content-evenly">
+            <div>
+                <h1>Bienvenue au Poney <br>
+                    Club Grand Galop
+                </h1>
+                <p>
+                    Découvrez notre passion pour l'équitation au cœur de la Sologne. <br>
+                    Grand Galop, pour les passionnés de galop.
+                </p>
+            </div>
+
+            <div>
+                <h1>Grand club</h1>
+                <p>
+                    Le club compte déjà {{nb_adherents}} adhérents et {{nb_moniteurs}} moniteurs certifiés.
+                </p>    
+            </div>
+        </div>
+        <div>
+            <img src="{{url_for('static', filename='img/poney_neige.png')}}" alt="poney_neige" style="width: 500px; height: auto;">
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center" style="background-color: #ECF8F6;">
+        <div style="margin: 75px;">
+            <img src="{{url_for('static', filename='img/poney_groupe.png')}}" alt="poney_groupe" style="width: 550px; height: auto;">
+        </div>
+        <div class="d-flex flex-column justify-content-evenly" style="margin: 75px;">
+            <h1>Pour qui ?</h1>
+            <p>
+                Vous pouvez prendre des cours individuels pour vous améliorer en équitation <br>
+                ou à plusieurs pour passer un bon moment famille ou entre amis.
+            </p>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center" style="background-color: #18534F;">
+        <div class="d-flex flex-column justify-content-evenly" style="margin: 75px;">
+            <h1 class="text-white">Qui sommes nous ?</h1>
+            <p class="text-white">Un couple passionné d’équitation</p>
+        </div>
+        <div style="margin: 75px;">
+            <img src="{{url_for('static', filename='img/couple.png')}}" alt="couple">
+        </div>
+    </div>
+    
+    {% if current_user.id_role == 1%}
+    {% include 'accueil_adherent.html' %}
+    {% endif %}
+
+    {% if not current_user.is_authenticated %}
+    {% include 'accueil_visiteur.html' %}
+    {% endif %}
+
+{% endblock %}

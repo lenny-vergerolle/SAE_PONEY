@@ -1,0 +1,98 @@
+nav{
+    border-bottom-width: 1cm  !important;
+    border-bottom-color: #050B25;
+    justify-content: space-between !important;
+}
+
+.btn-vert{
+    background-color: #18534F;
+    padding: 11px;
+    text-decoration: none;
+    font-size: 1.3em;
+    color: white;
+    border-radius: 4px;
+}
+.btn-vert:hover {
+    background-color: #223d2d;
+    color : white;
+}
+
+.btn-modifier{
+    border: 3px solid #18534F;
+    border-radius: 100px;
+    background-color: white;
+    color: #18534F;
+    padding: 13px;
+    font-size: larger;
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.btn-supprimer{
+    border: 3px solid #531819;
+    border-radius: 100px;
+    background-color: white;
+    color: #531819;
+    padding: 13px;
+    font-size: larger;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+body {
+    font-size: small;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+table {
+    border: medium solid black;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    background-color: white;
+}
+
+table tr th, table tr td {
+    text-align: center;
+    padding: 10px;
+}
+
+table tr th {
+    border: medium solid black;
+    background-color: #18534F;
+    font-weight: bold;
+    color: white;
+}
+
+table tr td {
+    border: thin solid gray;
+
+}
+ul#collectif {
+    list-style-type: none; /* Supprime les puces */
+    padding: 2px; /* Enlève les marges internes par défaut */
+    margin: 5px; /* Enlève les marges externes */
+}
+
+ul#collectif li {
+    display: flex; /* Facultatif : Aligne les éléments horizontalement si besoin */
+    align-items: center;
+}
+
+.container {
+    padding: 2rem;
+    border-radius: 8px;
+}
+h1, h2 {
+    font-family: sans-serif;
+    color: #2c3e50;
+}
+hr {
+    border: none;
+    height: 3px;
+    background: #2c3e50;
+}

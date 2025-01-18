@@ -1,0 +1,19 @@
+{% block content %}
+    {% block styles %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='accueil_visiteur.css')}}">
+    {% endblock %}
+    <div class="accueil">
+        <div class="image">
+            <img src="{{ url_for('static', filename='img/inscrire.png') }}" alt="inscrire">
+        </div>
+        <div class="texte">
+            <h1>Inscrivez-vous au club</h1>
+            <p>Rejoignez-nous pour des cours adaptés à tous les niveaux, dans un cadre<br>
+                convivial et chaleureux.</p>
+            <a href="{{ url_for('signin') }}" class="mx-4 btn-vert">
+                S'inscrire au club
+            </a>
+        </div>
+    </div>
+{% endblock %}
+

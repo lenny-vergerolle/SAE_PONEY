@@ -1,0 +1,41 @@
+
+img {
+    width: 30em;
+    height: 30em;
+}
+
+.haut_de_page {
+    width: max-content;
+    display: flex;
+    margin-top: 4em;
+    margin-right: 4em;
+    gap: 20em;
+
+}
+
+.haut_de_page .Bienvenue{
+    flex-basis: 60%;
+}
+
+.bas_de_page {
+    width: max-content;
+    display: flex;
+    margin-top: 7em;
+    gap: 25em;
+    margin-bottom: 4em;
+}
+
+.bas_de_page .reservation{
+    flex-basis: 40%;
+}
+
+h1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-weight: bold; 
+}
+
+p {
+    font-size: 1.2em; 
+    margin-bottom: 2em; 
+}

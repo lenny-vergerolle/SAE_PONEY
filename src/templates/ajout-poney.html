@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page" style="background-color: #ECF8F6;min-height: 92vh;">
+    {% if not existe %}
+        <div class="d-flex justify-content-center">
+            <h1 class="fw-bolder display-4 m-4">Ajouter un poney</h1>
+        </div>
+    {% endif %}
+    
+    {% if existe %}
+        <div class="d-flex justify-content-center">
+            <h1 class="fw-bolder display-4 m-4">Modifier un poney</h1>
+        </div>
+    {% endif %}
+    <div class="mx-auto w-50 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4" style="background-color:white;max-width: 600px;">
+        <form class="w-100" method="POST" action="{{ url_for('ajout_poney',idPo=idPo) }}" enctype="multipart/form-data">            
+            {{ form.hidden_tag() }}
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="name">{{ form.nomPo.label }}</label>
+                    <div class="col-sm-8">    
+                        {{ form.nomPo(class_ ="form-control", placeholder="ex : Dupond") }}
+                    </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-4 color_white mb-2" for="name">{{ form.couleurPo.label }}</label>
+                    <div class="col-sm-8">    
+                        {{ form.couleurPo(class_ ="form-control", placeholder="ex : Dupond") }}
+                    </div>
+            </div>
+
+            <div class="color_white mb-3 form-group">
+                {{ form.ddnPo.label(class="mb-3") }}
+                {{ form.ddnPo(size=50, placeholder="JJ/MM/AAAA", class="rounded-3") }}
+            </div>
+
+            <div class="color_white mb-3 form-group">
+                {{ form.poidsMax.label(class="mb-3") }}
+                {{ form.poidsMax(size=50, placeholder="Poids", class="rounded-3") }}
+            </div>
+            
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-success fw-bolder px-4 py-1" style="margin-top:30px" type="submit">Valider</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="background-color: #ECF8F6;">
+    <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='img/fleche_retour.png') }}" alt="Flèche" class="float-start ms-3 mt-3" style="width:25px;height:auto;">
+    </a>
+
+<div class="d-flex flex-column align-items-center" style="width: 100%; min-height: 100vh;">
+
+    {%if historiques%}
+    <h1>Historique des réservations</h1>
+
+        <div style="width: 80%; max-height: 80vh; overflow-y: auto;"></div>
+        
+            {% for reservation in historiques %}
+
+                {% with reservation=reservation, historique=True,retour= True %}
+                    {% include 'une-reservation.html' %}
+                    <div class="mx-3 mb-3"></div>
+                {% endwith %}
+
+            {% endfor %}
+            {%else%}
+            <h3 class="mx-auto"> Vous n'avez aucune réservation pour le moment </h3>
+        {%endif%}
+        
+    </div>
+    
+</div>
+
+
+</div>
+
+
+{% endblock %}
