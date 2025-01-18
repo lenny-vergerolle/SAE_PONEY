@@ -30,7 +30,7 @@ class ReservationCoursForm(FlaskForm):
         if not ((heure >= time(8, 0) and heure <= time(12, 0)) or (heure >= time(14, 0) and heure <= time(18, 0))):
             raise ValidationError('L heure doit être entre 8h00 et 12h00 ou entre 14h00 et 18h00.')
     duree = IntegerField('Durée du cours',validators=[DataRequired(), NumberRange(min=1, max=2)])
-    date = DateField('Date du cours', default=date.today, render_kw={"min": date.today().strftime("%Y-%m-%d"), 'max': (date.today() + timedelta(days=7)).strftime("%Y-%m-%d")}, validators=[DataRequired()])
+    date = DateField('Date du cours', default=date.today()+timedelta(days=1), render_kw={"min": (date.today()+timedelta(days=1)).strftime("%Y-%m-%d"), 'max': (date.today() + timedelta(days=7)).strftime("%Y-%m-%d")}, validators=[DataRequired()])
     nbPersonne = IntegerField('Nombre de personnes', render_kw={'min':1,'max':15}, validators=[DataRequired()])
     poneys = SelectField('Poney',coerce=int)
     moniteurs = SelectField('Moniteur',coerce=int)

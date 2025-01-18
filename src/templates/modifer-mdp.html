@@ -14,7 +14,7 @@
     {% endif %}
 </div>
 <div class="mx-auto w-25 d-flex flex-column align-items-center div-dark rounded-4 mb-3 p-4">
-    <form class="w-75" method="post" action="{{ url_for('modifier_mdp', id_user = id_user)}}">
+    <form class="w-75" method="post" action="{{ url_for('modifier_mdp', id_utilisateur = id_utilisateur)}}">
         {{ form.hidden_tag() }} 
         <div class="mb-5 form-group">
             <label class="color_white mb-2" for="name">Identifiez-vous</label>
